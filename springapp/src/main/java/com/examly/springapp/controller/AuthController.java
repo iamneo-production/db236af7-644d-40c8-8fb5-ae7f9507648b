@@ -30,11 +30,11 @@ public class AuthController {
 	
 	
 	@PostMapping("/user/login")
-	public boolean isUserPresent(LoginModel data) {
-		String email=data.getEmail();
+	public boolean isUserPresent(LoginModel inputData) {
+		String email=inputData.getEmail();
 		if(userRepo.existsByEmail(email)){
-			UserModel dt= userRepo.findByEmail(email);
-			if(data.getPassword().equals(dt.getPassword())){
+			UserModel userData= userRepo.findByEmail(email);
+			if(userData.getPassword().equals(inputData.getPassword())){
 				return true;
 			}
 		}
@@ -42,27 +42,15 @@ public class AuthController {
 	}
 	
 	@PostMapping("/admin/login")
-	public boolean isAdminPresent(LoginModel data) {
-		String email=data.getEmail();
+	public boolean isAdminPresent(LoginModel inputData) {
+		String email=inputData.getEmail();
 		if(adminRepo.existsByEmail(email)){
-			AdminModel dt= adminRepo.findByEmail(email);
-			if(dt.getPassword().equals(data.getPassword())){
+			AdminModel adminData= adminRepo.findByEmail(email);
+			if(adminData.getPassword().equals(inputData.getPassword())){
 				return true;
 			}
 		}
 		return false;
 	}
 	
-	@PostMapping("/user/signup")
-	public String saveUser(UserModel user) {
-		userRepo.save(user);
-		return "User added";
-	}
-	
-	@PostMapping("/admin/signup")
-	public String saveAdmin(AdminModel admin) {
-		adminRepo.save(admin);
-		return "Admin added";
-	}
-
 }
