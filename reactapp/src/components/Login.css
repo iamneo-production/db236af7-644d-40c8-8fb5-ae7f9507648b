@@ -60,3 +60,10 @@ button:hover {
 .new-user-message a:hover {
   text-decoration: underline;
 }
+
+@media (max-width: 600px) {
+  .login-container {
+    background-image: url("../assets/giftshop_mobile.jpg");
+    background-size: cover;
+  }
+}
