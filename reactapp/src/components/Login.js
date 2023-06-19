@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./Login.css";
+import classes from "./Login.module.css";
+
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,28 +18,21 @@ const LoginPage = () => {
 
   const handleLogin = (event) => {
     event.preventDefault();
-    // console.log(event);
 
     console.log(email, password);
-
-    // Check if email or password is invalid
-    // if (email !== "example@example.com" || password !== "password") {
-    //   setError("Invalid email or password");
-    //   return;
     navigate("/dashboard");
   };
 
   // Handle login logic here, e.g., make API requests, validate credentials, etc.
-  // console.log("Email:", email);
-  // console.log("Password:", password);
-
-  // Navigate to the desired page on successful login
 
   return (
-    <div className="login-container">
+    <div className={classes["login-container"]}>
       <h1>Login</h1>
-      <form className="login-form" onSubmit={handleLogin}>
-        <div className="form-group">
+      <form className={classes["login-form"]} onSubmit={handleLogin}>
+        <div className={classes["form-group"]}>
+          <label className={classes["welcome"]}>
+            <h2>Welcome Back!</h2>
+          </label>
           <label htmlFor="email">Email:</label>
           <input
             type="email"
@@ -50,7 +44,7 @@ const LoginPage = () => {
           />
         </div>
 
-        <div className="form-group">
+        <div className={classes["form-group"]}>
           <label htmlFor="password">Password:</label>
           <input
             type="password"
@@ -62,12 +56,12 @@ const LoginPage = () => {
           />
         </div>
 
-        {error && <p className="error-message">{error}</p>}
+        {error && <p className={classes["error-message"]}>{error}</p>}
 
         <button type="submit">Login</button>
 
-        <p className="new-user-message">
-          New User/Admin? <Link to="/signup">Sign up</Link>
+        <p className={classes["new-user-message"]}>
+          New User/Admin? <a href="/signup">Sign up</a>
         </p>
       </form>
     </div>

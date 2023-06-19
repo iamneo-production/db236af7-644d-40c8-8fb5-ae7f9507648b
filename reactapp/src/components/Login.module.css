@@ -8,12 +8,22 @@
   height: 100vh;
 }
 
+h1 {
+  font-family: "Hind Siliguri", sans-serif;
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+
 .login-form {
   width: 300px;
   padding: 25px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #fff;
+  border-radius: 40px;
+  background: linear-gradient(
+    90deg,
+    rgba(14, 181, 171, 0.9641106442577031) 0%,
+    rgba(12, 170, 231, 1) 0%,
+    rgba(202, 239, 246, 1) 0%
+  );
 }
 
 .form-group {
@@ -22,15 +32,14 @@
 
 label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
-input[type="email"],
-input[type="password"] {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+input {
+  width: 93%;
+  padding: 10px;
+  border: 1px solid #4121d2;
+  border-radius: 10px;
 }
 
 button {
@@ -43,9 +52,9 @@ button {
   cursor: pointer;
 }
 
-button:hover {
+/* button:hover {
   background-color: #45a049;
-}
+} */
 
 .new-user-message {
   text-align: center;
@@ -59,6 +68,10 @@ button:hover {
 
 .new-user-message a:hover {
   text-decoration: underline;
+}
+
+.welcome {
+  text-align: center;
 }
 
 @media (max-width: 600px) {
