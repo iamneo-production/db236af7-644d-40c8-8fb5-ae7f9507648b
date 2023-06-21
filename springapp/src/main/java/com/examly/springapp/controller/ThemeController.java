@@ -1,6 +1,6 @@
 package com.examly.springapp.controller;
 
-import org.example.model.ThemeModel;
+import com.examly.springapp.entity.ThemeModel;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.examly.springapp.repository.ThemeRepo;
