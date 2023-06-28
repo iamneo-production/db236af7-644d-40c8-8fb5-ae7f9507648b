@@ -44,9 +44,5 @@ public class GiftController {
         giftRepository.deleteById(giftId);
     }
 
-
-
-
-
     
 }
