@@ -63,6 +63,4 @@ public class AuthController {
         return ResponseEntity.ok("Welcome admin "+p.getName());
     }
 
-    
-
 }
