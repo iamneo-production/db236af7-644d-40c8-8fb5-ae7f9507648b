@@ -9,14 +9,27 @@ then
 		cd /home/coder/project/workspace/springapp/;
 		mvn clean test;
     else
-        echo "BE_Add_User FAILED";
-        echo "BE_Add_Gift FAILED";
-        echo "BE_Get_Gift FAILED";
-        echo "BE_Update_Gift FAILED";
+        echo "testGetOrderAll FAILED";
+        echo "testGetOrderById FAILED";
+        echo "testGetThemeAll FAILED";
+        echo "testGetThemeById FAILED";
+        echo "testGetGiftById FAILED";
+        echo "testGetGiftAll FAILED";
+        echo "test_case1 FAILED";
+        echo "test_case2 FAILED";
+        echo "test_case3 FAILED";
+        echo "test_case4 FAILED";
+        
     fi
 else
-	echo "BE_Add_User FAILED";
-    echo "BE_Add_Gift FAILED";
-    echo "BE_Get_Gift FAILED";
-    echo "BE_Update_Gift FAILED";
+	 echo "testGetOrderAll FAILED";
+        echo "testGetOrderById FAILED";
+        echo "testGetThemeAll FAILED";
+        echo "testGetThemeById FAILED";
+        echo "testGetGiftById FAILED";
+        echo "testGetGiftAll FAILED";
+        echo "test_case1 FAILED";
+        echo "test_case2 FAILED";
+        echo "test_case3 FAILED";
+        echo "test_case4 FAILED";
 fi
