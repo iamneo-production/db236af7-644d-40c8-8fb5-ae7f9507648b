@@ -42,9 +42,5 @@ public class UserController {
     public void deleteUser(@PathVariable("UserId") Integer UserId) {
         userRepository.deleteById(UserId);
     }
-
-
-
-
     
 }
