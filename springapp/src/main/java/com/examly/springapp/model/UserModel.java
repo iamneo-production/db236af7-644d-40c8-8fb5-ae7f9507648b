@@ -17,13 +17,16 @@ public class UserModel {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private  int id;
 
-    @Column(unique = true)
+    @Column(name = "email")
     private String email;
 
+    @Column(name = "password")
     private String password;
 
+    @Column(name = "username")
     private String username;
-
+    
+    @Column(name = "mobileNumber")
     private String mobileNumber;
 
     @ElementCollection(fetch = FetchType.EAGER)
@@ -33,4 +36,12 @@ public class UserModel {
     )
     @Column(name = "role")
     private Set<String> userRole;
+
+
+    
+
+
+
+
+
 }

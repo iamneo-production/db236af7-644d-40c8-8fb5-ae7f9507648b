@@ -43,9 +43,5 @@ public class GiftController {
     public void deleteGift(@PathVariable("giftId") int giftId) {
         giftRepository.deleteById(giftId);
     }
-
-
-
-    
     
 }
