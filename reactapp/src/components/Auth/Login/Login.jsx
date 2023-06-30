@@ -22,49 +22,70 @@ const Login = () => {
     setState((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const handleLogin = (event) => {
+  const getUserRole = (responseData) => { 
+    if (responseData.role === 'admin') {
+      return 'admin';
+    } else if (responseData.role === 'user') {
+      return 'user';
+    } else {
+      return 'default';
+    }
+  };
+
+  const handleLogin = async(event) => {
     event.preventDefault();
 
     let hasError = false;
 
-    if (state.email === '') {
-      setErrors((prevState) => ({ ...prevState, email: true }));
-      hasError = true;
-    } else {
-      setErrors((prevState) => ({ ...prevState, email: false }));
-    }
-
-    if (state.password === '') {
-      setErrors((prevState) => ({
-        ...prevState,
-        password: true,
-        custom: { required: true, message: 'Password is required.' },
-      }));
-      hasError = true;
-    } else if (!/^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$/.test(state.password)) {
-      // Password validation
-      setErrors((prevState) => ({
-        ...prevState,
-        password: true,
-        custom: {
-          required: true,
-          message: 'Password should be a mixture of special characters, uppercase, lowercase, and numbers.',
-        },
-      }));
-      hasError = true;
-    } else {
-      setErrors((prevState) => ({ ...prevState, password: false }));
-    }
+    hasError = validateEmail() || hasError;
+    hasError = validatePassword() || hasError;
 
     if (!hasError) {
       setLoader(true);
       // Handle login logic here
       // Example: validate credentials, make API requests, etc.
-
-      // Assuming successful login, navigate to the desired page
-      navigate('/dashboard');
+      try {
+        const response = await fetch('https://8081-dadecaeedcbbfdebbecaddaeffdec.project.examly.io//Login ', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(state),
+        });
+      
+        if (response.ok) {
+          // Successful login
+          // Perform any necessary actions like store authentication token
+        const userRole = getUserRole(); // Replace this with your actual logic to get the user's role
+        if (userRole === 'admin') {
+          navigate('https://8081-dadecaeedcbbfdebbecaddaeffdec.project.examly.io//admin/gifts');
+        } else if (userRole === 'user') {
+          navigate('https://8081-dadecaeedcbbfdebbecaddaeffdec.project.examly.io//user/homepage');
+        } else {
+          // Default fallback route
+          navigate('https://8081-dadecaeedcbbfdebbecaddaeffdec.project.examly.io/');
+        }
+        } else {
+          // Handle login error
+          // Display error message to the user
+          setErrors(prevState => ({
+            ...prevState,
+            custom: { required: true, message: 'Invalid email or password.' },
+          }));
+        }
+      } catch (error) {
+        // Handle network or server error
+        console.error('Login error:', error);
+        setErrors(prevState => ({
+          ...prevState,
+          custom: { required: true, message: 'An error occurred during login. Please try again later.' },
+        }));
+      }
+      
+      setLoader(false);
+      
     }
-  };
+  };  
 
   return (
     <div className="login-container">
@@ -102,7 +123,7 @@ const Login = () => {
           )}
         </div>
 
-        <button type="submit" id="loginButton">Login</button>
+        <button  type="submit">Login</button>
 
         <p className="new-user-message" id="signupLink">
           New User/admin? <Link to="/signup">Sign up</Link>
