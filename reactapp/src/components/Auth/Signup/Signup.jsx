@@ -99,14 +99,14 @@ const SignupPage = () => {
     return valid;
   };
 
-  const isPasswordValid = (e) => {
+  const isPasswordValid = (checkpassword) => {
     // Password should contain at least one uppercase letter, one lowercase letter, one special character, and one number.
-    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()\-_=+{}[\]|;:'",.<>/?]).{8,}$/;
-    return passwordRegex.test(password);
+    const checkpasswordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()\-_=+{}[\]|;:'",.<>/?]).{8,}$/;
+    return checkpasswordRegex.test(password);
   };
 
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async(event) => {
     event.preventDefault();
 
     // Perform form validation
@@ -114,16 +114,46 @@ const SignupPage = () => {
       setFormError('');
       return;
     }
-
-
-    // Perform signup logic here.
-    console.log('User Type:', userType);
-    console.log('Username:', username);
-    console.log('Email:', email);
-    console.log('Mobile Number:', mobileNumber);
-    console.log('Password:', password);
-    console.log('Confirm Password:', confirmPassword);
-
+    try {
+      let signupEndpoint = '';
+      if (userType === 'admin') {
+        signupEndpoint = 'https://8081-dadecaeedcbbfdebbecaddbaaecadafbad.project.examly.io/admin/signup';
+      } else if (userType === 'user') {
+        signupEndpoint = 'https://8081-dadecaeedcbbfdebbecaddbaaecadafbad.project.examly.io/user/signup';
+      }
+  
+      const response = await fetch(signupEndpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userType,
+          username,
+          email,
+          mobileNumber,
+          password,
+        }),
+      });
+  
+      if (response.ok) {
+        // Successful signup
+        if (userType === 'admin') {
+          navigate('https://8081-dadecaeedcbbfdebbecaddaeffdec.project.examly.io/admin/login'); // Navigate to admin login page
+        } else if (userType === 'user') {
+          navigate('https://8081-dadecaeedcbbfdebbecaddaeffdec.project.examly.io/user/login'); // Navigate to user login page
+        }
+      } else {
+        // Handle signup error
+        const responseData = await response.json();
+        setFormError(responseData.message);
+      }
+    } catch (error) {
+      // Handle network or server error
+      console.error('Signup error:', error);
+      setFormError('An error occurred during signup. Please try again later.');
+    }
+  
     // Reset form fields after submission
     setUserType('');
     setUsername('');
@@ -131,10 +161,8 @@ const SignupPage = () => {
     setMobileNumber('');
     setPassword('');
     setConfirmPassword('');
-
-    // Navigate to the login page
-    navigate('/login');
   };
+    
 
   return (
     <div className="signup-container">
@@ -213,7 +241,7 @@ const SignupPage = () => {
         {formError && <p className="error-message">{formError}</p>}
 
         <p className="login-link" id="signinLink">
-          Already a user? <Link to="/login" id="signinLink">Login</Link>
+          Already a user? <Link to="/login" id="signinlink">Login</Link>
         </p>
       </form>
     </div>
