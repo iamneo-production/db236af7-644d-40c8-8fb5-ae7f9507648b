@@ -4,7 +4,7 @@ import { useState,useEffect } from 'react';
 import './AddGift.css';
 import 'bootstrap/dist/css/bootstrap.css'
 
-export default function AdminThemes()  {
+export default function AddTheme()  {
   const[CurrentUrl,setCurrentUrl]=useState("http://localhost:8081");
   const[addbuttton,setAddbutton]=useState(false);
   const[editbutton,setEditbutton]=useState(false);
