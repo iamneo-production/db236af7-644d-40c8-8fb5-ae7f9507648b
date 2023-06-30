@@ -29,37 +29,37 @@ const PlaceOrder = () => {
   const navigate = useNavigate();
 
   const validateFields = () => {
-    const errors = {};
+    const error = {};
 
     if (name.trim() === '') {
-      errors.name = 'Name is required.';
+      error.name = 'Name is required.';
     }
     if (email.trim() === '') {
-      errors.email = 'Email is required.';
+      error.email = 'Email is required.';
     } else if (!/\S+@\S+\.\S+/.test(email)) {
-      errors.email = 'Email is invalid.';
+      error.email = 'Email is invalid.';
     }
     if (address.trim() === '') {
-      errors.address = 'Address is required.';
+      error.address = 'Address is required.';
     }
     if (orderDate.trim() === '') {
-      errors.orderDate = 'Order date is required.';
+      error.orderDate = 'Order date is required.';
     }
     if(phone.trim === " ") {
-      errors.phone="Invalid Mobile Number"
+      error.phone="Invalid Mobile Number"
     }
     else if (!/^\d{10}$/.test(phone)) {
-      errors.phone = 'Phone number is invalid.';
+      error.phone = 'Phone number is invalid.';
     }
-    return errors;
+    return error;
   };
 
-  const handlePlaceOrder = (e) => {
-    e.preventDefault();
-    const errors = validateFields();
+  const handlePlaceOrder = (event) => {
+    event.preventDefault();
+    const validationerrors = validateFields();
 
-    if (Object.keys(errors).length > 0) {
-      setErrors(errors);
+    if (Object.keys(validationerrors).length > 0) {
+      setErrors(validationerrors);
       return;
     }
 
@@ -143,15 +143,15 @@ const PlaceOrder = () => {
     }
     setThemeDropdownOpen(false);
     
-    //event.stopPropagation();
+    
   };
 
   const handleSearchChange = (event) => {
     const { value } = event.target;
-    const filteredCities = citiesInIndia.filter((city) =>
+    const filteredCitiesList = citiesInIndia.filter((city) =>
       city.toLowerCase().startsWith(value.toLowerCase())
     );
-    setFilteredCities(filteredCities);
+    setFilteredCities(filteredCitiesList);
   };
 
   const citiesInIndia = ['Mumbai', 'Delhi', 'Bangalore', 'Chennai', 'Kolkata', 'Hyderabad'];
