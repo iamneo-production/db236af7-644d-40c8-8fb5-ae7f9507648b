@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import classes from "./Signup.module.css";
 
 const Signup = () => {
@@ -217,9 +217,7 @@ const Signup = () => {
           )}
         </div>
 
-        <button type="submit" id="submitButton">
-          Submit
-        </button>
+        <button type="submit">Submit</button>
 
         {formError && <p className={classes["error-message"]}>{formError}</p>}
 

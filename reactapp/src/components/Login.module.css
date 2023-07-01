@@ -42,7 +42,7 @@ input {
   border-radius: 10px;
 }
 
-button {
+.login-container button {
   width: 100%;
   padding: 8px;
   background-color: #4caf50;
@@ -52,9 +52,9 @@ button {
   cursor: pointer;
 }
 
-/* button:hover {
+.login-container button:hover {
   background-color: #45a049;
-} */
+}
 
 .new-user-message {
   text-align: center;

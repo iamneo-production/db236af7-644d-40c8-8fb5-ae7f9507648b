@@ -1,4 +1,14 @@
-button {
+.signup-container {
+  background-image: url("../assets/giftshop.jpg");
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.signup-container button {
   width: 100%;
   padding: 8px;
   background-color: #4caf50;
@@ -8,7 +18,7 @@ button {
   cursor: pointer;
 }
 
-button:hover {
+.signup-container button:hover {
   background-color: #45a049;
 }
 
@@ -22,16 +32,6 @@ input {
   padding: 10px;
   border: 0px;
   border-radius: 10px;
-}
-
-.signup-container {
-  background-image: url("../assets/giftshop.jpg");
-  background-size: cover;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
 }
 
 .signup-form {
