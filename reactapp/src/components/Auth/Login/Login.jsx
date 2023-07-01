@@ -32,6 +32,25 @@ const Login = () => {
     }
   };
 
+  const validateEmail = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isValid = emailRegex.test(state.email);
+    setErrors((prevState) => ({
+      ...prevState,
+      email: !isValid,
+    }));
+    return !isValid;
+  };
+
+  const validatePassword = () => {
+    const isValid = state.password.trim() !== '';
+    setErrors((prevState) => ({
+      ...prevState,
+      password: !isValid,
+    }));
+    return !isValid;
+  };
+
   const handleLogin = async(event) => {
     event.preventDefault();
 
