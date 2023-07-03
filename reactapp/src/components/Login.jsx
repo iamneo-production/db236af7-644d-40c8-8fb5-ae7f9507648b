@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Login.css';
+import classes from './Login.module.css';
 import giftshop from './giftshop.jpg';
 
 const LoginPage = () => {
@@ -31,12 +31,12 @@ const LoginPage = () => {
       <img src={giftshop}></img>
     </div> */}
 
-    <div className="login-container">
+    <div className={classes["login-container"]}>
       
       <h1>Login</h1>
-      <form className="login-form">
-        <div className="form-group">
-          <label className="welcome">Welcome Back!</label>
+      <form className={classes["login-form"]}>
+        <div className={classes["form-group"]}>
+          <label className={classes["welcome"]}>Welcome Back!</label>
           <label htmlFor="email">Email:</label>
           <input
             type="email"
@@ -48,7 +48,7 @@ const LoginPage = () => {
           />
         </div>
 
-        <div className="form-group">
+        <div className={classes["form-group"]}>
           <label htmlFor="password">Password:</label>
           <input
             type="password"
@@ -64,7 +64,7 @@ const LoginPage = () => {
           Login
         </button>
 
-        <p className="new-user-message">
+        <p className={classes["new-user-message"]}>
           New User/Admin? <a href="/signup">Sign up</a>
         </p>
       </form>
@@ -74,4 +74,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default LoginPage;
