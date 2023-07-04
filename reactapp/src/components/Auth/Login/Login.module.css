@@ -1,5 +1,5 @@
 .login-container {
-  background-image: url("../assets/giftshop.jpg");
+  background-image: url("../../../assets/giftshop.jpg");
   background-size: cover;
   display: flex;
   flex-direction: column;
@@ -76,7 +76,7 @@ input {
 
 @media (max-width: 600px) {
   .login-container {
-    background-image: url("../assets/giftshop_mobile.jpg");
+    background-image: url("../../../assets/giftshop_mobile.jpg");
     background-size: cover;
   }
 }
