@@ -20,10 +20,13 @@ public class UserModel {
     @Column(unique = true)
     private String email;
 
+    @Column(name ="password")
     private String password;
 
+    @Column(name ="username")
     private String username;
 
+    @Column(name ="mobileNumber")
     private String mobileNumber;
 
     @ElementCollection(fetch = FetchType.EAGER)
