@@ -2,12 +2,12 @@ package com.examly.springapp.controller;
 
 
 import com.examly.springapp.model.GiftModel;
-import com.examly.springapp.repository.GiftRepository;
+import com.examly.springapp.repository.GiftRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping()
+@RequestMapping("/admin")
 
 
 

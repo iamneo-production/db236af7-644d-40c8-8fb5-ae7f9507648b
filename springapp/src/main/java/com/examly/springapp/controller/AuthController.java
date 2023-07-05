@@ -29,7 +29,7 @@ public class AuthController {
     @PostMapping("/user/signup")
     ResponseEntity<String> saveUser(@RequestBody UserModel user)
     {
-        Set<String> role = new HashSet<String>();
+        Set<String> role = new HashSet<>();
         role.add("user");
         user.setUserRole(role);
         return ResponseEntity.ok("User "+userService.saveUser(user)+" saved");
@@ -45,7 +45,7 @@ public class AuthController {
     @PostMapping("/admin/signup")
     public ResponseEntity<String> saveAdmin(@RequestBody UserModel data)
     {
-        Set<String> role = new HashSet<String>();
+        Set<String> role = new HashSet<>();
         role.add("user");
         role.add("admin");
         data.setUserRole(role);
