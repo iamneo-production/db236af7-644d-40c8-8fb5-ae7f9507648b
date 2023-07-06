@@ -6,6 +6,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+
+
 @Entity
 
 public class GiftModel {
@@ -72,16 +74,7 @@ public class GiftModel {
         this.giftPrice = giftPrice;
     }
 
-    @Override
-    public String toString() {
-        return "GiftModel{" +
-                "giftId=" + giftId +
-                ", giftName='" + giftName + '\'' +
-                ", giftImageUrl='" + giftImageUrl + '\'' +
-                ", giftDetails='" + giftDetails + '\'' +
-                ", giftPrice=" + giftPrice +
-                '}';
-    }
+
 
     
 }

@@ -20,13 +20,13 @@ public class UserController {
     }
 
     @GetMapping("/{UserId}")
-    public UserModel getUser(@PathVariable("UserId") Integer UserId) {
-        return userRepository.findById(UserId).orElse(null);
+    public UserModel getUser(@PathVariable("UserId") Integer userId) {
+        return userRepository.findById(userId).orElse(null);
     }
 
     @PutMapping("/{UserId}")
-    public UserModel editUser(@PathVariable("UserId") Integer UserId, @RequestBody UserModel data) {
-        UserModel existingUser = userRepository.findById(UserId).orElse(null);
+    public UserModel editUser(@PathVariable("UserId") Integer userId, @RequestBody UserModel data) {
+        UserModel existingUser = userRepository.findById(userId).orElse(null);
         if (existingUser != null) {
             existingUser.setEmail(data.getEmail());
             existingUser.setPassword(data.getPassword());
@@ -39,8 +39,8 @@ public class UserController {
     }
 
     @DeleteMapping("/{userId}")
-    public void deleteUser(@PathVariable("UserId") Integer UserId) {
-        userRepository.deleteById(UserId);
+    public void deleteUser(@PathVariable("userId") Integer userId) {
+        userRepository.deleteById(userId);
     }
     
 }
