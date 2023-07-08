@@ -1,51 +1,32 @@
-.order-container {
-  background-color: aqua;
-  border-radius: 100px;
-  height: 50px;
-  margin: 68px 0px 0px 0px;
+
+.container{
+  text-align:center;
+}
+.table
+{
+  margin-top: 80px;
+  margin-left: 100px
 }
 
-.order-container h1 {
+.orderbutton {
   display: inline;
-  margin: 0px 200px;
 }
 
-.products p {
-  display: inline;
-  margin: 0px 5%;
+.orderbutton :hover {
+  box-shadow: none;
 }
 
-/* .list-item-name {
- margin-left: 20px;
-} */
-
-.list-item-quantity{
- margin: 0% 15%;
-}
-
-ol {
-  list-style: none;
-  counter-reset: item;
-}
-li {
-  counter-increment: item;
-  margin-bottom: 5px;
-}
-li:before {
-  /* margin-right: 1px; */
-  margin-left: 8%;
-  content: counter(item);
-  background: lightblue;
-  border-radius: 100%;
-  color: white;
-  width: 1.2em;
-  text-align: center;
-  display: inline-block;
-}
+.orderbutton button {
+   display: inline; 
+  background: transparent;
+  border: 5px;
+  margin-top: 10px;
+  font-size: 20px;
+} 
 
 .buttons-container {
   width: 10%;
-  margin: 33% 9% 1% 46%;
+  margin: 19% 10% 6% 44%;
   display: flex;
   align-items: center;
   justify-content: center;
