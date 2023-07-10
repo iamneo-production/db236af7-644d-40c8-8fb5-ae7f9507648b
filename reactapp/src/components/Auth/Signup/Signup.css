@@ -1,57 +1,72 @@
 .signup-container {
+  background-image: url("../../../assets/giftshop.jpg");
+  background-size: cover;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100vh;
-  
+}
+
+.signup-container button {
+  width: 100%;
+  padding: 8px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.signup-container button:hover {
+  background-color: #45a049;
+}
+
+h2 {
+  font-family: "Times New Roman", Times, serif;
+  font-weight: lighter;
+}
+
+input {
+  width: 93%;
+  padding: 10px;
+  border: 0px;
+  border-radius: 10px;
 }
 
 .signup-form {
-  width: 400px;
-  background-color: white;
-  padding: 20px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+  width: 300px;
+  padding: 25px;
+  border-radius: 10px;
+  background: linear-gradient(
+    90deg,
+    rgba(14, 181, 171, 0.9641106442577031) 0%,
+    rgba(12, 170, 231, 1) 0%,
+    rgba(202, 239, 246, 1) 0%
+  );
 }
 
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
-.form-group input {
-  width: 80%;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.error-message {
-  color: red;
-  font-size: 14px;
-  margin-top: 5px;
-}
-
-.button {
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  width: 25%;
+.already-a-user-message {
   text-align: center;
-  justify-content: center;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 4px;
-}
-
-.login-link {
   margin-top: 10px;
-  font-size: 14px;
 }
 
-.login-link a {
-  color: #c72e6e;
+.already-a-user-message a {
+  color: #007bff;
   text-decoration: none;
+}
+
+.already-a-user-message a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+  .signup-container {
+    background-image: url("../../../assets/giftshop_mobile.jpg");
+    background-size: cover;
+  }
 }
