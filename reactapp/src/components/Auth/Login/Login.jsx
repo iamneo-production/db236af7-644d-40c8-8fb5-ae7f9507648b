@@ -74,8 +74,7 @@ const Login = () => {
       
         if (response.ok) {
           // Successful login
-          // Perform any necessary actions like store authentication token
-        const userRole = getUserRole(responseData); // Replace this with your actual logic to get the user's role
+        const userRole = getUserRole();
         if (userRole === 'admin') {
           navigate('https://8081/admin/gifts');
         } else if (userRole === 'user') {
@@ -111,7 +110,6 @@ const Login = () => {
       <h1>Login</h1>
       <form className="login-form" onSubmit={handleLogin}>
         <div className="form-group">
-          <label htmlFor="email">Email:</label>
           <input
             type="email"
             id="email"
@@ -125,7 +123,6 @@ const Login = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="password">Password:</label>
           <input
             type="password"
             id="password"
