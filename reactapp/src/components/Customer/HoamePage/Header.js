@@ -10,10 +10,17 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import Link from "@mui/material/Link";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [auth, setAuth] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
+
+  const navigate = useNavigate();
+
+  const myOrdersViewHandler = () => {
+    navigate("/myorders");
+  };
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -44,7 +51,7 @@ const Header = () => {
             <MenuIcon />
           </IconButton> */}
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link href="#" underline="none" color="inherit">
+            <Link href="/" underline="none" color="inherit">
               Gift Shop
             </Link>
           </Typography>
@@ -86,7 +93,7 @@ const Header = () => {
               >
                 {/* <MenuItem onClick={handleClose}>Profile</MenuItem>
                 <MenuItem onClick={handleClose}>My Account</MenuItem> */}
-                <MenuItem onClick={handleClose}>My Orders</MenuItem>
+                <MenuItem onClick={myOrdersViewHandler}>My Orders</MenuItem>
                 <MenuItem onClick={logoutHandler}>Logout</MenuItem>
               </Menu>
             </div>
