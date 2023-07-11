@@ -2,7 +2,7 @@ import Header from "./Header";
 import MainArea from "./MainArea";
 import Footer from "./Footer";
 
-const HomePage = (props) => {
+const HoamePage = (props) => {
   return (
     <>
       <Header />
@@ -12,4 +12,4 @@ const HomePage = (props) => {
   );
 };
 
-export default HomePage;
+export default HoamePage;
