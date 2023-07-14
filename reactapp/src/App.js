@@ -5,8 +5,7 @@ import HoamePage from "./components/Customer/HoamePage/HoamePage";
 import PlaceOrder from "./components/Customer/PlaceOrder/PlaceOrder";
 import MyOrders from "./components/MyOrders";
 import EditOrder from "./components/EditOrder";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min";
+import Adminthemes from "./components/Admin/Adminthemes/Adminthemes";
 
 function App() {
   return (
@@ -18,6 +17,7 @@ function App() {
         <Route path="/placeorder" element={<PlaceOrder />} />
         <Route path="/myorders" element={<MyOrders />} />
         <Route path="/editOrder" element={<EditOrder />} />
+        <Route path="/adminthemes" element={<Adminthemes />} />
       </Routes>
     </Router>
   );
