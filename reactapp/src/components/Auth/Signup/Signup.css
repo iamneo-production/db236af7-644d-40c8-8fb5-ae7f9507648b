@@ -1,72 +1,62 @@
 .signup-container {
-  background-image: url("../../../assets/giftshop.jpg");
-  background-size: cover;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100vh;
-}
-
-.signup-container button {
-  width: 100%;
-  padding: 8px;
-  background-color: #4caf50;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.signup-container button:hover {
-  background-color: #45a049;
-}
-
-h2 {
-  font-family: "Times New Roman", Times, serif;
-  font-weight: lighter;
-}
-
-input {
-  width: 93%;
-  padding: 10px;
-  border: 0px;
-  border-radius: 10px;
+  padding: 50px;
+  background-image: url("bgDesign.png");
 }
 
 .signup-form {
-  width: 300px;
-  padding: 25px;
-  border-radius: 10px;
-  background: linear-gradient(
-    90deg,
-    rgba(14, 181, 171, 0.9641106442577031) 0%,
-    rgba(12, 170, 231, 1) 0%,
-    rgba(202, 239, 246, 1) 0%
-  );
+  width: 400px;
+  background-color: rgb(131, 237, 244);
+  margin:25px;
+  padding: 30px;
+  border-radius: 15px;
+  justify-self: center;
+  color: white;
+  
 }
 
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
-.already-a-user-message {
+.form-group input {
+  width: 80%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  
+}
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+button[type="submit"] {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  width: 50%;
   text-align: center;
+  justify-content: center;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.login-link {
   margin-top: 10px;
-}
-
-.already-a-user-message a {
-  color: #007bff;
+  font-size: 14px;
+  color: #c72e6e;
   text-decoration: none;
+  color: black;
+
 }
 
-.already-a-user-message a:hover {
-  text-decoration: underline;
-}
-
-@media (max-width: 600px) {
-  .signup-container {
-    background-image: url("../../../assets/giftshop_mobile.jpg");
-    background-size: cover;
-  }
-}
