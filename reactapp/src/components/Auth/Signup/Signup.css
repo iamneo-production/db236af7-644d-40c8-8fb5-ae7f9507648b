@@ -4,15 +4,19 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  
+  padding: 50px;
+  background-image: url("bgDesign.png");
 }
 
 .signup-form {
   width: 400px;
-  background-color: white;
-  padding: 20px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+  background-color: rgb(131, 237, 244);
+  margin:25px;
+  padding: 30px;
+  border-radius: 15px;
+  justify-self: center;
+  color: white;
+  
 }
 
 .form-group {
@@ -21,10 +25,11 @@
 
 .form-group input {
   width: 80%;
-  padding: 10px;
+  padding: 12px;
   font-size: 16px;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 10px;
+  
 }
 
 .error-message {
@@ -33,14 +38,14 @@
   margin-top: 5px;
 }
 
-.button {
+button[type="submit"] {
   background-color: #4caf50;
   color: white;
   border: none;
-  width: 25%;
+  width: 50%;
   text-align: center;
   justify-content: center;
-  padding: 10px 20px;
+  padding: 10px;
   font-size: 16px;
   cursor: pointer;
   border-radius: 4px;
@@ -49,9 +54,9 @@
 .login-link {
   margin-top: 10px;
   font-size: 14px;
-}
-
-.login-link a {
   color: #c72e6e;
   text-decoration: none;
+  color: black;
+
 }
+

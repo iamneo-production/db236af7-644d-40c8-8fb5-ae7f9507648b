@@ -64,7 +64,7 @@ const Login = () => {
       // Handle login logic here
       // Example: validate credentials, make API requests, etc.
       try {
-        const response = await fetch('https://8081-dadecaeedcbbfdebbecaddaeffdec.project.examly.io//Login ', {
+        const response = await fetch('https://8081/Login ', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -74,15 +74,14 @@ const Login = () => {
       
         if (response.ok) {
           // Successful login
-          // Perform any necessary actions like store authentication token
-        const userRole = getUserRole(); // Replace this with your actual logic to get the user's role
+        const userRole = getUserRole();
         if (userRole === 'admin') {
-          navigate('https://8081-dadecaeedcbbfdebbecaddaeffdec.project.examly.io//admin/gifts');
+          navigate('https://8081/admin/gifts');
         } else if (userRole === 'user') {
-          navigate('https://8081-dadecaeedcbbfdebbecaddaeffdec.project.examly.io//user/homepage');
+          navigate('https://8081/user/homepage');
         } else {
           // Default fallback route
-          navigate('https://8081-dadecaeedcbbfdebbecaddaeffdec.project.examly.io/');
+          navigate('https://8081/');
         }
         } else {
           // Handle login error
@@ -111,7 +110,6 @@ const Login = () => {
       <h1>Login</h1>
       <form className="login-form" onSubmit={handleLogin}>
         <div className="form-group">
-          <label htmlFor="email">Email:</label>
           <input
             type="email"
             id="email"
@@ -125,7 +123,6 @@ const Login = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="password">Password:</label>
           <input
             type="password"
             id="password"
