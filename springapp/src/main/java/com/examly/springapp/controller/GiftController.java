@@ -1,48 +1,40 @@
 package com.examly.springapp.controller;
 
-
 import com.examly.springapp.model.GiftModel;
-import com.examly.springapp.repository.GiftRepository;
+import com.examly.springapp.service.IGiftService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping()
-
-
-
+@RequestMapping("/admin")
 public class GiftController {
-    
+
     @Autowired
-    private GiftRepository giftRepository;
-
-    @PostMapping
-    public GiftModel addGift(@RequestBody GiftModel data) {
-        return giftRepository.save(data);
+    private IGiftService giftService;
+    @GetMapping("/gift")
+    public ResponseEntity<List<GiftModel>> getGift(@RequestParam(required = false) Integer id)
+    {
+        if(id == null)
+            return ResponseEntity.ok(giftService.getAllGifts());
+        return ResponseEntity.ok(giftService.getGift(id));
     }
-
-    @GetMapping("/{giftId}")
-    public GiftModel getGift(@PathVariable("giftId") int giftId) {
-        return giftRepository.findById(giftId).orElse(null);
+    @PostMapping("/addGift")
+    public ResponseEntity<String> addGift(@RequestBody GiftModel data)
+    {
+        return ResponseEntity.ok(giftService.addGift(data));
     }
-
-    @PutMapping("/{giftId}")
-    public GiftModel editGift(@PathVariable("giftId") int giftId, @RequestBody GiftModel data) {
-        GiftModel existingGift = giftRepository.findById(giftId).orElse(null);
-        if (existingGift != null) {
-            existingGift.setGiftName(data.getGiftName());
-            existingGift.setGiftImageUrl(data.getGiftImageUrl());
-            existingGift.setGiftDetails(data.getGiftDetails());
-            existingGift.setGiftPrice(data.getGiftPrice());
-            return giftRepository.save(existingGift);
-        }
-        return null;
+    @PutMapping("/editGift")
+    public ResponseEntity<String> editGift(@RequestParam Integer giftId, @RequestBody GiftModel data)
+    {
+        return ResponseEntity.ok(giftService.editGift(giftId, data));
     }
-
-    @DeleteMapping("/{giftId}")
-    public void deleteGift(@PathVariable("giftId") int giftId) {
-        giftRepository.deleteById(giftId);
+    @DeleteMapping("/deleteGift/{giftId}")
+    public ResponseEntity<String> deleteGift(@PathVariable int giftId)
+    {
+        return ResponseEntity.ok(giftService.deleteGift(giftId));
     }
-
-    
 }
+
