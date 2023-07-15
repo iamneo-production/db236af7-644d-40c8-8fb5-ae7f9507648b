@@ -1,11 +1,9 @@
 package com.examly.springapp.repository;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
+import com.examly.springapp.model.ThemeModel;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ThemeRepo {
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+public interface ThemeRepo extends JpaRepository<ThemeModel, Integer> {
 }
