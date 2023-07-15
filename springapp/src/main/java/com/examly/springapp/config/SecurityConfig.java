@@ -50,8 +50,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/user/signup", "/user/login").permitAll()
-                .antMatchers("/admin/dashboard","/admin/signup").hasAuthority("admin")
+                .antMatchers( "/user/signup","/user/login","/admin/login").permitAll()
+                .antMatchers( "/admin/signup","/admin/dashboard",
+                        "/admin/order","/admin/theme","/admin/gift",
+                        "/admin/addGift","/admin/addTheme",
+                        "/admin/editTheme/{themeId}","/admin/editGift",
+                        "/admin/deleteGift/{giftId}", "/admin/deleteTheme/{themeId}","/admin/deleteOrder/{orderId}"
+                ).hasAuthority("admin")
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling()
