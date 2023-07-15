@@ -1,80 +1,24 @@
 package com.examly.springapp.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
-
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
-
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class GiftModel {
-
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int giftId;
     private String giftName;
     private String giftImageUrl;
     private String giftDetails;
-    private int giftPrice;
-
-    public GiftModel(int giftId, String giftName, String giftImageUrl, String giftDetails, int giftPrice) {
-        this.giftId = giftId;
-        this.giftName = giftName;
-        this.giftImageUrl = giftImageUrl;
-        this.giftDetails = giftDetails;
-        this.giftPrice = giftPrice;
-    }
-
-
-    public GiftModel() {
-    }
-
-
-    public int getGiftId() {
-        return giftId;
-    }
-
-    public void setGiftId(int giftId) {
-        this.giftId = giftId;
-    }
-
-    public String getGiftName() {
-        return giftName;
-    }
-
-    public void setGiftName(String giftName) {
-        this.giftName = giftName;
-    }
-
-    public String getGiftImageUrl() {
-        return giftImageUrl;
-    }
-
-    public void setGiftImageUrl(String giftImageUrl) {
-        this.giftImageUrl = giftImageUrl;
-    }
-
-    public String getGiftDetails() {
-        return giftDetails;
-    }
-
-    public void setGiftDetails(String giftDetails) {
-        this.giftDetails = giftDetails;
-    }
-
-    public int getGiftPrice() {
-        return giftPrice;
-    }
-
-    public void setGiftPrice(int giftPrice) {
-        this.giftPrice = giftPrice;
-    }
-
-
-
-    
+    private Double giftPrice;
 }
