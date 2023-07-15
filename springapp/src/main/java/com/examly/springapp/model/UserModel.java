@@ -17,6 +17,7 @@ public class UserModel {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private  int id;
 <<<<<<< HEAD
+<<<<<<< HEAD
 
     @Column(unique = true)
     private String email;
@@ -35,6 +36,8 @@ public class UserModel {
     @Column(name = "role")
     private Set<String> userRole;
 =======
+=======
+>>>>>>> c7cc825e23703ef3c45000924527520f69b546a2
 
     @Column(unique = true)
     private String email;
@@ -63,5 +66,8 @@ public class UserModel {
     }
 
     
+<<<<<<< HEAD
 >>>>>>> 90c01362fb7715ea3f94b1c0262afff26bcf28c5
+=======
+>>>>>>> c7cc825e23703ef3c45000924527520f69b546a2
 }
