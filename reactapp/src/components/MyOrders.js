@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 
 import Header from "./Customer/HoamePage/Header";
@@ -12,10 +11,10 @@ import "./MyOrder.css";
 const MyOrders = () => {
   const [currentUrl, setCurrentUrl] = useState("http://localhost:8081");
   const data = [
-    { id: uuidv4(), name: "Photos", price: 19, quantity: 100 },
-    { id: uuidv4(), name: "Frbdfdgts", price: 319, quantity: 100 },
-    { id: uuidv4(), name: "Caards", price: 25, quantity: 100 },
-    { id: uuidv4(), name: "Laptops Stickers", price: 25, quantity: 100 },
+    { name: "Photos", price: 19, quantity: 100 },
+    { name: "Frbdfdgts", price: 319, quantity: 100 },
+    { name: "Caards", price: 25, quantity: 100 },
+    { name: "Laptops Stickers", price: 25, quantity: 100 },
   ];
 
   const navigate = useNavigate();
