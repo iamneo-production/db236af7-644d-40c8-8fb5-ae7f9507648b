@@ -1,4 +1,4 @@
-package com.examly.springapp.entity;
+package com.examly.springapp.model;
 
 public class AdminModel {
     private String email;
