@@ -34,12 +34,28 @@ public class AuthController {
         user.setUserRole(role);
         return ResponseEntity.ok("User "+userService.saveUser(user)+" saved");
     }
+
     @PostMapping("/user/login")
     public ResponseEntity<String> userLogin(@RequestBody LoginModel data)
     {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 data.getEmail(), data.getPassword()));
         return ResponseEntity.ok(jwtUtil.generateToken(data.getEmail()));
+    }
+
+    @RequestMapping("/isAdminPresent")
+    public ResponseEntity<Boolean> isAdminPresent(Authentication authentication){
+        for (GrantedAuthority role : authentication.getAuthorities())
+        {
+            if(role.getAuthority().equals("admin"))
+                return ResponseEntity.ok(true);
+        }
+        return ResponseEntity.ok(false);
+    }
+    
+    @RequestMapping("/isUserPresent")
+    public ResponseEntity<Boolean> isUserPresent(){
+        return ResponseEntity.ok(true);
     }
 
     @PostMapping("/admin/signup")
