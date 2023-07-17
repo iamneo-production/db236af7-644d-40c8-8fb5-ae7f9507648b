@@ -7,7 +7,6 @@ const Login = () => {
     email: '',
     password: '',
   };
-
   const [state, setState] = useState(initialState);
   const [errors, setErrors] = useState({
     email: false,
@@ -20,16 +19,6 @@ const Login = () => {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setState((prevState) => ({ ...prevState, [name]: value }));
-  };
-
-  const getUserRole = (responseData) => { 
-    if (responseData.role === 'admin') {
-      return 'admin';
-    } else if (responseData.role === 'user') {
-      return 'user';
-    } else {
-      return 'default';
-    }
   };
 
   const validateEmail = () => {
@@ -51,59 +40,37 @@ const Login = () => {
     return !isValid;
   };
 
-  const handleLogin = async(event) => {
-    event.preventDefault();
-
-    let hasError = false;
-
-    hasError = validateEmail() || hasError;
-    hasError = validatePassword() || hasError;
-
-    if (!hasError) {
+  const handleLogin = () => {
+    let hasError = true;
+    hasError = !validateEmail() && hasError
+    hasError = !validatePassword() && hasError
+    if (hasError) {
       setLoader(true);
-      // Handle login logic here
-      // Example: validate credentials, make API requests, etc.
-      try {
-        const response = await fetch('https://8081/Login ', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(state),
-        });
-      
-        if (response.ok) {
-          // Successful login
-        const userRole = getUserRole();
-        if (userRole === 'admin') {
-          navigate('https://8081/admin/gifts');
-        } else if (userRole === 'user') {
-          navigate('https://8081/user/homepage');
-        } else {
-          // Default fallback route
-          navigate('https://8081/');
-        }
-        } else {
-          // Handle login error
-          // Display error message to the user
+      axios.post("/user/login", state)
+      .then((response) => {
+        localStorage.setItem("Auth", response.data.token)
+        navigate("/user/test");
+      }).catch((error)=>{
+        setLoader(false);
+        if(error.message === "Network Error")
+        {
           setErrors(prevState => ({
             ...prevState,
-            custom: { required: true, message: 'Invalid email or password.' },
-          }));
+            custom: { required: true, message: 'Unable to Login. Try again later' }
+          }))
         }
-      } catch (error) {
-        // Handle network or server error
-        console.error('Login error:', error);
-        setErrors(prevState => ({
-          ...prevState,
-          custom: { required: true, message: 'An error occurred during login. Please try again later.' },
-        }));
-      }
-      
-      setLoader(false);
-      
+        else{
+          setErrors(prevState => ({
+            ...prevState,
+            custom: { required: true, message: 'Check your credentials or Register as new' }
+          }))
+        }
+      })
     }
   };  
+  const handleSignUp = () => {
+    navigate("/signup")
+  }
 
   return (
     <div className="login-container">
