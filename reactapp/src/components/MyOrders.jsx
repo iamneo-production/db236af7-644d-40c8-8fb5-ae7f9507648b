@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useEffect } from "react-router-dom";
 import classes from "./MyOrder.css";
 import EditOrder from "./EditOrder.js";
 import Header from "./Header";
@@ -8,20 +8,24 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import  axios  from 'axios';
 
 const MyOrders = () => {
-
-  const[CurrentUrl,setCurrentUrl]=useState("http://localhost:8081");
+ const[orderDetails,setOrderDetails]=useState([]);
   const data = [
     { name: "Photos", price: 19, quantity: 100 },
     { name: "Frbdfdgts", price: 319, quantity: 100 },
     { name: "Caards", price:25, quantity: 100 },
     { name: "Laptops Stickers", price:25, quantity: 100}
   ];
-
+  useEffect(() => {
+    axios.get("/user/orderHistory").then((response) => {
+        setOrderDetails(response.data)
+    }).catch((error) => {
+      console.log(error)
+    })
+},[])
   const navigate = useNavigate();
   
   const DeleteData = (index) => {
-    axios.delete(CurrentUrl+`/admin/deleteGift/${index}`)
-
+    axios.delete(`/admin/deleteGift/${index}`)
     .then((r) =>
     {
       console.log(r);
@@ -33,7 +37,7 @@ const MyOrders = () => {
   };
     
   const EditData = () => {
-    navigate("/EditOrder");
+    navigate("user/editorder");
   };
 
 return(
@@ -47,21 +51,23 @@ return(
           <th scope="col"><h3>GiftName</h3></th>
           <th scope="col"><h3>Price</h3></th>
           <th scope="col"><h3>Quantity</h3></th>
+          <th scope="col"><h3>Action</h3></th>
         </tr>
       </thead>
   <tbody>
- {data.map((items,index)=>
+ {orderDetails.map((items,index)=>
      {
        return(
          <tr >
            <td >{items.name}</td>
            <td>{items.price}</td>
            <td>{items.quantity}</td>
-
-           <div className='d-flex '>
+           <td>
+            <div className='d-flex '>
              <button className=' btn btn-outline'  onClick={()=>EditData()}><EditIcon/></button>
              <button className=' btn btn-outline' onClick={()=>DeleteData(items.index)}><DeleteIcon /> </button>
-           </div>        
+            </div>
+           </td>
          
          </tr>
        )
