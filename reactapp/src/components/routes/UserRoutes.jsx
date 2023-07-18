@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Navigate, Outlet,useNavigate } from "react-router-dom";
 import axios from "axios";
+import click from '../../assets/click.svg';
 export default function UserRoutes()
 {
     const [isAuthenticated, setIsAuth] = useState()
@@ -34,6 +35,6 @@ export default function UserRoutes()
         navigate("/admin/gift")
     }
     return (
-        isAuthenticated == null ? <div className="routes-loader"></div> : isAuthenticated ? isAdminPresent ? <><button onClick={handleAdmin}>Admin dashboard</button><Outlet/></> : <Outlet/> : <Navigate to = "/"/>
+        isAuthenticated == null ? <div className="routes-loader"></div> : isAuthenticated ? isAdminPresent ? <><button className="admin-button" onClick={handleAdmin}>Switch as Admin <img className = "adBtnImg"src = {click}></img></button><Outlet/></> : <Outlet/> : <Navigate to = "/"/>
     );
 }
