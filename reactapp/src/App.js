@@ -37,7 +37,6 @@ function App() {
           <Route element = {<AdminTest/>} path = "gift"/>
         </Route>
         <Route path="/signup" element={<Signup />} />
-        
       </Routes>
     </Router>
   );
