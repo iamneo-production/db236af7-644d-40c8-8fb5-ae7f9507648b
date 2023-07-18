@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
+import axios from 'axios'
+import box from '../../../assets/box.png';
+import ribbon1 from '../../../assets/ribbon1.png';
+import ribbon2 from '../../../assets/ribbon2.png';
+import cornerBox from '../../../assets/corner-box.png'
+import mobileCornerBox from '../../../assets/mobile-corner-box.png'
+import logo from '../../../assets/giftlogo.svg'
 
 const Login = () => {
   const initialState = {
     email: '',
     password: '',
   };
-
   const [state, setState] = useState(initialState);
   const [errors, setErrors] = useState({
     email: false,
@@ -20,16 +26,6 @@ const Login = () => {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setState((prevState) => ({ ...prevState, [name]: value }));
-  };
-
-  const getUserRole = (responseData) => { 
-    if (responseData.role === 'admin') {
-      return 'admin';
-    } else if (responseData.role === 'user') {
-      return 'user';
-    } else {
-      return 'default';
-    }
   };
 
   const validateEmail = () => {
@@ -51,102 +47,62 @@ const Login = () => {
     return !isValid;
   };
 
-  const handleLogin = async(event) => {
-    event.preventDefault();
-
-    let hasError = false;
-
-    hasError = validateEmail() || hasError;
-    hasError = validatePassword() || hasError;
-
-    if (!hasError) {
+  const handleLogin = () => {
+    let hasError = true;
+    hasError = !validateEmail() && hasError
+    hasError = !validatePassword() && hasError
+    if (hasError) {
       setLoader(true);
-      // Handle login logic here
-      // Example: validate credentials, make API requests, etc.
-      try {
-        const response = await fetch('https://8081/Login ', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(state),
-        });
-      
-        if (response.ok) {
-          // Successful login
-        const userRole = getUserRole();
-        if (userRole === 'admin') {
-          navigate('https://8081/admin/gifts');
-        } else if (userRole === 'user') {
-          navigate('https://8081/user/homepage');
-        } else {
-          // Default fallback route
-          navigate('https://8081/');
-        }
-        } else {
-          // Handle login error
-          // Display error message to the user
+      axios.post("/user/login", state)
+      .then((response) => {
+        localStorage.setItem("Auth", response.data.token)
+        navigate("/user/test");
+      }).catch((error)=>{
+        setLoader(false);
+        if(error.message === "Network Error")
+        {
           setErrors(prevState => ({
             ...prevState,
-            custom: { required: true, message: 'Invalid email or password.' },
-          }));
+            custom: { required: true, message: 'Unable to Login. Try again later' }
+          }))
         }
-      } catch (error) {
-        // Handle network or server error
-        console.error('Login error:', error);
-        setErrors(prevState => ({
-          ...prevState,
-          custom: { required: true, message: 'An error occurred during login. Please try again later.' },
-        }));
-      }
-      
-      setLoader(false);
-      
+        else{
+          setErrors(prevState => ({
+            ...prevState,
+            custom: { required: true, message: 'Check your credentials or Register as new' }
+          }))
+        }
+      })
     }
   };  
-
+  const handleSignUp = () => {
+    navigate("/signup")
+  }
   return (
-    <div className="login-container">
-      <h1>Login</h1>
-      <form className="login-form" onSubmit={handleLogin}>
-        <div className="form-group">
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={state.email}
-            onChange={handleInputChange}
-            placeholder="Enter email"
-            className={errors.email ? 'error' : ''}
-          />
-          {errors.email && <div className="error-message">Email is required.</div>}
+    <div className="content-holder">
+      <img id="corner-box" src={cornerBox}></img>
+        <div className="content">
+          <img id="mobile-corner-box" src={mobileCornerBox}></img>
+             <div className = "mobile-logo">Customized&nbsp;Gifts&nbsp;<img src={logo}></img></div>
+                <div className = "logo">Customized<br></br><img src={logo}></img>&nbsp;Gifts</div>
+                <div className="LoginContainer">
+                    <img id="ribbon1" src={ribbon1}/>
+                    <img id="loginBox" src={box}/>
+                    <div className = "LoginForm">
+                        <p>Login</p>
+                        <input className="inputs"  type="email" onChange={handleInputChange} name="email" value={state.email} placeholder="Email address"></input>
+                        {errors.email && <div className="error-message">Invalid Email address!</div>}
+                        <input className="inputs" type="password" onChange={handleInputChange} name="password" value = {state.password} placeholder="Password"></input>
+                        { errors.password && <div className="error-message"> Password Required! </div>}
+                        { errors.custom.required && <div className="error-message">{ errors.custom.message } </div>}
+                        <button className="loginButton" onClick={handleLogin}>{loader ? <div className="loader"></div> : "Sign In"}</button>
+                        <span style={{cursor:"pointer"}} className="Signup" onClick={handleSignUp}> 
+                            New? Register Here
+                        </span>
+                    </div>
+                    <img id="ribbon2" src={ribbon2}/> 
+              </div>
         </div>
-
-        <div className="form-group">
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={state.password}
-            onChange={handleInputChange}
-            placeholder="Enter Password"
-            className={errors.password ? 'error' : ''}
-          />
-          {errors.password && (
-            <div className="error-message">
-              {errors.custom.required ? errors.custom.message : 'Password is required.'}
-            </div>
-          )}
-        </div>
-
-        <button  type="submit">Login</button>
-
-        <p className="new-user-message" id="signupLink">
-          New User/admin? <Link to="/signup">Sign up</Link>
-        </p>
-
-        {loader && <div className="loader"></div>}
-      </form>
     </div>
   );
 };
