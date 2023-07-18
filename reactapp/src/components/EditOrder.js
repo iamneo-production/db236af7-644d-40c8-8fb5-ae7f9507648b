@@ -86,7 +86,7 @@ const EditOrder = () => {
     setTermsChecked(false);
     setSelectedOptions([]);
     setErrors({});
-    fetch('https://8080-dadecaeedcbbfdebbecaddaeffdec.project.examly.io/user/addOrder', {
+    fetch('http://localhost:8081/user/addOrder', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

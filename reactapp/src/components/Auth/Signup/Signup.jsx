@@ -56,7 +56,7 @@ const SignupPage = () => {
     };
 
     if (userRole.trim() === '') {
-      newErrors.userRole = 'User Type is required';
+      newErrors.userRole = 'User Role is required';
       valid = false;
     }
 
@@ -117,9 +117,9 @@ const SignupPage = () => {
     try {
       let signupEndpoint = '';
       if (userRole === 'admin') {
-        signupEndpoint = 'https://8080-dadecaeedcbbfdebbecaddaeffdec.project.examly.io/admin/signup';
+        signupEndpoint = 'http://localhost:8081/admin/signup';
       } else if (userRole === 'user') {
-        signupEndpoint = 'https://8080-dadecaeedcbbfdebbecaddaeffdec.project.examly.io/user/signup';
+        signupEndpoint = 'http://localhost:8081/user/signup';
       }
   
       const response = await fetch(signupEndpoint, {
@@ -139,9 +139,9 @@ const SignupPage = () => {
       if (response.ok) {
         // Successful signup
         if (userRole === 'admin') {
-          navigate('https://8080-dadecaeedcbbfdebbecaddaeffdec.project.examly.io/admin/login'); // Navigate to admin login page
+          navigate('http://localhost:8081/admin/login'); // Navigate to admin login page
         } else if (userRole === 'user') {
-          navigate('https://8080-dadecaeedcbbfdebbecaddaeffdec.project.examly.io/user/login'); // Navigate to user login page
+          navigate('http://localhost:8081/user/login'); // Navigate to user login page
         }
       } else {
         // Handle signup error

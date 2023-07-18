@@ -99,7 +99,7 @@ const PlaceOrder = (props) => {
     setErrors({});
 
     fetch(
-      "https://8081-dadecaeedcbbfdebbecaddaeffdec.project.examly.io/user/addOrder",
+      "http://localhost:8081/user/addOrder",
       {
         method: "POST",
         headers: {
