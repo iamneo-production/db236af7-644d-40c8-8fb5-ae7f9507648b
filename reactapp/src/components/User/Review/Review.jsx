@@ -50,7 +50,7 @@ const ReviewForm = ({ addReview }) => {
 
   const submitReview = (reviewData) => {
     // Make an HTTP POST request to backend API endpoint
-    fetch('https://8081/user/reviews', {
+    fetch('https://8080-dadecaeedcbbfdebbecaddaeffdec.project.examly.io/user/reviews', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

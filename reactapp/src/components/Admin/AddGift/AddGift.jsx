@@ -5,7 +5,7 @@ import ProductEx from './ProductEx'
 import  axios  from 'axios';
 
 export default function AddGift() {
-  const[CurrentUrl,setCurrentUrl]=useState("http://localhost:8081");
+  const[CurrentUrl,setCurrentUrl]=useState("https://8080-dadecaeedcbbfdebbecaddaeffdec.project.examly.io/");
   const[addbuttton,setAddbutton]=useState(false);
   const[editbutton,setEditbutton]=useState(false);
   const[index,setIndex]=useState();

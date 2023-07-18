@@ -15,7 +15,7 @@ import LoginRoute from "./components/routes/LoginRoute";
 
 function App() {
   
-  axios.defaults.baseURL = "http://localhost:8080"
+  axios.defaults.baseURL = "https://8080-dadecaeedcbbfdebbecaddaeffdec.project.examly.io"
   const token = localStorage.getItem("Auth")
   if(token)
     axios.defaults.headers.common['Authorization'] = token;
