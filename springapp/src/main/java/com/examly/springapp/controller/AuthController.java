@@ -1,16 +1,13 @@
 package com.examly.springapp.controller;
 
-import com.examly.springapp.model.LoginModel;
-import com.examly.springapp.model.UserModel;
+import com.examly.springapp.model.*;
 import com.examly.springapp.service.IUserService;
 import com.examly.springapp.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.*;
+import org.springframework.security.authentication.*;
+import org.springframework.security.core.*;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.HashSet;
@@ -34,12 +31,28 @@ public class AuthController {
         user.setUserRole(role);
         return ResponseEntity.ok("User "+userService.saveUser(user)+" saved");
     }
+
     @PostMapping("/user/login")
-    public ResponseEntity<String> userLogin(@RequestBody LoginModel data)
+    public ResponseEntity<LoginResponse> userLogin(@RequestBody LoginModel data)
     {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 data.getEmail(), data.getPassword()));
-        return ResponseEntity.ok(jwtUtil.generateToken(data.getEmail()));
+        return ResponseEntity.ok(new LoginResponse(jwtUtil.generateToken(data.getEmail())));
+    }
+
+    @RequestMapping("/isAdminPresent")
+    public ResponseEntity<Boolean> isAdminPresent(Authentication authentication){
+        for (GrantedAuthority role : authentication.getAuthorities())
+        {
+            if(role.getAuthority().equals("admin"))
+                return ResponseEntity.ok(true);
+        }
+        return ResponseEntity.ok(false);
+    }
+    
+    @RequestMapping("/isUserPresent")
+    public ResponseEntity<Boolean> isUserPresent(){
+        return ResponseEntity.ok(true);
     }
 
     @PostMapping("/admin/signup")

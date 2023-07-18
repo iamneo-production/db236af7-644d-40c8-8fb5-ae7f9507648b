@@ -10,10 +10,17 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import Link from "@mui/material/Link";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [auth, setAuth] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
+
+  const navigate = useNavigate();
+
+  const myOrdersViewHandler = () => {
+    navigate("/myorders");
+  };
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -23,6 +30,10 @@ const Header = () => {
     setAnchorEl(null);
   };
 
+  const logoutHandler = () => {
+    setAuth(false);
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
@@ -30,7 +41,7 @@ const Header = () => {
         sx={{ backgroundColor: "#03001C", color: "white", marginLeft: "0%" }}
       >
         <Toolbar>
-          <IconButton
+          {/* <IconButton
             size="large"
             edge="start"
             color="inherit"
@@ -38,34 +49,23 @@ const Header = () => {
             sx={{ mr: 2 }}
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link href="#" underline="none" color="inherit">
+            <Link href="/" underline="none" color="inherit">
               Gift Shop
             </Link>
           </Typography>
-          {/* <Link
-            href="#"
-            sx={{
-              color: "inherit",
-              fontSize: "0.9rem",
-              fontFamily: "'Roboto', sans-serif",
-              mr: 2,
-            }}
-            underline="none"
-          >
-            MY ORDERS
-          </Link> */}
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-          >
-            <ShoppingCartIcon />
-          </IconButton>
-          {auth && (
+
+          {auth ? (
             <div>
+              {/* <IconButton
+                size="large"
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+              >
+                <ShoppingCartIcon />
+              </IconButton> */}
               <IconButton
                 size="large"
                 aria-label="account of current user"
@@ -91,11 +91,25 @@ const Header = () => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My Account</MenuItem>
-                <MenuItem onClick={handleClose}>My Orders</MenuItem>
+                {/* <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem onClick={handleClose}>My Account</MenuItem> */}
+                <MenuItem onClick={myOrdersViewHandler}>My Orders</MenuItem>
+                <MenuItem onClick={logoutHandler}>Logout</MenuItem>
               </Menu>
             </div>
+          ) : (
+            <Link
+              href="/login"
+              sx={{
+                color: "inherit",
+                fontSize: "0.9rem",
+                fontFamily: "'Roboto', sans-serif",
+                mr: 2,
+              }}
+              underline="none"
+            >
+              LOGIN
+            </Link>
           )}
         </Toolbar>
       </AppBar>
