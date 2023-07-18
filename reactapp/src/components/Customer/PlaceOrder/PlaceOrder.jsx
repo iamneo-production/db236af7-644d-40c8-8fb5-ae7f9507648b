@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef,useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./Place Order.css";
 
@@ -30,6 +30,15 @@ const PlaceOrder = (props) => {
 
   const location = useLocation();
   const giftDetails = location.state;
+
+  useEffect(() => {
+    const currentDate = new Date().toLocaleDateString('en-IN', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+    setOrderDate(currentDate);
+  }, []);
 
   const validateFields = () => {
     const error = {};
@@ -194,11 +203,10 @@ const PlaceOrder = (props) => {
         </div>
         <div className="form1">
           <input
-            type="date"
-            id="orderDate"
+            type='text'
+            id='orderDate'
             value={orderDate}
-            onChange={(e) => setOrderDate(e.target.value)}
-            placeholder="Select order date "
+            readOnly
           />
           {errors.orderDate && (
             <span className="error">{errors.orderDate}</span>
