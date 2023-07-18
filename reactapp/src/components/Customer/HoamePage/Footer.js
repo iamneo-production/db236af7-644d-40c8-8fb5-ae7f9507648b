@@ -7,6 +7,8 @@ const Footer = () => {
     <>
       {/* <FooterLinks /> */}
       <Grid
+      position="absolute"
+      bottom="0"
         container
         spacing={0}
         sx={{
@@ -27,11 +29,11 @@ const Footer = () => {
           </Typography>
         </Grid>
         <Grid item xs={4}>
-          <img
+          {/* <img
             src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/payment-method_69e7ec.svg"
             className={classes["payment-methods-image"]}
             alt="payment-methods"
-          />
+          /> */}
         </Grid>
       </Grid>
     </>
