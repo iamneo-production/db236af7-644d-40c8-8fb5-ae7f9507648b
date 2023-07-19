@@ -1,35 +1,49 @@
-import React, { useState, useRef } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import "./Place Order.css";
+import React, { useState, useRef,useEffect } from "react";
+import { useLocation,useNavigate } from "react-router-dom";
+import "./PlaceOrder.css";
+import axios from "axios";
 
 const PlaceOrder = (props) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
-  const [orderDate, setOrderDate] = useState("");
-  const [orderPrice, setOrderPrice] = useState("");
-  const [giftModel, setGiftModel] = useState("");
+  const date = new Date();
+  const [orderDate, setOrderDate] = useState(date.toISOString().slice(0, 10));
   const [orderDescription, setOrderDescription] = useState("");
-  const [termsChecked, setTermsChecked] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [themeDropdownOpen, setThemeDropdownOpen] = useState(false);
+  const [themesFromDb, setThemesFromDb] = useState([]); //Constant to fetch themes from DB
+  const[themes,setThemes]=useState([]) // constant to post to db
+  const[baseUrl,setBaseUrl]=useState("http://localhost:8080")
+  const location = useLocation();
+  const giftDetails = location.state;
+
+  const[total,setTotal]=useState(giftDetails.giftPrice)
   const [errors, setErrors] = useState({
     name: "",
     email: "",
     address: "",
     orderDate: "",
     orderPrice: "",
-    termsChecked: "",
     phone: "",
   });
-
+  useEffect(() => {
+    axios
+      .get(baseUrl+"/user/themes")
+      
+      .then((response) => {
+        setThemesFromDb(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
 
-  const location = useLocation();
-  const giftDetails = location.state;
+
 
   const validateFields = () => {
     const error = {};
@@ -45,9 +59,7 @@ const PlaceOrder = (props) => {
     if (address.trim() === "") {
       error.address = "Address is required.";
     }
-    if (orderDate.trim() === "") {
-      error.orderDate = "Order date is required.";
-    }
+
     if (phone.trim === " ") {
       error.phone = "Invalid Mobile Number";
     } else if (!/^\d{10}$/.test(phone)) {
@@ -64,69 +76,54 @@ const PlaceOrder = (props) => {
       setErrors(validationerrors);
       return;
     }
+    
+  
 
     const orderData = {
-      name,
-      email,
-      address,
-      phone,
-      orderDate,
-      orderPrice,
-      giftModel,
-      orderDescription,
-      termsChecked,
-      selectedOptions,
+      orderId:null,
+      orderEmail:email,
+      giftId:giftDetails.giftId,
+      orderDescription:orderDescription,
+      orderPrice:total,
+      orderDate:orderDate,
+      orderAddress:address,
+      orderPhone:phone,
+      themes:themes,
     };
+    console.log(JSON.stringify(orderData));
     setName("");
     setEmail("");
     setAddress("");
     setPhone("");
     setOrderDate("");
-    setOrderPrice("");
-    setGiftModel("");
     setOrderDescription("");
-    setTermsChecked(false);
     setSelectedOptions([]);
     setErrors({});
 
-    fetch(
-      "https://8081-dadecaeedcbbfdebbecaddaeffdec.project.examly.io/user/addOrder",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(orderData),
-      }
-    )
+    axios
+    .post(baseUrl + "/user/addOrder", orderData)
       .then((response) => {
-        if (!response.ok) {
+        if (response.status!=200) {
           throw new Error("Failed to submit the order."); // Handle non-successful response
         }
-        return response.json("Order added"); // Parse the response body as JSON
       })
-      .then((data) => {
-        // Handle successful response from the backend
-        console.log(data);
+      .then(() => {
         setName("");
         setEmail("");
         setAddress("");
         setPhone("");
         setOrderDate("");
-        setOrderPrice("");
-        setGiftModel("");
         setOrderDescription("");
-        setTermsChecked(false);
         setSelectedOptions([]);
         setErrors({});
-        navigate("/view-themes");
+
       })
       .catch((error) => {
         // Handle error
         console.error(error);
       });
     alert("Order placed successfully");
-    navigate("/view-themes");
+
   };
 
   const toggleDropdown = () => {
@@ -139,14 +136,18 @@ const PlaceOrder = (props) => {
     setThemeDropdownOpen(!themeDropdownOpen);
   };
 
-  const handleOptionChange = (event) => {
+  const handleOptionChange = (event,theme) => {
     const { value, checked } = event.target;
     if (checked) {
       setSelectedOptions((prevOptions) => [...prevOptions, value]);
+      setTotal(total+theme.themePrice)
+      setThemes((prevThemes)=>[...prevThemes,theme.themeId]);
     } else {
       setSelectedOptions((prevOptions) =>
         prevOptions.filter((option) => option !== value)
       );
+      setTotal(total-theme.themePrice);
+      setThemes((prevThemes)=>prevThemes.filter(item => item !== theme.themeId))
     }
     setThemeDropdownOpen(false);
   };
@@ -179,9 +180,10 @@ const PlaceOrder = (props) => {
   };
 
   return (
+    <>
     <div className="container">
       <h2>Place Order</h2>
-      <form className="order-container" onSubmit={handlePlaceOrder}>
+      <form className="order-container" onSubmit={(event)=>handlePlaceOrder(event)}>
         <div className="form1">
           <input
             type="text"
@@ -194,10 +196,9 @@ const PlaceOrder = (props) => {
         </div>
         <div className="form1">
           <input
-            type="date"
+            type="text" //modified date to text
             id="orderDate"
             value={orderDate}
-            onChange={(e) => setOrderDate(e.target.value)}
             placeholder="Select order date "
           />
           {errors.orderDate && (
@@ -258,8 +259,8 @@ const PlaceOrder = (props) => {
           <input
             type="text"
             id="giftModel"
-            value={`Gift Model: ${giftDetails.name}`}
-            readOnly // Keep readOnly attribute
+            value={`Gift: ${giftDetails.giftName}`}
+            readOnly={true} // Keep readOnly attribute
             placeholder="Enter gift model"
             className="uneditable-input" // Apply CSS class for styling
           />
@@ -268,7 +269,7 @@ const PlaceOrder = (props) => {
           <input
             type="text"
             id="orderPrice"
-            value={`Order Price: ₹${giftDetails.price}`}
+            value={`Order Price: ₹${total}`}
             readOnly //  readOnly
             placeholder="Enter order price"
             className="uneditable-input"
@@ -285,6 +286,7 @@ const PlaceOrder = (props) => {
             placeholder="Enter order description"
           ></textarea>
         </div>
+      
         <div className="form1">
           <div className="dropdown" onClick={toggleThemeDropdown}>
             <button className="dropdown-toggle" type="button">
@@ -293,62 +295,34 @@ const PlaceOrder = (props) => {
             {themeDropdownOpen && (
               <div className="dropdown-menu">
                 <div className="dropdown-content">
-                  <div className="dropdown-row">
-                    <div className="dropdown-column">
-                      <label>
-                        <input
-                          type="checkbox"
-                          value="Photo Design 200"
-                          checked={selectedOptions.includes("Photo Design 200")}
-                          onChange={handleOptionChange}
-                        />
-                        Photo Design 200
-                      </label>
+                  {themesFromDb.map((theme) => (
+                    <div className="dropdown-row" key={theme.themeId}>
+                      <div className="dropdown-column">
+                        <label>
+                          <input
+                            type="checkbox"
+                            value={theme.themeName}
+                            checked={selectedOptions.includes(theme.themeName)}
+                            onChange={(event)=>handleOptionChange(event,theme)}
+                          />
+                          {theme.themeName}
+                        </label>
+                      </div>
+                      <div className="dropdown-column">
+                        <span>Price: ₹{theme.themePrice}</span>
+                      </div>
                     </div>
-                    <div className="dropdown-column">
-                      <label>
-                        <input
-                          type="checkbox"
-                          value="Pattern 100"
-                          checked={selectedOptions.includes("Pattern 100")}
-                          onChange={handleOptionChange}
-                        />
-                        Pattern 100
-                      </label>
-                    </div>
-                  </div>
-                  <div className="dropdown-row">
-                    <div className="dropdown-column">
-                      <label>
-                        <input
-                          type="checkbox"
-                          value="Face Pattern 50"
-                          checked={selectedOptions.includes("Face Pattern 50")}
-                          onChange={handleOptionChange}
-                        />
-                        Face Pattern 50
-                      </label>
-                    </div>
-                    <div className="dropdown-column">
-                      <label>
-                        <input
-                          type="checkbox"
-                          value="Frame Design 300"
-                          checked={selectedOptions.includes("Frame Design 300")}
-                          onChange={handleOptionChange}
-                        />
-                        Frame Design 300
-                      </label>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
             )}
           </div>
         </div>
+
         <button type="submit">Place Order</button>
       </form>
     </div>
+    </>
   );
 };
 
