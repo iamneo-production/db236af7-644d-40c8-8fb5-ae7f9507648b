@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import classes from "./MyOrders.css";
 import EditOrder from "../EditOrder/EditOrder";
-import Header from "../HoamePage/Header";
+import Header from "../HomePage/Header";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";

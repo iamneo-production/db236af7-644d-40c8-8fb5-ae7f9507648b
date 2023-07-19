@@ -13,7 +13,7 @@ import "./App.css";
 import AdminTest from "./components/Admin/AdminTest";
 import LoginRoute from "./components/routes/LoginRoute";
 import PlaceOrder from "./components/Customer/PlaceOrder/PlaceOrder";
-import HoamePage from "./components/Customer/HoamePage/HoamePage";
+import HomePage from "./components/Customer/HomePage/HomePage";
 import Adminthemes from "./components/Admin/Adminthemes/Adminthemes";
 import AddGift from "./components/Admin/AddGift/AddGift";
 import Orders from "./components/Admin/Orders/Orders";
@@ -32,7 +32,7 @@ function App() {
           <Route element={<Login />} path="" />
         </Route>
         <Route element={<UserRoutes />} path="user">
-          <Route path="home" element={<HoamePage />} />
+          <Route path="Home" element={<HomePage />} />
           <Route path="test" element={<Test />} />
           <Route path="myorders" element={<MyOrders />} />
           <Route path="editorder" element={<EditOrder />} />
