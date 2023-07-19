@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import './Signup.css';
 
 const SignupPage = () => {
-  const [userType, setUserType] = useState('');
+  const [userRole, setuserRole] = useState('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [mobileNumber, setMobileNumber] = useState('');
@@ -11,7 +11,7 @@ const SignupPage = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const navigate = useNavigate();
   const [errors, setErrors] = useState({
-    userType: '',
+    userRole: '',
     username: '',
     email: '',
     mobileNumber: '',
@@ -20,8 +20,8 @@ const SignupPage = () => {
   });
   const [formError, setFormError] = useState('');
 
-  const handleUserTypeChange = (event) => {
-    setUserType(event.target.value);
+  const handleuserRoleChange = (event) => {
+    setuserRole(event.target.value);
   };
 
   const handleUsernameChange = (event) => {
@@ -47,7 +47,7 @@ const SignupPage = () => {
   const validateForm = () => {
     let valid = true;
     const newErrors = {
-      userType: '',
+      userRole: '',
       username: '',
       email: '',
       mobileNumber: '',
@@ -55,8 +55,8 @@ const SignupPage = () => {
       confirmPassword: '',
     };
 
-    if (userType.trim() === '') {
-      newErrors.userType = 'User Type is required';
+    if (userRole.trim() === '') {
+      newErrors.userRole = 'User Role is required';
       valid = false;
     }
 
@@ -116,10 +116,10 @@ const SignupPage = () => {
     }
     try {
       let signupEndpoint = '';
-      if (userType === 'admin') {
-        signupEndpoint = 'https://8081-dadecaeedcbbfdebbecaddbaaecadafbad.project.examly.io/admin/signup';
-      } else if (userType === 'user') {
-        signupEndpoint = 'https://8081-dadecaeedcbbfdebbecaddbaaecadafbad.project.examly.io/user/signup';
+      if (userRole === 'admin') {
+        signupEndpoint = 'http://localhost:8081/admin/signup';
+      } else if (userRole === 'user') {
+        signupEndpoint = 'http://localhost:8081/user/signup';
       }
   
       const response = await fetch(signupEndpoint, {
@@ -128,7 +128,7 @@ const SignupPage = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          userType,
+          userRole,
           username,
           email,
           mobileNumber,
@@ -138,10 +138,10 @@ const SignupPage = () => {
   
       if (response.ok) {
         // Successful signup
-        if (userType === 'admin') {
-          navigate('https://8081-dadecaeedcbbfdebbecaddaeffdec.project.examly.io/admin/login'); // Navigate to admin login page
-        } else if (userType === 'user') {
-          navigate('https://8081-dadecaeedcbbfdebbecaddaeffdec.project.examly.io/user/login'); // Navigate to user login page
+        if (userRole === 'admin') {
+          navigate('http://localhost:8081/admin/login'); // Navigate to admin login page
+        } else if (userRole === 'user') {
+          navigate('http://localhost:8081/user/login'); // Navigate to user login page
         }
       } else {
         // Handle signup error
@@ -155,7 +155,7 @@ const SignupPage = () => {
     }
   
     // Reset form fields after submission
-    setUserType('');
+    setuserRole('');
     setUsername('');
     setEmail('');
     setMobileNumber('');
@@ -173,10 +173,10 @@ const SignupPage = () => {
             type="text"
             id="admin/user"
             placeholder="Enter admin/user"
-            value={userType}
-            onChange={handleUserTypeChange}
+            value={userRole}
+            onChange={handleuserRoleChange}
           />
-          {errors.userType && <p className="error-message">{errors.userType}</p>}
+          {errors.userRole && <p className="error-message">{errors.userRole}</p>}
         </div>
 
         <div className="form-group">
