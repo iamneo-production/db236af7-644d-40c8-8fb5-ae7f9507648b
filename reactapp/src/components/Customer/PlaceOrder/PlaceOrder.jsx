@@ -1,6 +1,6 @@
 import React, { useState, useRef,useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import "./Place Order.css";
+import "./PlaceOrder.css";
 
 const PlaceOrder = (props) => {
   const [name, setName] = useState("");

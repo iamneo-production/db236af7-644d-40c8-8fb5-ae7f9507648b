@@ -19,7 +19,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   const myOrdersViewHandler = () => {
-    navigate("/myorders");
+    navigate("/user/myorders");
   };
 
   const handleMenu = (event) => {
@@ -31,13 +31,15 @@ const Header = () => {
   };
 
   const logoutHandler = () => {
-    setAuth(false);
+   localStorage.clear()
+   setAuth(false);
+   navigate("/")
   };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
-        position="fixed"
+        position="relative"
         sx={{ backgroundColor: "#03001C", color: "white", marginLeft: "0%" }}
       >
         <Toolbar>
