@@ -25,11 +25,15 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
     @Override
-    public Integer saveUser(UserModel user) {
+    public String saveUser(UserModel user){
         user.setPassword(
-                passwordEncoder.encode(user.getPassword())
+            passwordEncoder.encode(user.getPassword())
         );
-        return userRepo.save(user).getId();
+        try {
+            return userRepo.save(user).getUsername();
+        }catch(Exception ex){
+            return null;
+        }
     }
 
     @Override
