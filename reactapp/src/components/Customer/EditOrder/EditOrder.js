@@ -167,7 +167,7 @@ const EditOrder = () => {
   };
 
   return (
-    <div className='container'>
+    <div className='order-container-holder'>
       <h2>Update Order</h2>
       <form className='order-container'  onSubmit={handlePlaceOrder}>
         <div className='form1'>

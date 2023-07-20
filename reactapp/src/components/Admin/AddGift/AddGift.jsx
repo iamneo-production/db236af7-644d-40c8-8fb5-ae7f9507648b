@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import AdminHeader from "../AdminHeader/AdminHeader";
 import edit from "../../../assets/edit.svg";
 import deleteIcn from "../../../assets/delete.svg";
 import add from "../../../assets/add.svg";
@@ -55,6 +56,7 @@ export default function AddGift() {
 
   function addGift(event) {
     event.preventDefault()
+    setLoader(true)
     axios.post( "/admin/addGift", addgiftDetails).then(() => {
       setAddbutton(!addbuttton)
       Setaddgiftdetails({
@@ -64,10 +66,18 @@ export default function AddGift() {
         giftPrice: "",
         giftQuantity: "",
       })
+      setLoader(false)
+    }).catch((error) => {
+      alert("Unable to add Gift");
+      setAddbutton(!addbuttton);
     });
   }
   function deleteGift(id) {
-    axios.delete( `/admin/deleteGift/${id}`).then(() => {setDelete(!deletebutton)});
+    setLoader(true)
+    axios.delete( `/admin/deleteGift/${id}`).then(() => {
+      setDelete(!deletebutton)
+      setLoader(false);
+    });
   }
 
   function editGift(event) {
@@ -94,6 +104,7 @@ export default function AddGift() {
   }
   return (
     <div>
+        <AdminHeader activeSection="Gifts" />
         {loader && <div className="routes-loader"></div>}    
     <div className="container">
       <div className="addGiftBtn" onClick={(event) => {
@@ -167,7 +178,7 @@ export default function AddGift() {
         </div>
         </div>
         <div className='text-center'>
-        <input type='submit' className='btn btn-success btn-md btn-block ml-5 mt-3 '  id='add' ></input>
+        { loader ? <div className="loader"></div> : <input type='submit' className='btn btn-success btn-md btn-block ml-5 mt-3 '  id='add' ></input>}
         </div>
       </form>
       </div></>}
@@ -203,11 +214,14 @@ export default function AddGift() {
           <input className='form-control w-100' placeholder='desc' id='editGiftDetails' name='giftDetails' onChange={handleeditgiftDetails} required></input>
         </div>
         </div>
-        <div className='text-center'>
-        <button type="submit"
-                className="btn btn-success btn-md btn-block mx-5 mt-3"
-                id="update">{ loader ? <div className="loader"></div> : 'Update' }</button>
-        </div>
+          <div className='text-center'>
+          { loader ? <div className="loader"></div> : <button type="submit"
+                  className="btn btn-success btn-md btn-block mx-5 mt-3"
+                  id="update">Update
+                </button> 
+          }
+                
+          </div>
       </form>
       </div></>}
       {/* ----------------------------------------------------------------- Edit Gift ----------------------------------------------------------------------------------- */}
