@@ -1,29 +1,45 @@
-import React, { useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useRef,useEffect } from 'react';
+import { useNavigate,useLocation } from 'react-router-dom';
 import './EditOrder.css';
+import axios from 'axios';
+
 
 const EditOrder = () => {
+  const originalOrder=useLocation().state;
+  const [themes,setThemes]=useState(originalOrder.themes.map((theme)=>theme.themeId));
+  console.log(themes);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [address, setAddress] = useState('');
   const [phone, setPhone] = useState('');
-  const [orderDate, setOrderDate] = useState('');
-  const [orderPrice, setOrderPrice] = useState('');
-  const [giftModel, setGiftModel] = useState('');
+  const [orderDate, setOrderDate] = useState(originalOrder.orderDate);
+  const [orderPrice, setOrderPrice] = useState(originalOrder.orderPrice);
   const [orderDescription, setOrderDescription] = useState('');
-  const [termsChecked, setTermsChecked] = useState(false);
-  const [selectedOptions, setSelectedOptions] = useState([]);
+  const [selectedOptions, setSelectedOptions] = useState(originalOrder.themes.map((theme)=>theme.themeName));
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [themeDropdownOpen, setThemeDropdownOpen] = useState(false);
+  const[themesFromDb,setThemesFromDb]=useState([]);
   const [errors, setErrors] = useState({
     name: '',
     email: '',
     address: '',
     orderDate: '',
     orderPrice: '',
-    termsChecked: '',
     phone: ''
   });
+
+ console.log("----",selectedOptions);
+  useEffect(() => {
+    axios
+      .get("/user/themes")
+      
+      .then((response) => {
+        setThemesFromDb(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
@@ -64,62 +80,49 @@ const EditOrder = () => {
     }
 
     const orderData = {
-      name,
-      email,
-      address,
-      phone,
-      orderDate,
-      orderPrice,
-      giftModel,
-      orderDescription,
-      termsChecked,
-      selectedOptions,
-    };
+        orderId:originalOrder.orderId,
+        orderEmail:email,
+        giftId:originalOrder.gift.giftId,
+        orderDescription:orderDescription,
+        orderPrice:orderPrice,
+        orderDate:orderDate,
+        orderAddress:address,
+        orderPhone:phone,
+        themes:themes,
+      };
     setName('');
     setEmail('');
     setAddress('');
     setPhone('');
     setOrderDate('');
     setOrderPrice('');
-    setGiftModel('');
     setOrderDescription('');
-    setTermsChecked(false);
     setSelectedOptions([]);
     setErrors({});
-    fetch('http://localhost:8081/user/addOrder', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(orderData)
-    })
+    axios
+    .put("/user/editOrder",orderData,{params:{orderId:originalOrder.orderId}})
     .then((response) => {
-      if (!response.ok) {
-        throw new Error('Failed to submit the order.'); // Handle non-successful response
+      if (response.status!=200) {
+        throw new Error('Failed to update the order.'); // Handle non-successful response
       }
-      return response.json('Order added'); // Parse the response body as JSON
     })
-      .then(data => {
-        // Handle successful response from the backend
-        console.log(data);
-        setName('');
-        setEmail('');
-        setAddress('');
-        setPhone('');
-        setOrderDate('');
-        setOrderPrice('');
-        setGiftModel('');
-        setOrderDescription('');
-        setTermsChecked(false);
+    .then(() => {
+       
+        setName("");
+        setEmail("");
+        setAddress("");
+        setPhone("");
+        setOrderDate("");
+        setOrderDescription("");
         setSelectedOptions([]);
         setErrors({});
-        navigate('/view-themes'); 
       })
-      .catch(error => {
+    .catch(error => {
         // Handle error
         console.error(error);
       });
-    navigate('/view-themes');
+      alert("Order updated successfully");
+
   };
 
   const toggleDropdown = () => {
@@ -132,18 +135,20 @@ const EditOrder = () => {
     setThemeDropdownOpen(!themeDropdownOpen);
   };
 
-  const handleOptionChange = (event) => {
+  const handleOptionChange = (event,theme) => {
     const { value, checked } = event.target;
     if (checked) {
       setSelectedOptions((prevOptions) => [...prevOptions, value]);
+      setOrderPrice(orderPrice+theme.themePrice)
+      setThemes((prevThemes)=>[...prevThemes,theme.themeId]);
     } else {
       setSelectedOptions((prevOptions) =>
         prevOptions.filter((option) => option !== value)
       );
+      setOrderPrice(orderPrice-theme.themePrice);
+      setThemes((prevThemes)=>prevThemes.filter(item => item !== theme.themeId))
     }
     setThemeDropdownOpen(false);
-    
-    
   };
 
   const handleSearchChange = (event) => {
@@ -166,11 +171,12 @@ const EditOrder = () => {
     }));
   };
 
-  return (
-    <div className='container'>
+return(
+    <>
+    <div className="container">
       <h2>Update Order</h2>
-      <form className='order-container'  onSubmit={handlePlaceOrder}>
-        <div className='form1'>
+      <form className="order-container" onSubmit={(event)=>handlePlaceOrder(event)}>
+        <div className="form1">
           <input
             type="text"
             id="name"
@@ -180,17 +186,18 @@ const EditOrder = () => {
           />
           {errors.name && <span className="error">{errors.name}</span>}
         </div>
-        <div className='form1'>
+        <div className="form1">
           <input
-            type="date"
+            type="text" //modified date to text
             id="orderDate"
-            value={orderDate}
-            onChange={(e) => setOrderDate(e.target.value)}
+            value={originalOrder.orderDate}
             placeholder="Select order date "
           />
-          {errors.orderDate && <span className="error">{errors.orderDate}</span>}
-        </div>        
-        <div className='form1'>
+          {errors.orderDate && (
+            <span className="error">{errors.orderDate}</span>
+          )}
+        </div>
+        <div className="form1">
           <div className="address-input">
             <input
               type="text"
@@ -203,7 +210,11 @@ const EditOrder = () => {
             {dropdownOpen && (
               <ul className="city-dropdown" ref={dropdownRef}>
                 <li>
-                  <input type="text" placeholder="Search city" onChange={handleSearchChange} />
+                  <input
+                    type="text"
+                    placeholder="Search city"
+                    onChange={handleSearchChange}
+                  />
                 </li>
                 {filteredCities.map((city) => (
                   <li key={city} onClick={() => setAddress(city)}>
@@ -215,7 +226,7 @@ const EditOrder = () => {
           </div>
           {errors.address && <span className="error">{errors.address}</span>}
         </div>
-        <div className='form1'>
+        <div className="form1">
           <input
             type="text"
             id="phone"
@@ -225,7 +236,7 @@ const EditOrder = () => {
           />
           {errors.phone && <span className="error">{errors.phone}</span>}
         </div>
-        <div className='form1'>
+        <div className="form1">
           <input
             type="email"
             id="email"
@@ -235,29 +246,31 @@ const EditOrder = () => {
           />
           {errors.email && <span className="error">{errors.email}</span>}
         </div>
-        <div className='form1'>
-          <input
-            type="text"
-            id="orderPrice"
-            value={orderPrice}
-            readOnly //  readOnly
-            placeholder="Enter order price"
-            className="uneditable-input" 
-          />
-          {errors.orderPrice && <span className="error">{errors.orderPrice}</span>}
-        </div>
-        <div className='form1'>
+
+        <div className="form1">
           <input
             type="text"
             id="giftModel"
-            value={giftModel}
-            readOnly // Keep readOnly attribute
+            value={`Gift: ${originalOrder.gift.giftName}`}
+            readOnly={true} // Keep readOnly attribute
             placeholder="Enter gift model"
             className="uneditable-input" // Apply CSS class for styling
           />
         </div>
-
-        <div className='form1'>
+        <div className="form1">
+          <input
+            type="text"
+            id="orderPrice"
+            value={`Order Price: ₹${orderPrice}`}
+            readOnly //  readOnly
+            placeholder="Enter order price"
+            className="uneditable-input"
+          />
+          {errors.orderPrice && (
+            <span className="error">{errors.orderPrice}</span>
+          )}
+        </div>
+        <div className="form1">
           <textarea
             id="orderDescription"
             value={orderDescription}
@@ -265,73 +278,44 @@ const EditOrder = () => {
             placeholder="Enter order description"
           ></textarea>
         </div>
-        <div className='form1'>
+      
+        <div className="form1">
           <div className="dropdown" onClick={toggleThemeDropdown}>
-          <button className="dropdown-toggle" type="button">
-            Select Options
-          </button>
-          {themeDropdownOpen && (
-            <div className="dropdown-menu">
-              <div className="dropdown-content">
-                <div className="dropdown-row">
-                  <div className="dropdown-column">
-                    <label>
-                      <input
-                        type="checkbox"
-                        value="Photo Design 200"
-                        checked={selectedOptions.includes('Photo Design 200')}
-                        onChange={handleOptionChange}
-                      />
-                      Photo Design 200
-                    </label>
-                  </div>
-                  <div className="dropdown-column">
-                    <label>
-                      <input
-                        type="checkbox"
-                        value="Pattern 100"
-                        checked={selectedOptions.includes('Pattern 100')}
-                        onChange={handleOptionChange}
-                      />
-                      Pattern 100
-                    </label>
-                  </div>
-                </div>
-                <div className="dropdown-row">
-                  <div className="dropdown-column">
-                    <label>
-                      <input
-                        type="checkbox"
-                        value="Face Pattern 50"
-                        checked={selectedOptions.includes('Face Pattern 50')}
-                        onChange={handleOptionChange}
-                      />
-                      Face Pattern 50
-                    </label>
-                  </div>
-                  <div className="dropdown-column">
-                    <label>
-                      <input
-                        type="checkbox"
-                        value="Frame Design 300"
-                        checked={selectedOptions.includes('Frame Design 300')}
-                        onChange={handleOptionChange}
-                      />
-                      Frame Design 300
-                    </label>
-                  </div>
+            <button className="dropdown-toggle" type="button">
+              Update Options
+            </button>
+            {themeDropdownOpen && (
+              <div className="dropdown-menu">
+                <div className="dropdown-content">
+                  {themesFromDb.map((theme) => (
+                    <div className="dropdown-row" key={theme.themeId}>
+                      <div className="dropdown-column">
+                        <label>
+                          <input
+                            type="checkbox"
+                            value={theme.themeName}
+                            checked={selectedOptions.includes(theme.themeName)}
+                            onChange={(event)=>handleOptionChange(event,theme)}
+                          />
+                          {theme.themeName}
+                        </label>
+                      </div>
+                      <div className="dropdown-column">
+                        <span>Price: ₹{theme.themePrice}</span>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
-        </div>    
-        
-<button className='update'>
-  <div class="spinner"></div>Update Order</button>
+
+        <button type="submit">Update Order</button>
       </form>
     </div>
-  );
+    </>
+);
 };
 
 export default EditOrder;
