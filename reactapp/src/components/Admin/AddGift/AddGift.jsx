@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import AdminHeader from "../AdminHeader/AdminHeader";
 import edit from "../../../assets/edit.svg";
 import deleteIcn from "../../../assets/delete.svg";
 import add from "../../../assets/add.svg";
@@ -103,6 +104,7 @@ export default function AddGift() {
   }
   return (
     <div>
+        <AdminHeader activeSection="Gifts" />
         {loader && <div className="routes-loader"></div>}    
     <div className="container">
       <div className="addGiftBtn" onClick={(event) => {
