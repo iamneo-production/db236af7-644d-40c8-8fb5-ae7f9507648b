@@ -43,24 +43,24 @@ export default function AddGift() {
     });
   }
   useEffect(() => {
-    axios.get(CurrentUrl + "/admin/getGift").then((res) => {
+    axios.get("/admin/getGift").then((res) => {
       setGiftFromDb(res.data);
     });
-  }, [CurrentUrl]);
+  }, []);
   function addGift(event) {
     setAddbutton(!addbuttton);
     event.preventDefault();
 
-    axios.post( "/admin/addGift", addgiftDetails);
+    axios.post("/admin/addGift", addgiftDetails);
   }
   function deleteGift(id) {
-    axios.delete( `/admin/deleteGift/${id}`);
+    axios.delete(`/admin/deleteGift/${id}`);
   }
   function editGift(index, event) {
-    setEditbutton(!editbutton)
+    setEditbutton(!editbutton);
     event.preventDefault();
     editgiftDetails.giftId = index;
-    axios.put( `/admin/editGift?giftId=${index}`, editgiftDetails);
+    axios.put(`/admin/editGift?giftId=${index}`, editgiftDetails);
   }
   return (
     <div className="container ">
@@ -87,7 +87,7 @@ export default function AddGift() {
                   <img
                     className="h-50 w-50 p-2 cardimage "
                     src={items.giftImageUrl}
-                    alt="Card image cap"
+                    alt="Card cap"
                   />
                   <h5 className="card-title">{items.giftName}</h5>
                   <p className="card-text"> 💲{items.giftPrice}</p>
