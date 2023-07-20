@@ -11,4 +11,5 @@ public interface IOrderService {
     List<OrderResponse> viewOrder(int orderId) ;
     void deleteOrder(int orderId);
     List<Order> findAllByOrderEmail(String email);
+    String editOrder(int orderId,Order data);
 }
