@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Signup.css';
-
+import axios from 'axios';
 const SignupPage = () => {
-  const [userType, setUserType] = useState('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [mobileNumber, setMobileNumber] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const navigate = useNavigate();
   const [errors, setErrors] = useState({
-    userType: '',
     username: '',
     email: '',
     mobileNumber: '',
@@ -19,10 +16,6 @@ const SignupPage = () => {
     confirmPassword: '',
   });
   const [formError, setFormError] = useState('');
-
-  const handleUserTypeChange = (event) => {
-    setUserType(event.target.value);
-  };
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -47,18 +40,12 @@ const SignupPage = () => {
   const validateForm = () => {
     let valid = true;
     const newErrors = {
-      userType: '',
       username: '',
       email: '',
       mobileNumber: '',
       password: '',
       confirmPassword: '',
     };
-
-    if (userType.trim() === '') {
-      newErrors.userType = 'User Type is required';
-      valid = false;
-    }
 
     if (username.trim() === '') {
       newErrors.username = 'Username is required';
@@ -106,80 +93,28 @@ const SignupPage = () => {
   };
 
 
-  const handleSubmit = async(event) => {
-    event.preventDefault();
-
-    // Perform form validation
-    if (!validateForm()) {
-      setFormError('');
-      return;
+  const handleSubmit = () => {
+    if (validateForm()) {
+      axios.post("/user/signup",{
+        username : username,
+        email : email,
+        mobileNumber: mobileNumber,
+        password: password
+      }).then( (response) => {
+        setFormError("Welcome "+response.data+"! Login to continue")
+      }).catch( (error) => {
+        console.log(error.response)
+        if(error.response.status == 400)
+          setFormError("User already exists try Login")
+      })
     }
-    try {
-      let signupEndpoint = '';
-      if (userType === 'admin') {
-        signupEndpoint = 'https://8081-dadecaeedcbbfdebbecaddbaaecadafbad.project.examly.io/admin/signup';
-      } else if (userType === 'user') {
-        signupEndpoint = 'https://8081-dadecaeedcbbfdebbecaddbaaecadafbad.project.examly.io/user/signup';
-      }
-  
-      const response = await fetch(signupEndpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userType,
-          username,
-          email,
-          mobileNumber,
-          password,
-        }),
-      });
-  
-      if (response.ok) {
-        // Successful signup
-        if (userType === 'admin') {
-          navigate('https://8081-dadecaeedcbbfdebbecaddaeffdec.project.examly.io/admin/login'); // Navigate to admin login page
-        } else if (userType === 'user') {
-          navigate('https://8081-dadecaeedcbbfdebbecaddaeffdec.project.examly.io/user/login'); // Navigate to user login page
-        }
-      } else {
-        // Handle signup error
-        const responseData = await response.json();
-        setFormError(responseData.message);
-      }
-    } catch (error) {
-      // Handle network or server error
-      console.error('Signup error:', error);
-      setFormError('An error occurred during signup. Please try again later.');
-    }
-  
-    // Reset form fields after submission
-    setUserType('');
-    setUsername('');
-    setEmail('');
-    setMobileNumber('');
-    setPassword('');
-    setConfirmPassword('');
   };
     
-
   return (
     <div className="signup-container">
       <h1>Register</h1>
-      <form className="signup-form" onSubmit={handleSubmit}>
-        <div className="form-group">
-          <input
-            type="text"
-            id="admin/user"
-            placeholder="Enter admin/user"
-            value={userType}
-            onChange={handleUserTypeChange}
-          />
-          {errors.userType && <p className="error-message">{errors.userType}</p>}
-        </div>
-
-        <div className="form-group">
+      <form className="signup-form">
+          <div className="form-group">
           <input
             type="email"
             id="email"
@@ -236,12 +171,12 @@ const SignupPage = () => {
           )}
         </div>
 
-        <button type="submit" id="submitButton">Submit</button>
+        <button className="signupBtn" onClick={handleSubmit} id="submitButton">Submit</button>
 
         {formError && <p className="error-message">{formError}</p>}
 
         <p className="login-link" id="signinLink">
-          Already a user? <Link to="/login" id="signinlink">Login</Link>
+          Already a user? <Link to="/" id="signinlink">Login</Link>
         </p>
       </form>
     </div>

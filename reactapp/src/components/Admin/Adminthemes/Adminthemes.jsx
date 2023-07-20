@@ -1,6 +1,5 @@
-import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import classes from "./Adminthemes.module.css";
 import AdminHeader from "../AdminHeader/AdminHeader";
 import AdminThemesList from "./AdminThemesList";
@@ -87,11 +86,11 @@ const Adminthemes = () => {
         enteredThemePrice,
         enteredThemeDesc
       );
-      const updatedThemeItem = {
-        name: enteredThemeName,
-        price: enteredThemePrice,
-        description: enteredThemeDesc,
-      };
+      // const updatedThemeItem = {
+      //   name: enteredThemeName,
+      //   price: enteredThemePrice,
+      //   description: enteredThemeDesc,
+      // };
       //SEND UPDATE REQ
       setIsFormTouched(false);
     } else return;
