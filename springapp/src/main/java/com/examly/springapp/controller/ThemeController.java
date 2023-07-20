@@ -13,8 +13,8 @@ public class ThemeController {
     
     @Autowired
     private IThemeService themeService;
-    @GetMapping("/admin/theme")
-    public ResponseEntity<List<ThemeModel>> getTheme(@RequestParam Integer id)
+    @GetMapping({"/admin/theme","/user/themes"})
+    public ResponseEntity<List<ThemeModel>> getTheme(@RequestParam(required=false) Integer id)
     {
         if(id == null)
             return ResponseEntity.ok(themeService.getAllThemes());

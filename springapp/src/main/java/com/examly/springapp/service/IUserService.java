@@ -6,6 +6,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import java.util.Optional;
 
 public interface IUserService {
-    Integer saveUser(UserModel user);
+    String saveUser(UserModel user);
     Optional<UserModel> findByEmail(String email) throws UsernameNotFoundException;
 }

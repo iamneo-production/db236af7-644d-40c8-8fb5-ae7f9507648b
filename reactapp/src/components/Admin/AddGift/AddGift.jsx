@@ -4,7 +4,6 @@ import { RxCross2 } from "react-icons/rx";
 import axios from "axios";
 
 export default function AddGift() {
-  const [CurrentUrl, setCurrentUrl] = useState("http://localhost:8081");
   const [addbuttton, setAddbutton] = useState(false);
   const [editbutton, setEditbutton] = useState(false);
   const [index, setIndex] = useState();
@@ -44,38 +43,25 @@ export default function AddGift() {
     });
   }
   useEffect(() => {
-    axios.get(CurrentUrl + "/admin/getGift").then((res) => {
+    axios.get("/admin/getGift").then((res) => {
       setGiftFromDb(res.data);
     });
-  }, [CurrentUrl]);
+  }, []);
   function addGift(event) {
+    setAddbutton(!addbuttton);
     event.preventDefault();
 
-    let formdata = new FormData();
-    formdata.append("giftName", addgiftDetails.giftName);
-    formdata.append("giftImageUrl", addgiftDetails.giftImageUrl);
-    formdata.append("giftDetails", addgiftDetails.giftDetails);
-    formdata.append("giftQuantity", addgiftDetails.giftQuantity);
-    formdata.append("giftPrice", addgiftDetails.giftPrice);
-    axios.post(CurrentUrl + "/admin/addGift", formdata);
+    axios.post("/admin/addGift", addgiftDetails);
   }
   function deleteGift(id) {
-    axios.delete(CurrentUrl + `/admin/deleteGift/${id}`);
+    axios.delete(`/admin/deleteGift/${id}`);
   }
   function editGift(index, event) {
+    setEditbutton(!editbutton);
     event.preventDefault();
     editgiftDetails.giftId = index;
-    let formdata = new FormData();
-    formdata.append("giftName", editgiftDetails.giftName);
-    formdata.append("giftImageUrl", editgiftDetails.giftImageUrl);
-    formdata.append("giftDetails", editgiftDetails.giftDetails);
-    formdata.append("giftQuantity", addgiftDetails.giftQuantity);
-    formdata.append("giftPrice", editgiftDetails.giftPrice);
-    formdata.append("giftId", editgiftDetails.giftId);
-
-    axios.put(CurrentUrl + `/admin/editGift/${index}`, formdata);
+    axios.put(`/admin/editGift?giftId=${index}`, editgiftDetails);
   }
-  console.log(giftFromDb);
   return (
     <div className="container ">
       <div className="row">
@@ -101,7 +87,7 @@ export default function AddGift() {
                   <img
                     className="h-50 w-50 p-2 cardimage "
                     src={items.giftImageUrl}
-                    alt="Card image cap"
+                    alt="Card cap"
                   />
                   <h5 className="card-title">{items.giftName}</h5>
                   <p className="card-text"> 💲{items.giftPrice}</p>
