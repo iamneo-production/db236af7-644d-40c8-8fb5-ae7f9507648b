@@ -9,29 +9,28 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin")
 public class GiftController {
 
     @Autowired
     private IGiftService giftService;
-    @GetMapping("/gift")
+    @GetMapping({"/admin/gift","/user/gift"})
     public ResponseEntity<List<GiftModel>> getGift(@RequestParam(required = false) Integer id)
     {
         if(id == null)
             return ResponseEntity.ok(giftService.getAllGifts());
         return ResponseEntity.ok(giftService.getGift(id));
     }
-    @PostMapping("/addGift")
+    @PostMapping("/admin/addGift")
     public ResponseEntity<String> addGift(@RequestBody GiftModel data)
     {
         return ResponseEntity.ok(giftService.addGift(data));
     }
-    @PutMapping("/editGift")
+    @PutMapping("/admin/editGift")
     public ResponseEntity<String> editGift(@RequestParam Integer giftId, @RequestBody GiftModel data)
     {
         return ResponseEntity.ok(giftService.editGift(giftId, data));
     }
-    @DeleteMapping("/deleteGift/{giftId}")
+    @DeleteMapping("/admin/deleteGift/{giftId}")
     public ResponseEntity<String> deleteGift(@PathVariable int giftId)
     {
         return ResponseEntity.ok(giftService.deleteGift(giftId));
