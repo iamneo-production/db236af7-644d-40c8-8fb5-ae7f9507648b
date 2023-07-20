@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import "./AddGift.css";
 import axios from "axios";
 import edit from "../../../assets/edit.svg";
 import deleteIcn from "../../../assets/delete.svg";
