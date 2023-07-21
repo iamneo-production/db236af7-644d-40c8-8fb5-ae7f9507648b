@@ -57,7 +57,7 @@ const Login = () => {
         .post("/user/login", state)
         .then((response) => {
           localStorage.setItem("Auth", response.data.token);
-          navigate("/user/test");
+          navigate("/user/home");
         })
         .catch((error) => {
           setLoader(false);
