@@ -120,4 +120,23 @@ public class OrderServiceImpl implements IOrderService {
 
         return orderRepo.findAllByOrderEmail(email);
     }
+
+    @Override
+    public String editOrder(int orderId, Order data){
+        Optional<Order> optOrder=orderRepo.findById(orderId);
+        if(optOrder.isEmpty()){
+            return "Invalid orderId";
+        }
+        Order existOrder=optOrder.get();
+        existOrder.setGiftId(data.getGiftId());
+        existOrder.setOrderAddress(data.getOrderAddress());
+        existOrder.setOrderDate(data.getOrderDate());
+        existOrder.setOrderDescription(data.getOrderDescription());
+        existOrder.setOrderEmail(data.getOrderEmail());
+        existOrder.setOrderPhone(data.getOrderPhone());
+        existOrder.setOrderPrice(data.getOrderPrice());
+        existOrder.setThemes(data.getThemes());
+        orderRepo.save(existOrder);
+        return "Order edited";
+    }
 }
