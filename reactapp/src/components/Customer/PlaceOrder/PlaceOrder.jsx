@@ -190,7 +190,7 @@ const PlaceOrder = (props) => {
 
   return (
     <>
-    <div className="container">
+    <div className=".order-container-holder">
       <h2>Place Order</h2>
       <form className="order-container" onSubmit={(event)=>handlePlaceOrder(event)}>
         <div className="form1">
