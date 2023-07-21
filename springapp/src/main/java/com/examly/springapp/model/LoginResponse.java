@@ -1,6 +1,5 @@
 package com.examly.springapp.model;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,5 +8,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoginResponse {
-    private String token;
+	private String token;
+
+	public LoginResponse(String token) {
+		super();
+		this.token = token;
+	}
 }

@@ -21,7 +21,7 @@ import Orders from "./components/Admin/Orders/Orders";
 function App() {
   axios.defaults.baseURL = "http://localhost:8080";
   const token = localStorage.getItem("Auth");
-  
+
   if (token) axios.defaults.headers.common["Authorization"] = token;
   else delete axios.defaults.headers.common["Authorization"];
 
@@ -32,7 +32,7 @@ function App() {
           <Route element={<Login />} path="" />
         </Route>
         <Route element={<UserRoutes />} path="user">
-          <Route path="Home" element={<HomePage />} />
+          <Route path="home" element={<HomePage />} />
           <Route path="test" element={<Test />} />
           <Route path="myorders" element={<MyOrders />} />
           <Route path="editorder" element={<EditOrder />} />

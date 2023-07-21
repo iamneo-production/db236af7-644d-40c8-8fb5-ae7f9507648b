@@ -3,8 +3,6 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
@@ -31,27 +29,18 @@ const Header = () => {
   };
 
   const logoutHandler = () => {
-   localStorage.clear()
-   setAuth(false);
-   navigate("/")
+    localStorage.clear();
+    setAuth(false);
+    navigate("/");
   };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
-        position="relative"
+        position="fixed"
         sx={{ backgroundColor: "#03001C", color: "white", marginLeft: "0%" }}
       >
         <Toolbar>
-          {/* <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton> */}
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <Link href="/" underline="none" color="inherit">
               Gift Shop
@@ -60,14 +49,6 @@ const Header = () => {
 
           {auth ? (
             <div>
-              {/* <IconButton
-                size="large"
-                edge="start"
-                color="inherit"
-                aria-label="menu"
-              >
-                <ShoppingCartIcon />
-              </IconButton> */}
               <IconButton
                 size="large"
                 aria-label="account of current user"

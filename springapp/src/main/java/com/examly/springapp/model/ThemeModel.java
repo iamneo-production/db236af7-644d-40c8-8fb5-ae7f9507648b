@@ -15,12 +15,43 @@ import javax.persistence.Id;
 @NoArgsConstructor
 public class ThemeModel {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int themeId;
-    private String themeName;
-    private String themeDetails;
-    private int themePrice;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int themeId;
+	private String themeName;
+	private String themeDetails;
+	private int themePrice;
 
+	public int getThemeId() {
+		return themeId;
+	}
+
+	public void setThemeId(int themeId) {
+		this.themeId = themeId;
+	}
+
+	public String getThemeName() {
+		return themeName;
+	}
+
+	public void setThemeName(String themeName) {
+		this.themeName = themeName;
+	}
+
+	public String getThemeDetails() {
+		return themeDetails;
+	}
+
+	public void setThemeDetails(String themeDetails) {
+		this.themeDetails = themeDetails;
+	}
+
+	public int getThemePrice() {
+		return themePrice;
+	}
+
+	public void setThemePrice(int themePrice) {
+		this.themePrice = themePrice;
+	}
 
 }

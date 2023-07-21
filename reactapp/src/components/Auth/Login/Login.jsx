@@ -57,7 +57,7 @@ const Login = () => {
         .post("/user/login", state)
         .then((response) => {
           localStorage.setItem("Auth", response.data.token);
-          navigate("/user/test");
+          navigate("/user/home");
         })
         .catch((error) => {
           setLoader(false);
@@ -74,7 +74,7 @@ const Login = () => {
               ...prevState,
               custom: {
                 required: true,
-                message: "Check your credentials or Register as new",
+                message: "Check your credentials or register as new",
               },
             }));
           }
