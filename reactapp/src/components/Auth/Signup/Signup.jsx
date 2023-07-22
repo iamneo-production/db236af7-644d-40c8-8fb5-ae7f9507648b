@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Signup.css';
 import axios from 'axios';
@@ -8,6 +8,7 @@ const SignupPage = () => {
   const [mobileNumber, setMobileNumber] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [loader, setLoader] = useState(false);
   const [errors, setErrors] = useState({
     username: '',
     email: '',
@@ -16,7 +17,7 @@ const SignupPage = () => {
     confirmPassword: '',
   });
   const [formError, setFormError] = useState('');
-
+  const navigate = useNavigate();
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
   };
@@ -36,7 +37,7 @@ const SignupPage = () => {
   const handleConfirmPasswordChange = (event) => {
     setConfirmPassword(event.target.value);
   };
-
+  
   const validateForm = () => {
     let valid = true;
     const newErrors = {
@@ -93,7 +94,9 @@ const SignupPage = () => {
   };
 
 
-  const handleSubmit = () => {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setLoader(true)
     if (validateForm()) {
       axios.post("/user/signup",{
         username : username,
@@ -101,9 +104,13 @@ const SignupPage = () => {
         mobileNumber: mobileNumber,
         password: password
       }).then( (response) => {
-        setFormError("Welcome "+response.data+"! Login to continue")
+        navigate("/")
+        setLoader(false)
+        console.log(response.data)
+        alert(`Welcome ${response.data}! Login to continue`)
       }).catch( (error) => {
         console.log(error.response)
+        setLoader(false)
         if(error.response.status == 400)
           setFormError("User already exists try Login")
       })
@@ -113,7 +120,7 @@ const SignupPage = () => {
   return (
     <div className="signup-container">
       <h1>Register</h1>
-      <form className="signup-form">
+      <form className="signup-form" onSubmit={handleSubmit}>
           <div className="form-group">
           <input
             type="email"
@@ -170,8 +177,7 @@ const SignupPage = () => {
             <p className="error-message">{errors.confirmPassword}</p>
           )}
         </div>
-
-        <button className="signupBtn" onClick={handleSubmit} id="submitButton">Submit</button>
+        {loader ? <div className="loader"></div> : <button className="signupBtn" type='submit' id="submitButton">Submit</button>}
 
         {formError && <p className="error-message">{formError}</p>}
 

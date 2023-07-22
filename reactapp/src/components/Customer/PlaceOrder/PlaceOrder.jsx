@@ -5,7 +5,6 @@ import axios from "axios";
 
 const PlaceOrder = (props) => {
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
   const date = new Date();
@@ -15,15 +14,13 @@ const PlaceOrder = (props) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [themeDropdownOpen, setThemeDropdownOpen] = useState(false);
   const [themesFromDb, setThemesFromDb] = useState([]); //Constant to fetch themes from DB
-  const[themes,setThemes]=useState([]) // constant to post to db
-  const[baseUrl,setBaseUrl]=useState("http://localhost:8080")
+  const [themes,setThemes]=useState([]) // constant to post to db
   const location = useLocation();
   const giftDetails = location.state;
 
   const[total,setTotal]=useState(giftDetails.giftPrice)
   const [errors, setErrors] = useState({
     name: "",
-    email: "",
     address: "",
     orderDate: "",
     orderPrice: "",
@@ -31,7 +28,7 @@ const PlaceOrder = (props) => {
   });
   useEffect(() => {
     axios
-      .get(baseUrl+"/user/themes")
+      .get("/user/themes")
       
       .then((response) => {
         setThemesFromDb(response.data);
@@ -59,12 +56,8 @@ const PlaceOrder = (props) => {
 
     if (name.trim() === "") {
       error.name = "Name is required.";
-    }
-    if (email.trim() === "") {
-      error.email = "Email is required.";
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      error.email = "Email is invalid.";
-    }
+    } 
+
     if (address.trim() === "") {
       error.address = "Address is required.";
     }
@@ -86,11 +79,7 @@ const PlaceOrder = (props) => {
       return;
     }
     
-  
-
     const orderData = {
-      orderId:null,
-      orderEmail:email,
       giftId:giftDetails.giftId,
       orderDescription:orderDescription,
       orderPrice:total,
@@ -99,9 +88,9 @@ const PlaceOrder = (props) => {
       orderPhone:phone,
       themes:themes,
     };
-    console.log(JSON.stringify(orderData));
+
+    console.log(orderData);
     setName("");
-    setEmail("");
     setAddress("");
     setPhone("");
     setOrderDate("");
@@ -110,28 +99,23 @@ const PlaceOrder = (props) => {
     setErrors({});
 
     axios
-    .post(baseUrl + "/user/addOrder", orderData)
-      .then((response) => {
-        if (response.status!=200) {
-          throw new Error("Failed to submit the order."); // Handle non-successful response
-        }
-      })
+    .post("/user/addOrder", orderData)
       .then(() => {
+        alert("Order placed successfully");
         setName("");
-        setEmail("");
         setAddress("");
         setPhone("");
         setOrderDate("");
         setOrderDescription("");
         setSelectedOptions([]);
         setErrors({});
-
+        navigate("/user/myorders")
       })
       .catch((error) => {
-        // Handle error
+        alert("Unable to place your Order. Try again later");
         console.error(error);
       });
-    alert("Order placed successfully");
+    
 
   };
 
@@ -179,18 +163,9 @@ const PlaceOrder = (props) => {
   ];
   const [filteredCities, setFilteredCities] = useState(citiesInIndia);
 
-  const handleEmailChange = (event) => {
-    const { value } = event.target;
-    setEmail(value);
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      email: "",
-    }));
-  };
-
   return (
     <>
-    <div className="container">
+    <div className=".order-container-holder">
       <h2>Place Order</h2>
       <form className="order-container" onSubmit={(event)=>handlePlaceOrder(event)}>
         <div className="form1">
@@ -208,6 +183,7 @@ const PlaceOrder = (props) => {
             type="text" //modified date to text
             id="orderDate"
             value={orderDate}
+            className="uneditable-input"
             placeholder="Select order date "
           />
           {errors.orderDate && (
@@ -253,17 +229,7 @@ const PlaceOrder = (props) => {
           />
           {errors.phone && <span className="error">{errors.phone}</span>}
         </div>
-        <div className="form1">
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={handleEmailChange}
-            placeholder="Enter your email"
-          />
-          {errors.email && <span className="error">{errors.email}</span>}
-        </div>
-
+        
         <div className="form1">
           <input
             type="text"

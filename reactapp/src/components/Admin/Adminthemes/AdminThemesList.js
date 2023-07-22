@@ -19,16 +19,16 @@ export default function AdminThemesList(props) {
         <List>
           {props.themesList.map((theme, index) => {
             return (
-              <>
-                <ListItem key={theme.id}>
+              <div key={theme.themeId}>
+                <ListItem>
                   <ListItemText
                     primary={
                       <>
-                        {`Theme Name: ${theme.name}`}
+                        {`Theme Name: ${theme.themeName}`}
                         <br></br>
-                        {`Theme Price: ₹${theme.price}`}
+                        {`Theme Price: ₹${theme.themePrice}`}
                         <br></br>
-                        {`Theme Description: ${theme.description}`}
+                        {`Theme Description: ${theme.themeDetails}`}
                       </>
                     }
                   />
@@ -48,7 +48,7 @@ export default function AdminThemesList(props) {
                 {index < props.themesList.length - 1 && (
                   <Divider sx={{ marginLeft: "3%" }} />
                 )}
-              </>
+              </div>
             );
           })}
         </List>

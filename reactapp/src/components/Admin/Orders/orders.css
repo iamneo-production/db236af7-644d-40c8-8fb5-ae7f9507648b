@@ -32,11 +32,6 @@
             transform: scale(1.1);
              }
 }
-button{
-    background: transparent;
-    color: red;
-    border: none;
-}
 .giftname{
     text-align: left;
 }
@@ -45,6 +40,9 @@ button{
 }
 .deletebutton{
     cursor: pointer;
+    background: transparent;
+    color: red;
+    border: none;
 }
 .order-heading{
     text-align: center;

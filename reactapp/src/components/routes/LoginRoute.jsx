@@ -10,6 +10,7 @@ export default function LoginRoute()
             axios.get("/isUserPresent").then((response) => {
                 setUserPresent(response.data)
             }).catch(() => {
+                localStorage.clear()
                 setUserPresent(false)
             })
         }
@@ -22,6 +23,6 @@ export default function LoginRoute()
         }
     },[])
     return (
-        isUserPresent == null ? <div className="routes-loader"></div> : isUserPresent ? <Navigate to = "/user/test"/> : <Outlet/>
+        isUserPresent == null ? <div className="routes-loader"></div> : isUserPresent ? <Navigate to = "/user/home"/> : <Outlet/>
     );
 }
