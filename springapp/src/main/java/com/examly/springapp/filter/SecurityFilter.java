@@ -42,7 +42,7 @@ public class SecurityFilter extends OncePerRequestFilter {
                 System.out.println(ex);
             }
         }
-        httpServletResponse.addHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+        httpServletResponse.addHeader("Access-Control-Allow-Origin", "*");
         httpServletResponse.setHeader("Access-Control-Allow-Headers", "authorization, content-type");
         httpServletResponse.setContentType("application/json");
         httpServletResponse.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
