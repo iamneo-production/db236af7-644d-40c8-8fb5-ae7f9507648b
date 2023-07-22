@@ -50,14 +50,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers( "/user/signup","/user/login","/admin/login").permitAll()
-                .antMatchers( "/admin/signup","/admin/dashboard",
+                .antMatchers( "/user/signup","/user/login","/admin/login","/admin/signup").permitAll()
+                .antMatchers( "/admin/dashboard",
                         "/admin/order","/admin/theme","/admin/gift",
                         "/admin/addGift","/admin/addTheme",
-                        "/admin/editTheme/{themeId}","/admin/editGift",
+                        "/admin/editTheme/{themeId}","/admin/editGift{giftId}",
                         "/admin/deleteGift/{giftId}", "/admin/deleteTheme/{themeId}","/admin/deleteOrder/{orderId}"
-                ).hasAuthority("admin")
-                .anyRequest().authenticated()
+                ).permitAll()
                 .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(invalidUserEntryPoint)
