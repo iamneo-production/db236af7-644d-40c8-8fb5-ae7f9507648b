@@ -28,7 +28,7 @@ export default function UserRoutes()
         return () => {
         }
 
-    })
+    },[])
     const handleAdmin = () =>
     {
         navigate("/admin/gifts")
