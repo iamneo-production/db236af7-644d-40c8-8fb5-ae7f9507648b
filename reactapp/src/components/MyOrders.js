@@ -21,7 +21,7 @@ const MyOrders = () => {
 
   const DeleteData = (index) => {
     axios
-      .delete(currentUrl + `/admin/deleteGift/${index}`)
+      .delete(`/admin/deleteGift/${index}`)
 
       .then((r) => {
         console.log(r);
@@ -32,7 +32,9 @@ const MyOrders = () => {
   };
 
   const EditData = () => {
-    navigate("/editorder");
+    navigate("user/editorder",{
+      state:orderDetails,
+    });
   };
 
   return (
@@ -70,7 +72,7 @@ const MyOrders = () => {
                     </button>
                     <button
                       className="btn btn-outline"
-                      onClick={() => DeleteData(item.id)}
+                      onClick={() => DeleteData(item.orderId)}
                     >
                       <DeleteIcon />
                     </button>
