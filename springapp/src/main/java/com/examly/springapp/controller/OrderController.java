@@ -39,7 +39,7 @@ public class OrderController {
         return ResponseEntity.ok(orderService.addOrder(data));
     }
     @PutMapping("/user/editOrder")
-    public ResponseEntity<String> editOrdere(Prinicipal p,@RequestParam Integer orderId,@RequestBody Order data ){
+    public ResponseEntity<String> editOrdere(Principal p,@RequestParam Integer orderId,@RequestBody Order data ){
         data.setOrderEmail(p.getName());
         return ResponseEntity.ok(orderService.editOrder(orderId,data));
     }
