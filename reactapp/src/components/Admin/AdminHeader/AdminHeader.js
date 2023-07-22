@@ -17,7 +17,16 @@ const AdminHeader = (props) => {
   const navigate = useNavigate();
 
   const myOrdersViewHandler = () => {
-    navigate("/myorders");
+    navigate("/admin/orders");
+  };
+
+  const handleGift = () => {
+    navigate("/admin/gifts");
+    setAnchorEl(null);
+  };
+  const handleTheme = () => {
+    navigate("/admin/themes");
+    setAnchorEl(null);
   };
 
   const handleMenu = (event) => {
@@ -39,15 +48,6 @@ const AdminHeader = (props) => {
         sx={{ backgroundColor: "#03001C", color: "white", marginLeft: "0%" }}
       >
         <Toolbar>
-          {/* <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton> */}
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <Link href="/" underline="none" color="inherit">
               Gift Shop_Admin
@@ -64,14 +64,6 @@ const AdminHeader = (props) => {
 
           {auth ? (
             <div>
-              {/* <IconButton
-                size="large"
-                edge="start"
-                color="inherit"
-                aria-label="menu"
-              >
-                <ShoppingCartIcon />
-              </IconButton> */}
               <IconButton
                 size="large"
                 aria-label="account of current user"
@@ -97,9 +89,8 @@ const AdminHeader = (props) => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                {/* <MenuItem onClick={handleClose}>Profile</MenuItem> */}
-                <MenuItem onClick={handleClose}>Gifts</MenuItem>
-                <MenuItem onClick={handleClose}>Themes</MenuItem>
+                <MenuItem onClick={handleGift}>Gifts</MenuItem>
+                <MenuItem onClick={handleTheme}>Themes</MenuItem>
                 <MenuItem onClick={myOrdersViewHandler}>Orders</MenuItem>
                 <MenuItem onClick={logoutHandler}>Logout</MenuItem>
               </Menu>
