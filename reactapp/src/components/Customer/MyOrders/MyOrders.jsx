@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import classes from "./MyOrders.css";
+import "./MyOrders.css";
 import EditOrder from "../EditOrder/EditOrder";
 import Header from "../HomePage/Header";
 import EditIcon from "@mui/icons-material/Edit";
@@ -24,7 +24,9 @@ const MyOrders = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+      return () => {
+      }
+    }, []);
   const navigate = useNavigate();
 
   const DeleteData = (index) => {
@@ -39,16 +41,16 @@ const MyOrders = () => {
   };
 
   const EditData = () => {
-    navigate("user/editorder");
+    navigate("/user/editorder");
   };
 
   return (
     <>
       <Header />
       <div className="container-sm text-center">
-        <table class="table table-hover table-scripted table">
-          <thead class="table-info">
-            <tr class="order-containers">
+        <table className="table table-hover table-scripted table">
+          <thead className="table-info">
+            <tr className="order-containers">
               <th scope="col">
                 <h3>GiftName</h3>
               </th>
@@ -67,9 +69,9 @@ const MyOrders = () => {
             {orderDetails.map((items, index) => {
               return (
                 <tr>
-                  <td>{items.name}</td>
-                  <td>{items.price}</td>
-                  <td>{items.quantity}</td>
+                  <td>{items.gift.giftName}</td>
+                  <td>{items.orderPrice}</td>
+                  <td>{items.gift.giftQuantity}</td>
                   <td>
                     <div className="d-flex ">
                       <button

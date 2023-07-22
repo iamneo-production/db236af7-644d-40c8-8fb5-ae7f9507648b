@@ -19,7 +19,6 @@ export default function UserRoutes()
             setAdminPresent(response.data)
             }
             ).catch((error) => {
-            console.log(error)
             localStorage.clear()
             setIsAuth(false)}) 
         }
@@ -32,7 +31,7 @@ export default function UserRoutes()
     })
     const handleAdmin = () =>
     {
-        navigate("/admin/gift")
+        navigate("/admin/gifts")
     }
     return (
         isAuthenticated == null ? <div className="routes-loader"></div> : isAuthenticated ? isAdminPresent ? <><button className="admin-button" onClick={handleAdmin}>Switch as Admin <img className = "adBtnImg"src = {click}></img></button><Outlet/></> : <Outlet/> : <Navigate to = "/"/>
