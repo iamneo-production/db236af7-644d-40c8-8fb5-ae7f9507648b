@@ -1,10 +1,13 @@
 import React from 'react'
-import axios from 'axios';
 import { useState,useEffect } from 'react';
-//import './AddGift.css';
+import axios from 'axios';
+import AdminHeader from "../AdminHeader/AdminHeader";
+import Adminthemes from "../Adminthemes/Adminthemes";
+import AdminThemesForm from "../Adminthemes/AdminThemesForm";
+import AdminThemesList from "../Adminthemes/AdminThemesList";
 import 'bootstrap/dist/css/bootstrap.css'
 
-export default function AddTheme()  {
+export  function AddTheme()  {
   const[CurrentUrl,setCurrentUrl]=useState("http://localhost:8081");
   const[addbuttton,setAddbutton]=useState(false);
   const[editbutton,setEditbutton]=useState(false);
@@ -47,7 +50,7 @@ useEffect(()=>
     setEnteredThemeName("");
     setEnteredThemePrice("");
     setEnteredThemeDesc("");
-  };
+  });
 
   const updateThemeHandler = () => {
     if (isFormTouched) {
