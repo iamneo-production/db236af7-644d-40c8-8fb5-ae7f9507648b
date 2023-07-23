@@ -1,5 +1,5 @@
 import React, { useState, useRef,useEffect } from 'react';
-import { useNavigate,useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import './EditOrder.css';
 import axios from 'axios';
 
@@ -42,7 +42,6 @@ const EditOrder = () => {
   }, []);
 
   const dropdownRef = useRef(null);
-  const navigate = useNavigate();
 
   const validateFields = () => {
     const error = {};
@@ -102,7 +101,7 @@ const EditOrder = () => {
     axios
     .put("/user/editOrder",orderData,{params:{orderId:originalOrder.orderId}})
     .then((response) => {
-      if (response.status!=200) {
+      if (response.status !== 200) {
         throw new Error('Failed to update the order.'); // Handle non-successful response
       }
     })

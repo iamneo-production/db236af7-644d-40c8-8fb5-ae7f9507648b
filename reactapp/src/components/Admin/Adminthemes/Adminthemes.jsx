@@ -93,6 +93,10 @@ useEffect(()=>
       .catch(() => {
         setLoader(false);
       });
+      setEnteredThemeName("");
+      setEnteredThemePrice("");
+      setEnteredThemeDesc("");
+      setEditing(false);
   };
 
   //Clicked Edit Icon from List
