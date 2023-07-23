@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from 'axios';
 import { useState,useEffect } from 'react';
-import './AddGift.css';
+//import './AddGift.css';
 import 'bootstrap/dist/css/bootstrap.css'
 
 export default function AddTheme()  {
