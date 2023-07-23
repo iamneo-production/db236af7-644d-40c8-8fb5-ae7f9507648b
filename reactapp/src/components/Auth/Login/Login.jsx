@@ -86,19 +86,24 @@ const Login = () => {
   };
   return (
     <div className="content-holder">
-      <img id="corner-box" src={cornerBox}></img>
+      <img id="corner-box" src={cornerBox} alt="corner-box"></img>
       <div className="content">
-        <img id="mobile-corner-box" src={mobileCornerBox}></img>
+        <img
+          id="mobile-corner-box"
+          src={mobileCornerBox}
+          alt="mobile-corner-box"
+        ></img>
         <div className="mobile-logo">
-          Customized&nbsp;Gifts&nbsp;<img src={logo}></img>
+          Customized&nbsp;Gifts&nbsp;<img src={logo} alt="mobile-logo"></img>
         </div>
         <div className="logo">
           Customized<br></br>
-          <img src={logo}></img>&nbsp;Gifts
+          <img src={logo} alt="logo"></img>&nbsp;Gifts
         </div>
         <div className="LoginContainer">
-          <img id="ribbon1" src={ribbon1} />
-          <img id="loginBox" src={box} />
+          <img id="ribbon1" src={ribbon1} alt="ribbon1" />
+          <img id="loginBox" src={box} alt="loginBox" />
+
           <div className="LoginForm">
             <p>Login</p>
             <input
@@ -137,7 +142,7 @@ const Login = () => {
               New? Register Here
             </span>
           </div>
-          <img id="ribbon2" src={ribbon2} />
+          <img id="ribbon2" src={ribbon2} alt="ribbon2" />
         </div>
       </div>
     </div>
