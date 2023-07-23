@@ -3,7 +3,7 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
-import DeleteIcon from "../../../assets/android-delete.svg";
+import DeleteIcon from "../../../assets/android-delete.png";
 import EditIcon from "../../../assets/android-edit.svg";
 import { IconButton } from "@mui/material";
 
@@ -46,11 +46,7 @@ export default function AdminThemesList(props) {
                     aria-label="delete"
                     onClick={() => props.onDeleteTheme(theme)}
                   >
-                    <img
-                      src={DeleteIcon}
-                      style={{ color: "#03001C" }}
-                      alt="delete-icon"
-                    />
+                    <img src={DeleteIcon} alt="delete-icon" />
                   </IconButton>
                 </ListItem>
                 {index < props.themesList.length - 1 && (
