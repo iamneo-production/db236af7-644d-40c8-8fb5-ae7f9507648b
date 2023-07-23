@@ -1,20 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./MyOrders.css";
-import EditOrder from "../EditOrder/EditOrder";
 import Header from "../HomePage/Header";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "../../../assets/android-edit.svg";
+import DeleteIcon from "../../../assets/android-delete.svg";
 import axios from "axios";
 
 const MyOrders = () => {
   const [orderDetails, setOrderDetails] = useState([]);
-  const data = [
-    { name: "Photos", price: 19, quantity: 100 },
-    { name: "Frbdfdgts", price: 319, quantity: 100 },
-    { name: "Caards", price: 25, quantity: 100 },
-    { name: "Laptops Stickers", price: 25, quantity: 100 },
-  ];
+
   useEffect(() => {
     axios
       .get("/user/orderHistory")
@@ -24,9 +18,8 @@ const MyOrders = () => {
       .catch((error) => {
         console.log(error);
       });
-      return () => {
-      }
-    }, []);
+    return () => {};
+  }, []);
   const navigate = useNavigate();
 
   const DeleteData = (index) => {
@@ -78,13 +71,13 @@ const MyOrders = () => {
                         className=" btn btn-outline"
                         onClick={() => EditData()}
                       >
-                        <EditIcon />
+                        <img src={EditIcon} alt="edit-icon"></img>
                       </button>
                       <button
                         className=" btn btn-outline"
                         onClick={() => DeleteData(items.index)}
                       >
-                        <DeleteIcon />{" "}
+                        <img src={DeleteIcon} alt="delete-icon"></img>{" "}
                       </button>
                     </div>
                   </td>
