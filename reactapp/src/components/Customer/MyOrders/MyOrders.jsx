@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./MyOrders.css";
 import Header from "../HomePage/Header";
 import EditIcon from "../../../assets/android-edit.svg";
-import DeleteIcon from "../../../assets/android-delete.svg";
+import DeleteIcon from "../../../assets/android-delete.png";
 import axios from "axios";
 
 const MyOrders = () => {
