@@ -75,7 +75,7 @@ const MyOrders = () => {
                       </button>
                       <button
                         className=" btn btn-outline"
-                        onClick={() => DeleteData(items.index)}
+                        onClick={() => DeleteData(items.orderId)}
                       >
                         <img src={DeleteIcon} alt="delete-icon"></img>{" "}
                       </button>
