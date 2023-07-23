@@ -3,8 +3,8 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "../../../assets/android-delete.svg";
+import EditIcon from "../../../assets/android-edit.svg";
 import { IconButton } from "@mui/material";
 
 export default function AdminThemesList(props) {
@@ -36,13 +36,21 @@ export default function AdminThemesList(props) {
                     aria-label="edit"
                     onClick={() => props.onEditTheme(theme)}
                   >
-                    <EditIcon sx={{ color: "#03001C" }} />
+                    <img
+                      src={EditIcon}
+                      style={{ color: "#03001C" }}
+                      alt="edit-icon"
+                    />
                   </IconButton>
                   <IconButton
                     aria-label="delete"
                     onClick={() => props.onDeleteTheme(theme)}
                   >
-                    <DeleteIcon sx={{ color: "#03001C" }} />
+                    <img
+                      src={DeleteIcon}
+                      style={{ color: "#03001C" }}
+                      alt="delete-icon"
+                    />
                   </IconButton>
                 </ListItem>
                 {index < props.themesList.length - 1 && (
