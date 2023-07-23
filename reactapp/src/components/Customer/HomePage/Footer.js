@@ -1,5 +1,4 @@
 import { Grid, Typography } from "@mui/material";
-import classes from "./Footer.module.css";
 // import FooterLinks from "./FooterLinks";
 
 const Footer = () => {
