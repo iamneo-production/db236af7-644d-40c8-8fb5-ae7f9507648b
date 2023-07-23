@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
+import axios from 'axios';
 import AdminHeader from "../AdminHeader/AdminHeader";
 import AdminViewOrdersTable from "./AdminViewOrdersTable";
 
