@@ -5,7 +5,7 @@ import AdminThemesForm from "./AdminThemesForm";
 import axios from "axios";
 import AdminThemesList from "./AdminThemesList";
 
-const Adminthemes = () => {
+const AdminThemes = () => {
   const [themeFromDb, setThemeFromDb] = useState([]);
   const [isFormTouched, setIsFormTouched] = useState(false);
   const [refresh, setRefresh] = useState(false);
@@ -101,10 +101,10 @@ const Adminthemes = () => {
       .catch(() => {
         setLoader(false);
       });
-      setEnteredThemeName("");
-      setEnteredThemePrice("");
-      setEnteredThemeDesc("");
-      setEditing(false);
+    setEnteredThemeName("");
+    setEnteredThemePrice("");
+    setEnteredThemeDesc("");
+    setEditing(false);
   };
 
   //Clicked Edit Icon from List
@@ -173,4 +173,4 @@ const Adminthemes = () => {
   );
 };
 
-export default Adminthemes;
+export default AdminThemes;
