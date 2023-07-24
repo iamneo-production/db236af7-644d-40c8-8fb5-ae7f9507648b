@@ -1,27 +1,38 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Login from "./components/Auth/Login/Login";
-import Signup from "./components/Auth/Signup/Signup";
-import MyOrders from "./components/Customer/MyOrders/MyOrders";
-import EditOrder from "./components/Customer/EditOrder/EditOrder";
+import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
-import axios from "axios";
+import "./App.css";
+
+// AUTH COMPONENTS
+import Login from "./components/Auth/Login/Login";
+import Signup from "./components/Auth/Signup/Signup";
+
+// ROUTING COMPONENTS
+import LoginRoute from "./components/routes/LoginRoute";
 import UserRoutes from "./components/routes/UserRoutes";
 import AdminRoutes from "./components/routes/AdminRoutes";
-import Test from "./components/Test";
-import "./App.css";
-import AdminTest from "./components/Admin/AdminTest";
-import LoginRoute from "./components/routes/LoginRoute";
+
+// USER COMPONENTS
+import MyOrders from "./components/Customer/MyOrders/MyOrders";
+import EditOrder from "./components/Customer/EditOrder/EditOrder";
 import PlaceOrder from "./components/Customer/PlaceOrder/PlaceOrder";
 import HomePage from "./components/Customer/HomePage/HomePage";
-import Adminthemes from "./components/Admin/Adminthemes/Adminthemes";
-import AddGift from "./components/Admin/AddGift/AddGift";
-import Orders from "./components/Admin/Orders/Orders";
+
+// ADMIN COMPONENTS
+import AdminThemes from "./components/Admin/Adminthemes/Adminthemes";
+import AdminGifts from "./components/Admin/AdminGifts/AdminGifts";
+import AdminViewOrders from "./components/Admin/AdminOrders/AdminViewOrders";
+
+// TESTING COMPONENTS
+import Test from "./components/Test";
+import AdminTest from "./components/Admin/AdminTest";
 
 function App() {
-  axios.defaults.baseURL = "http://localhost:8080";
+  axios.defaults.baseURL =
+    "https://8080-dadecaeedcbbfdebbecaddaeffdec.project.examly.io";
   const token = localStorage.getItem("Auth");
-  
+
   if (token) axios.defaults.headers.common["Authorization"] = token;
   else delete axios.defaults.headers.common["Authorization"];
 
@@ -31,6 +42,7 @@ function App() {
         <Route element={<LoginRoute />} path="/">
           <Route element={<Login />} path="" />
         </Route>
+
         <Route element={<UserRoutes />} path="user">
           <Route path="Home" element={<HomePage />} />
           <Route path="test" element={<Test />} />
@@ -38,12 +50,14 @@ function App() {
           <Route path="editorder" element={<EditOrder />} />
           <Route path="placeorder" element={<PlaceOrder />} />
         </Route>
+
         <Route element={<AdminRoutes />} path="admin">
           <Route element={<AdminTest />} path="gift" />
-          <Route element={<Adminthemes />} path="themes" />
-          <Route element={<AddGift />} path="gifts" />
-          <Route element={<Orders />} path="orders" />
+          <Route element={<AdminThemes />} path="themes" />
+          <Route element={<AdminGifts />} path="gifts" />
+          <Route element={<AdminViewOrders />} path="orders" />
         </Route>
+
         <Route path="/signup" element={<Signup />} />
       </Routes>
     </Router>

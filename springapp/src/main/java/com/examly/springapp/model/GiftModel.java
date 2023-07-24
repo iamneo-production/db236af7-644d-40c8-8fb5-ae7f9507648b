@@ -21,4 +21,5 @@ public class GiftModel {
     private String giftImageUrl;
     private String giftDetails;
     private Double giftPrice;
+    private Integer giftQuantity;
 }

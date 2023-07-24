@@ -7,27 +7,24 @@ import { CardActionArea, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useState,useEffect } from "react";
 import axios from "axios";
-import propTypes from 'prop-types'
 
 
 export default function MainArea(props) {
   const navigate = useNavigate();
-
-  const[CurrentUrl,setCurrentUrl]=useState(props.baseUrl)
   const[giftFromDb,setGiftFromDb]=useState([])
 
   useEffect(()=>
-{
-      axios.get(CurrentUrl+'/user/gift').then((res)=>
+  {
+      axios.get('/user/gift').then((res)=>
       {
         console.log("this is the data received",res.data);
         setGiftFromDb(res.data);
         console.log(giftFromDb);
       })
-},[CurrentUrl+'/user/gift'])
+  },[giftFromDb])
 
   const selectGiftHandler = (event, giftItem) => {
-    navigate("/placeorder", {
+    navigate("/user/placeorder", {
       state: giftItem,
     });
   };
@@ -93,5 +90,3 @@ export default function MainArea(props) {
   );
   
 }
-
-MainArea.propTypes={baseUrl:propTypes.string.isRequired}
