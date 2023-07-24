@@ -21,7 +21,7 @@ export default function MainArea() {
         setGiftFromDb(res.data);
         console.log(giftFromDb);
       })
-  },[])
+  },[giftFromDb])
 
   const selectGiftHandler = (event, giftItem) => {
     navigate("/user/placeorder", {

@@ -1,20 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./MyOrders.css";
-import EditOrder from "../EditOrder/EditOrder";
 import Header from "../HomePage/Header";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "../../../assets/android-edit.svg";
+import DeleteIcon from "../../../assets/android-delete.png";
 import axios from "axios";
 
 const MyOrders = () => {
   const [orderDetails, setOrderDetails] = useState([]);
-  const data = [
-    { name: "Photos", price: 19, quantity: 100 },
-    { name: "Frbdfdgts", price: 319, quantity: 100 },
-    { name: "Caards", price: 25, quantity: 100 },
-    { name: "Laptops Stickers", price: 25, quantity: 100 },
-  ];
+
   useEffect(() => {
     axios
       .get("/user/orderHistory")
@@ -24,14 +18,13 @@ const MyOrders = () => {
       .catch((error) => {
         console.log(error);
       });
-      return () => {
-      }
-    }, []);
+    return () => {};
+  }, []);
   const navigate = useNavigate();
 
   const DeleteData = (index) => {
     axios
-      .delete(`/admin/deleteGift/${index}`)
+      .delete(`/admin/deleteOrder/${index}`)
       .then((r) => {
         console.log(r);
       })
@@ -41,7 +34,9 @@ const MyOrders = () => {
   };
 
   const EditData = () => {
-    navigate("/user/editorder");
+    navigate("/user/editorder",{
+      state:orderDetails,
+    });
   };
 
   return (
@@ -78,13 +73,13 @@ const MyOrders = () => {
                         className=" btn btn-outline"
                         onClick={() => EditData()}
                       >
-                        <EditIcon />
+                        <img src={EditIcon} alt="edit-icon"></img>
                       </button>
                       <button
                         className=" btn btn-outline"
-                        onClick={() => DeleteData(items.index)}
+                        onClick={() => DeleteData(items.orderId)}
                       >
-                        <DeleteIcon />{" "}
+                        <img src={DeleteIcon} alt="delete-icon"></img>{" "}
                       </button>
                     </div>
                   </td>

@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
-import AccountCircle from "@mui/icons-material/AccountCircle";
+import AccountCircle from "../../../assets/account-circle.png";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import Link from "@mui/material/Link";
@@ -72,7 +72,7 @@ const AdminHeader = (props) => {
                 onClick={handleMenu}
                 color="inherit"
               >
-                <AccountCircle />
+                <img src={AccountCircle} alt="account-circle"></img>
               </IconButton>
               <Menu
                 id="menu-appbar"
