@@ -24,7 +24,7 @@ const MyOrders = () => {
 
   const DeleteData = (index) => {
     axios
-      .delete(`/admin/deleteGift/${index}`)
+      .delete(`/admin/deleteOrder/${index}`)
       .then((r) => {
         console.log(r);
       })
@@ -34,7 +34,9 @@ const MyOrders = () => {
   };
 
   const EditData = () => {
-    navigate("/user/editorder");
+    navigate("/user/editorder",{
+      state:orderDetails,
+    });
   };
 
   return (
