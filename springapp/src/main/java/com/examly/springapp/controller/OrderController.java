@@ -21,9 +21,12 @@ public class OrderController {
         return ResponseEntity.ok(orderService.orderHistory(p.getName()));
     }
     @GetMapping("/admin/order")
-    public ResponseEntity<List<OrderResponse>> viewAllOrders(@RequestParam(required = false) Integer id) {
-        if(id == null)
+    public ResponseEntity<List<OrderResponse>> viewAllOrders() {
             return ResponseEntity.ok(orderService.viewAllOrders());
+    }
+
+    @GetMapping("/admin/order")
+    public ResponseEntity<List<OrderResponse>> viewAllOrders(@RequestParam() Integer id) {
         return ResponseEntity.ok(orderService.viewOrder(id));
     }
 
