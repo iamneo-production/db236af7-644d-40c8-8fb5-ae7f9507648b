@@ -7,12 +7,18 @@ import axios from 'axios';
 const EditOrder = () => {
   const originalOrder=useLocation().state;
   const [themes,setThemes]=useState(originalOrder.themes.map((theme)=>theme.themeId));
-  console.log(themes);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [address, setAddress] = useState('');
   const [phone, setPhone] = useState('');
-  const [orderDate, setOrderDate] = useState(originalOrder.orderDate);
+  const formatDate = (isoDate) => {
+    const date = new Date(isoDate);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+  const [orderDate, setOrderDate] = useState(formatDate(originalOrder.orderDate));
   const [orderPrice, setOrderPrice] = useState(originalOrder.orderPrice);
   const [orderDescription, setOrderDescription] = useState('');
   const [selectedOptions, setSelectedOptions] = useState(originalOrder.themes.map((theme)=>theme.themeName));
@@ -28,7 +34,6 @@ const EditOrder = () => {
     phone: ''
   });
 
- console.log("----",selectedOptions);
   useEffect(() => {
     axios
       .get("/user/themes")
@@ -189,7 +194,7 @@ return(
           <input
             type="text" //modified date to text
             id="orderDate"
-            value={originalOrder.orderDate}
+            value={orderDate}
             placeholder="Select order date "
           />
           {errors.orderDate && (
