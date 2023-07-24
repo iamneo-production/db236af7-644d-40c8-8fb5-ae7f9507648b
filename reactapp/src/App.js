@@ -20,7 +20,7 @@ import PlaceOrder from "./components/Customer/PlaceOrder/PlaceOrder";
 import HomePage from "./components/Customer/HomePage/HomePage";
 
 // ADMIN COMPONENTS
-import AdminThemes from "./components/Admin/AdminThemes/AdminThemes";
+import AdminThemes from "./components/Admin/Adminthemes/Adminthemes";
 import AdminGifts from "./components/Admin/AdminGifts/AdminGifts";
 import AdminViewOrders from "./components/Admin/AdminOrders/AdminViewOrders";
 
@@ -30,7 +30,7 @@ import AdminTest from "./components/Admin/AdminTest";
 
 function App() {
   axios.defaults.baseURL =
-    "https://8080-fefbeacdfadcbbfdebbecaddaeffdec.project.examly.io/";
+    "https://8080-dadecaeedcbbfdebbecaddaeffdec.project.examly.io";
   const token = localStorage.getItem("Auth");
 
   if (token) axios.defaults.headers.common["Authorization"] = token;
