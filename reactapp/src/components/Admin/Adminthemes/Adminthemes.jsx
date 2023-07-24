@@ -1,45 +1,53 @@
-import React from 'react'
-import { useState,useEffect } from 'react';
-import axios from 'axios';
+import { useState, useEffect } from "react";
+import classes from "./Adminthemes.module.css";
 import AdminHeader from "../AdminHeader/AdminHeader";
-import Adminthemes from "../Adminthemes/Adminthemes";
-import AdminThemesForm from "../Adminthemes/AdminThemesForm";
-import AdminThemesList from "../Adminthemes/AdminThemesList";
-import 'bootstrap/dist/css/bootstrap.css'
+import AdminThemesForm from "./AdminThemesForm";
+import axios from "axios";
+import AdminThemesList from "./AdminThemesList";
 
-export  function AddTheme()  {
-  const[CurrentUrl,setCurrentUrl]=useState("http://localhost:8081");
-  const[addbuttton,setAddbutton]=useState(false);
-  const[editbutton,setEditbutton]=useState(false);
-  const[index,setIndex]=useState();
-  const[addthemeDetails,Setaddthemedetails]=useState({themeName:"",themeDetails:"",themePrice:""})
-  const[editthemeDetails,Seteditthemedetails]=useState({themeName:"",themeDetails:"",themePrice:"",themeId:0})
-  const[themeFromDb,setThemeFromDb]=useState([]);
-  function handlegiftDetails(event)
-  {
-const{name,value}=event.target;
-Setaddthemedetails((pre)=>
-{
-  return{
-    ...pre,[name]:value
-  }
-})
-}
-  function handleeditgiftDetails(event)
-  {
-    const{name,value}=event.target;
-    Seteditthemedetails((pre)=>
-    {
-      return{
-        ...pre,[name]:value
-      }
-    })
-  }
-useEffect(()=>
-{
-      axios.get(CurrentUrl+'/admin/getTheme').then((res)=>
-      {
-        setThemeFromDb(res.data);
+const AdminThemes = () => {
+  const [themeFromDb, setThemeFromDb] = useState([]);
+  const [isFormTouched, setIsFormTouched] = useState(false);
+  const [refresh, setRefresh] = useState(false);
+  const [loader, setLoader] = useState(false);
+
+  useEffect(() => {
+    axios.get("/admin/theme").then((res) => {
+      setThemeFromDb(res.data);
+    });
+    return () => {};
+  }, [refresh]);
+
+  const [editing, setEditing] = useState(false);
+
+  const [themeId, setThemeId] = useState();
+  const [enteredThemeName, setEnteredThemeName] = useState("");
+  const [enteredThemePrice, setEnteredThemePrice] = useState("");
+  const [enteredThemeDesc, setEnteredThemeDesc] = useState("");
+
+  const themeNameChangeHandler = (event) => {
+    setEnteredThemeName(event.target.value);
+    setIsFormTouched(true);
+  };
+
+  const themePriceChangeHandler = (event) => {
+    setEnteredThemePrice(event.target.value);
+    setIsFormTouched(true);
+  };
+
+  const themeDescChangeHandler = (event) => {
+    setEnteredThemeDesc(event.target.value);
+    setIsFormTouched(true);
+  };
+
+  const addThemeHandler = (newTheme) => {
+    console.log("ADDING", newTheme);
+    setLoader(true);
+    axios
+      .post("/admin/addTheme", newTheme)
+      .then(() => {
+        setRefresh(!refresh);
+        setLoader(false);
       })
       .catch((error) => {
         console.log(error);
@@ -50,7 +58,7 @@ useEffect(()=>
     setEnteredThemeName("");
     setEnteredThemePrice("");
     setEnteredThemeDesc("");
-  });
+  };
 
   const updateThemeHandler = () => {
     if (isFormTouched) {
@@ -93,10 +101,10 @@ useEffect(()=>
       .catch(() => {
         setLoader(false);
       });
-      setEnteredThemeName("");
-      setEnteredThemePrice("");
-      setEnteredThemeDesc("");
-      setEditing(false);
+    setEnteredThemeName("");
+    setEnteredThemePrice("");
+    setEnteredThemeDesc("");
+    setEditing(false);
   };
 
   //Clicked Edit Icon from List
@@ -165,4 +173,4 @@ useEffect(()=>
   );
 };
 
-export default Adminthemes;
+export default AdminThemes;

@@ -1,9 +1,8 @@
-import { useState,useEffect } from "react";
-import axios from 'axios';
 import { useEffect, useState } from "react";
+import axios from 'axios';
 import AdminHeader from "../AdminHeader/AdminHeader";
 import AdminViewOrdersTable from "./AdminViewOrdersTable";
-import axios from "axios";
+
 
 const AdminViewOrders = () => {
   const [ordersData, setOrdersData] = useState([]);
