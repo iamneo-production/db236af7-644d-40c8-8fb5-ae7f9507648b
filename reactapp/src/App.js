@@ -20,7 +20,7 @@ import PlaceOrder from "./components/Customer/PlaceOrder/PlaceOrder";
 import HomePage from "./components/Customer/HomePage/HomePage";
 
 // ADMIN COMPONENTS
-import AdminThemes from "./components/Admin/Adminthemes/Adminthemes";
+import AdminThemes from "./components/Admin/AdminThemes/AdminThemes";
 import AdminGifts from "./components/Admin/AdminGifts/AdminGifts";
 import AdminViewOrders from "./components/Admin/AdminOrders/AdminViewOrders";
 
