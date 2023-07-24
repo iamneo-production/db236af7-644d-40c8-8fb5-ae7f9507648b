@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import classes from "./AdminThemes.module.css";
+import classes from "./Adminthemes.module.css";
 import AdminHeader from "../AdminHeader/AdminHeader";
 import AdminThemesForm from "./AdminThemesForm";
 import axios from "axios";
