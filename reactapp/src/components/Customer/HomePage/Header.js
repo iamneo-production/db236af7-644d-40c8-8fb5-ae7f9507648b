@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
-import AccountCircle from "@mui/icons-material/AccountCircle";
+import AccountCircle from "../../../assets/account-circle.png";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import Link from "@mui/material/Link";
@@ -50,14 +50,14 @@ const Header = () => {
           {auth ? (
             <div>
               <IconButton
-                size="large"
+                size="small"
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 onClick={handleMenu}
                 color="inherit"
               >
-                <AccountCircle />
+                <img src={AccountCircle} alt="account-circle"></img>
               </IconButton>
               <Menu
                 id="menu-appbar"
@@ -74,8 +74,6 @@ const Header = () => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                {/* <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My Account</MenuItem> */}
                 <MenuItem onClick={myOrdersViewHandler}>My Orders</MenuItem>
                 <MenuItem onClick={logoutHandler}>Logout</MenuItem>
               </Menu>

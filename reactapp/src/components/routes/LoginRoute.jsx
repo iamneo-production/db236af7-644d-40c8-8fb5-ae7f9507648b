@@ -11,6 +11,7 @@ export default function LoginRoute() {
           setUserPresent(response.data);
         })
         .catch(() => {
+          localStorage.clear();
           setUserPresent(false);
         });
     } else {

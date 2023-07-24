@@ -5,9 +5,12 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 export default function MainArea() {
   const navigate = useNavigate();
+  const [giftFromDb, setGiftFromDb] = useState([]);
 
   const giftItems = [
     {
@@ -59,6 +62,12 @@ export default function MainArea() {
       price: 900,
     },
   ];
+
+  useEffect(() => {
+    axios.get("/user/gift").then((res) => {
+      setGiftFromDb(res.data);
+    });
+  }, [giftFromDb]);
 
   const selectGiftHandler = (event, giftItem) => {
     navigate("/user/placeorder", {

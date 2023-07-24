@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Signup.css";
 import axios from "axios";
@@ -114,7 +114,7 @@ const SignupPage = () => {
         .catch((error) => {
           console.log(error.response);
           setLoader(false);
-          if (error.response.status == 400)
+          if (error.response.status === 400)
             setFormError("User already exists try Login");
         });
     }

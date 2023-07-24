@@ -1,20 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import classes from "./MyOrders.css";
-import EditOrder from "../EditOrder/EditOrder";
+import "./MyOrders.css";
 import Header from "../HomePage/Header";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "../../../assets/android-edit.svg";
+import DeleteIcon from "../../../assets/android-delete.png";
 import axios from "axios";
 
 const MyOrders = () => {
   const [orderDetails, setOrderDetails] = useState([]);
-  const data = [
-    { name: "Photos", price: 19, quantity: 100 },
-    { name: "Frbdfdgts", price: 319, quantity: 100 },
-    { name: "Caards", price: 25, quantity: 100 },
-    { name: "Laptops Stickers", price: 25, quantity: 100 },
-  ];
+
   useEffect(() => {
     axios
       .get("/user/orderHistory")
@@ -24,12 +18,13 @@ const MyOrders = () => {
       .catch((error) => {
         console.log(error);
       });
+    return () => {};
   }, []);
   const navigate = useNavigate();
 
   const DeleteData = (index) => {
     axios
-      .delete(`/admin/deleteGift/${index}`)
+      .delete(`/admin/deleteOrder/${index}`)
       .then((r) => {
         console.log(r);
       })
@@ -39,16 +34,18 @@ const MyOrders = () => {
   };
 
   const EditData = () => {
-    navigate("user/editorder");
+    navigate("/user/editorder",{
+      state:orderDetails,
+    });
   };
 
   return (
     <>
       <Header />
       <div className="container-sm text-center">
-        <table class="table table-hover table-scripted table">
-          <thead class="table-info">
-            <tr class="order-containers">
+        <table className="table table-hover table-scripted table">
+          <thead className="table-info">
+            <tr className="order-containers">
               <th scope="col">
                 <h3>GiftName</h3>
               </th>
@@ -67,22 +64,22 @@ const MyOrders = () => {
             {orderDetails.map((items, index) => {
               return (
                 <tr>
-                  <td>{items.name}</td>
-                  <td>{items.price}</td>
-                  <td>{items.quantity}</td>
+                  <td>{items.gift.giftName}</td>
+                  <td>{items.orderPrice}</td>
+                  <td>{items.gift.giftQuantity}</td>
                   <td>
                     <div className="d-flex ">
                       <button
                         className=" btn btn-outline"
                         onClick={() => EditData()}
                       >
-                        <EditIcon />
+                        <img src={EditIcon} alt="edit-icon"></img>
                       </button>
                       <button
                         className=" btn btn-outline"
-                        onClick={() => DeleteData(items.index)}
+                        onClick={() => DeleteData(items.orderId)}
                       >
-                        <DeleteIcon />{" "}
+                        <img src={DeleteIcon} alt="delete-icon"></img>{" "}
                       </button>
                     </div>
                   </td>
