@@ -101,6 +101,7 @@ const AdminGifts = () => {
   };
 
   const deleteGiftHandler = (themeId) => {
+    alert('Are you sure you want to delete this item?');
     setLoader(true);
     axios.delete(`/admin/deleteGift/${themeId}`).then(() => {
       setIsGiftItemDeleted(!isGiftItemDeleted);
