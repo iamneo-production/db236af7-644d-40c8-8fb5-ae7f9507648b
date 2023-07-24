@@ -3,12 +3,18 @@ import { useLocation,useNavigate } from "react-router-dom";
 import "./PlaceOrder.css";
 import axios from "axios";
 
-const PlaceOrder = (props) => {
+const PlaceOrder = () => {
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
-  const date = new Date();
-  const [orderDate, setOrderDate] = useState(date.toISOString().slice(0, 10));
+  const formatDate = (date) => {
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+  const [orderDate, setOrderDate] = useState(formatDate(new Date()));
+  console.log(orderDate);
   const [orderDescription, setOrderDescription] = useState("");
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -39,8 +45,6 @@ const PlaceOrder = (props) => {
   }, []);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
-
-
 
   const validateFields = () => {
     const error = {};
