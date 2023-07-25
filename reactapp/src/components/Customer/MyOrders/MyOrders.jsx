@@ -34,8 +34,8 @@ const MyOrders = () => {
   };
 
   const EditData = () => {
-    navigate("/user/editorder",{
-      state:orderDetails,
+    navigate("/user/editorder", {
+      state: orderDetails,
     });
   };
 
@@ -61,12 +61,12 @@ const MyOrders = () => {
             </tr>
           </thead>
           <tbody>
-            {orderDetails.map((items, index) => {
+            {orderDetails.map((item) => {
               return (
-                <tr>
-                  <td>{items.gift.giftName}</td>
-                  <td>{items.orderPrice}</td>
-                  <td>{items.gift.giftQuantity}</td>
+                <tr key={item.orderId}>
+                  <td>{item.gift.giftName}</td>
+                  <td>{item.orderPrice}</td>
+                  <td>{item.gift.giftQuantity}</td>
                   <td>
                     <div className="d-flex ">
                       <button
@@ -77,7 +77,7 @@ const MyOrders = () => {
                       </button>
                       <button
                         className=" btn btn-outline"
-                        onClick={() => DeleteData(items.orderId)}
+                        onClick={() => DeleteData(item.orderId)}
                       >
                         <img src={DeleteIcon} alt="delete-icon"></img>{" "}
                       </button>
