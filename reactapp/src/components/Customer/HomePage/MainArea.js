@@ -17,9 +17,7 @@ export default function MainArea() {
   {
       axios.get('/user/gift').then((res)=>
       {
-        console.log("this is the data received",res.data);
         setGiftFromDb(res.data);
-        console.log(giftFromDb);
       })
   },[giftFromDb])
 

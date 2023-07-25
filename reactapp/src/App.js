@@ -20,8 +20,8 @@ import PlaceOrder from "./components/Customer/PlaceOrder/PlaceOrder";
 import HomePage from "./components/Customer/HomePage/HomePage";
 
 // ADMIN COMPONENTS
-import Adminthemes from "./components/Admin/Adminthemes/Adminthemes";
-import AddGift from "./components/Admin/AddGift/AddGift";
+import AdminThemes from "./components/Admin/AdminThemes/AdminThemes";
+import AdminGifts from "./components/Admin/AdminGifts/AdminGifts";
 import AdminViewOrders from "./components/Admin/AdminOrders/AdminViewOrders";
 
 // TESTING COMPONENTS
@@ -30,7 +30,7 @@ import AdminTest from "./components/Admin/AdminTest";
 
 function App() {
   axios.defaults.baseURL =
-    "https://8080-fefbeacdfadcbbfdebbecaddaeffdec.project.examly.io";
+    "https://8080-dadecaeedcbbfdebbecaddaeffdec.project.examly.io";
   const token = localStorage.getItem("Auth");
 
   if (token) axios.defaults.headers.common["Authorization"] = token;
@@ -53,10 +53,11 @@ function App() {
 
         <Route element={<AdminRoutes />} path="admin">
           <Route element={<AdminTest />} path="gift" />
-          <Route element={<Adminthemes />} path="themes" />
-          <Route element={<AddGift />} path="gifts" />
+          <Route element={<AdminThemes />} path="themes" />
+          <Route element={<AdminGifts />} path="gifts" />
           <Route element={<AdminViewOrders />} path="orders" />
         </Route>
+
         <Route path="/signup" element={<Signup />} />
       </Routes>
     </Router>

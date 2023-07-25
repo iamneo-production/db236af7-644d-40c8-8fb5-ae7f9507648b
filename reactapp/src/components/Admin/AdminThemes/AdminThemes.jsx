@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import classes from "./Adminthemes.module.css";
+import classes from "./AdminThemes.module.css";
 import AdminHeader from "../AdminHeader/AdminHeader";
 import AdminThemesForm from "./AdminThemesForm";
 import axios from "axios";
 import AdminThemesList from "./AdminThemesList";
 
-const Adminthemes = () => {
+const AdminThemes = () => {
   const [themeFromDb, setThemeFromDb] = useState([]);
   const [isFormTouched, setIsFormTouched] = useState(false);
   const [refresh, setRefresh] = useState(false);
@@ -90,6 +90,7 @@ const Adminthemes = () => {
   };
 
   const deleteThemeHandler = (themeItem) => {
+    alert('Are you sure you want to delete this theme?');
     setLoader(true);
     axios
       .delete(`/admin/deleteTheme/${themeItem.themeId}`)
@@ -101,10 +102,10 @@ const Adminthemes = () => {
       .catch(() => {
         setLoader(false);
       });
-      setEnteredThemeName("");
-      setEnteredThemePrice("");
-      setEnteredThemeDesc("");
-      setEditing(false);
+    setEnteredThemeName("");
+    setEnteredThemePrice("");
+    setEnteredThemeDesc("");
+    setEditing(false);
   };
 
   //Clicked Edit Icon from List
@@ -173,4 +174,4 @@ const Adminthemes = () => {
   );
 };
 
-export default Adminthemes;
+export default AdminThemes;

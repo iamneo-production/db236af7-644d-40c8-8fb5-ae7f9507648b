@@ -19,12 +19,12 @@ const MyOrders = () => {
         console.log(error);
       });
     return () => {};
-  }, []);
+  }, [orderDetails]);
   const navigate = useNavigate();
 
   const DeleteData = (index) => {
     axios
-      .delete(`/admin/deleteGift/${index}`)
+      .delete(`/user/deleteOrder/${index}`)
       .then((r) => {
         console.log(r);
       })
@@ -33,8 +33,11 @@ const MyOrders = () => {
       });
   };
 
-  const EditData = () => {
-    navigate("/user/editorder");
+  const EditData = (orderId) => {
+    const selectedOrder=orderDetails.find((item) => item.orderId === orderId);
+    navigate("/user/editorder",{
+      state:selectedOrder,
+    });
   };
 
   return (
@@ -69,13 +72,13 @@ const MyOrders = () => {
                     <div className="d-flex ">
                       <button
                         className=" btn btn-outline"
-                        onClick={() => EditData()}
+                        onClick={() => EditData(items.orderId)}
                       >
                         <img src={EditIcon} alt="edit-icon"></img>
                       </button>
                       <button
                         className=" btn btn-outline"
-                        onClick={() => DeleteData(items.index)}
+                        onClick={() => DeleteData(items.orderId)}
                       >
                         <img src={DeleteIcon} alt="delete-icon"></img>{" "}
                       </button>
