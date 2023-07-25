@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import classes from "./Adminthemes.module.css";
+import classes from "./AdminThemes.module.css";
 import AdminHeader from "../AdminHeader/AdminHeader";
 import AdminThemesForm from "./AdminThemesForm";
 import axios from "axios";
@@ -90,6 +90,7 @@ const AdminThemes = () => {
   };
 
   const deleteThemeHandler = (themeItem) => {
+    alert('Are you sure you want to delete this theme?');
     setLoader(true);
     axios
       .delete(`/admin/deleteTheme/${themeItem.themeId}`)
