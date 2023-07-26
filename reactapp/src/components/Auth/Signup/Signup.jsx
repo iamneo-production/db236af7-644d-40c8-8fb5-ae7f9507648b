@@ -96,8 +96,9 @@ const SignupPage = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setLoader(true);
+    
     if (validateForm()) {
+      setLoader(true);
       axios
         .post("/user/signup", {
           username: username,
