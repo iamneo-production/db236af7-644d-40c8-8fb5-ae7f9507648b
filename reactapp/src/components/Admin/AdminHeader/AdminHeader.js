@@ -39,6 +39,9 @@ const AdminHeader = (props) => {
 
   const logoutHandler = () => {
     setAuth(false);
+    localStorage.clear();
+    navigate("/");
+    
   };
 
   return (

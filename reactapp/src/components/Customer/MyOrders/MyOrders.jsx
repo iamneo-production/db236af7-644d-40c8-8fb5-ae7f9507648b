@@ -8,12 +8,15 @@ import axios from "axios";
 
 const MyOrders = () => {
   const [orderDetails, setOrderDetails] = useState([]);
+  const [checker,setChecker]=useState(true);
 
   useEffect(() => {
     axios
       .get("/user/orderHistory")
       .then((response) => {
         setOrderDetails(response.data);
+        
+            if(orderDetails.length()==0){setChecker(false);}
       })
       .catch((error) => {
         console.log(error);
@@ -43,6 +46,9 @@ const MyOrders = () => {
   return (
     <>
       <Header />
+
+      {checker ? <div className="No-orders"><h3>No Orders Available !</h3></div> :
+       
       <div className="container-sm text-center">
         <table className="table table-hover table-scripted table">
           <thead className="table-info">
@@ -62,12 +68,12 @@ const MyOrders = () => {
             </tr>
           </thead>
           <tbody>
-            {orderDetails.map((items, index) => {
+            {orderDetails.map((item) => {
               return (
-                <tr>
-                  <td>{items.gift.giftName}</td>
-                  <td>{items.orderPrice}</td>
-                  <td>{items.gift.giftQuantity}</td>
+                <tr key={item.orderId}>
+                  <td>{item.gift.giftName}</td>
+                  <td>{item.orderPrice}</td>
+                  <td>{item.gift.giftQuantity}</td>
                   <td>
                     <div className="d-flex ">
                       <button
@@ -78,7 +84,7 @@ const MyOrders = () => {
                       </button>
                       <button
                         className=" btn btn-outline"
-                        onClick={() => DeleteData(items.orderId)}
+                        onClick={() => DeleteData(item.orderId)}
                       >
                         <img src={DeleteIcon} alt="delete-icon"></img>{" "}
                       </button>
@@ -89,11 +95,8 @@ const MyOrders = () => {
             })}
           </tbody>
         </table>
-      </div>
+      </div>}
 
-      <div className="buttons-container">
-        <button className="button-arounder">Pay</button>
-      </div>
     </>
   );
 };
