@@ -64,3 +64,7 @@
   border-bottom-left-radius: var(--radius);
   border-bottom-right-radius: var(--radius);
 }
+.No-orders{
+  text-align: center;
+  margin-top: 100px;
+}
