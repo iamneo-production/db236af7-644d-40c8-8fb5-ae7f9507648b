@@ -23,6 +23,7 @@ import HomePage from "./components/Customer/HomePage/HomePage";
 import AdminThemes from "./components/Admin/AdminThemes/AdminThemes";
 import AdminGifts from "./components/Admin/AdminGifts/AdminGifts";
 import AdminViewOrders from "./components/Admin/AdminOrders/AdminViewOrders";
+import AdminSignUp from "./components/Admin/AdminSignup/AdminSignup"
 
 // TESTING COMPONENTS
 import Test from "./components/Test";
@@ -52,6 +53,7 @@ function App() {
         </Route>
 
         <Route element={<AdminRoutes />} path="admin">
+          <Route element={<AdminSignUp/>} path="signup"/>
           <Route element={<AdminTest />} path="gift" />
           <Route element={<AdminThemes />} path="themes" />
           <Route element={<AdminGifts />} path="gifts" />
