@@ -53,7 +53,7 @@ const AdminViewOrdersTable = (props) => {
               {orderItem.orderEmail}
             </StyledTableCell>
             <StyledTableCell align="right">
-              {orderItem.giftName}
+              {orderItem.gift.giftName}
             </StyledTableCell>
             <StyledTableCell align="right">
               {orderItem.orderPrice}

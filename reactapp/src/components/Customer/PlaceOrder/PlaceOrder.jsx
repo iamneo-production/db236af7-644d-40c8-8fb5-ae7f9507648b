@@ -63,7 +63,7 @@ const PlaceOrder = (props) => {
     orderDate,
     orderAddress: "",
     orderPhone: "",
-    orderThemes: [],
+    themes: [],
   };
   const [orderFormDetails, setOrderFormDetails] = useState(
     orderFormInitialState
@@ -126,7 +126,7 @@ const PlaceOrder = (props) => {
 
   const themeSelectionChangeHandler = (event, theme) => {
     let totalPrice;
-    let currentSelectedThemes = orderFormDetails.orderThemes;
+    let currentSelectedThemes = orderFormDetails.themes;
 
     const { value, checked } = event.target;
 
@@ -148,7 +148,7 @@ const PlaceOrder = (props) => {
       return {
         ...prevState,
         orderPrice: totalPrice,
-        orderThemes: currentSelectedThemes,
+        themes: currentSelectedThemes,
       };
     });
   };
