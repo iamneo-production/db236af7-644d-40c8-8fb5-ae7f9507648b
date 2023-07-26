@@ -19,7 +19,8 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int orderId;
     private String orderEmail;
-    private String customerName;
+    
+
     private Integer giftId;
     private String orderDescription;
     private Double orderPrice;
@@ -32,6 +33,6 @@ public class Order {
             name = "selected_themes",
             joinColumns = @JoinColumn(name = "orderId")
     )
-    private Set<Integer> orderThemes;
+    private Set<Integer> themes;
 
 }
