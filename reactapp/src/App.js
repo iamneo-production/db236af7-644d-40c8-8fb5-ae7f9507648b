@@ -30,7 +30,7 @@ import AdminTest from "./components/Admin/AdminTest";
 
 function App() {
   axios.defaults.baseURL =
-    "https://8080-dadecaeedcbbfdebbecaddaeffdec.project.examly.io";
+  "https://8080-ddaaedffdcbbfdebbecaddbaaecadafbad.project.examly.io";
   const token = localStorage.getItem("Auth");
 
   if (token) axios.defaults.headers.common["Authorization"] = token;
