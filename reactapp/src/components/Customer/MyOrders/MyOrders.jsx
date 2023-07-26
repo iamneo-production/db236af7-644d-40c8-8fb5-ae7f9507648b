@@ -19,12 +19,12 @@ const MyOrders = () => {
         console.log(error);
       });
     return () => {};
-  }, []);
+  }, [orderDetails]);
   const navigate = useNavigate();
 
   const DeleteData = (index) => {
     axios
-      .delete(`/admin/deleteOrder/${index}`)
+      .delete(`/user/deleteOrder/${index}`)
       .then((r) => {
         console.log(r);
       })
@@ -33,9 +33,10 @@ const MyOrders = () => {
       });
   };
 
-  const EditData = () => {
-    navigate("/user/editorder",{
-      state:orderDetails,
+  const EditData = (orderId) => {
+    const selectedOrder = orderDetails.find((item) => item.orderId === orderId);
+    navigate("/user/editorder", {
+      state: selectedOrder,
     });
   };
 
@@ -61,23 +62,23 @@ const MyOrders = () => {
             </tr>
           </thead>
           <tbody>
-            {orderDetails.map((items, index) => {
+            {orderDetails.map((item) => {
               return (
-                <tr>
-                  <td>{items.gift.giftName}</td>
-                  <td>{items.orderPrice}</td>
-                  <td>{items.gift.giftQuantity}</td>
+                <tr key={item.orderId}>
+                  <td>{item.gift.giftName}</td>
+                  <td>{item.orderPrice}</td>
+                  <td>{item.gift.giftQuantity}</td>
                   <td>
                     <div className="d-flex ">
                       <button
                         className=" btn btn-outline"
-                        onClick={() => EditData()}
+                        onClick={() => EditData(item.orderId)}
                       >
                         <img src={EditIcon} alt="edit-icon"></img>
                       </button>
                       <button
                         className=" btn btn-outline"
-                        onClick={() => DeleteData(items.orderId)}
+                        onClick={() => DeleteData(item.orderId)}
                       >
                         <img src={DeleteIcon} alt="delete-icon"></img>{" "}
                       </button>

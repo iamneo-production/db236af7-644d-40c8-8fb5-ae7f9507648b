@@ -90,6 +90,7 @@ const AdminThemes = () => {
   };
 
   const deleteThemeHandler = (themeItem) => {
+    alert('Are you sure you want to delete this theme?');
     setLoader(true);
     axios
       .delete(`/admin/deleteTheme/${themeItem.themeId}`)
