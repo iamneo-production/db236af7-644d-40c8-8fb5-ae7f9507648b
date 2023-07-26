@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation,useNavigate } from "react-router-dom";
 import classes from "./EditOrder.module.css";
 import axios from "axios";
 
@@ -7,7 +7,6 @@ const EditOrder = () => {
   const originalOrder=useLocation().state;
   const [themes,setThemes]=useState(originalOrder.themes.map((theme)=>theme.themeId));
   const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
   const [address, setAddress] = useState('');
   const [phone, setPhone] = useState('');
   const formatDate = (isoDate) => {
@@ -26,9 +25,9 @@ const EditOrder = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [themeDropdownOpen, setThemeDropdownOpen] = useState(false);
   const [themesFromDb, setThemesFromDb] = useState([]);
+  const navigate=useNavigate();
   const [errors, setErrors] = useState({
     name: "",
-    email: "",
     address: "",
     orderDate: "",
     orderPrice: "",
@@ -55,11 +54,6 @@ const EditOrder = () => {
     if (name.trim() === "") {
       error.name = "Name is required.";
     }
-    if (email.trim() === "") {
-      error.email = "Email is required.";
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      error.email = "Email is invalid.";
-    }
     if (address.trim() === "") {
       error.address = "Address is required.";
     }
@@ -85,7 +79,7 @@ const EditOrder = () => {
 
     const orderData = {
       orderId: originalOrder.orderId,
-      orderEmail: email,
+      orderEmail: originalOrder.orderEmail,
       giftId: originalOrder.gift.giftId,
       orderDescription: orderDescription,
       orderPrice: orderPrice,
@@ -95,7 +89,6 @@ const EditOrder = () => {
       themes: themes,
     };
     setName("");
-    setEmail("");
     setAddress("");
     setPhone("");
     setOrderDate("");
@@ -113,20 +106,20 @@ const EditOrder = () => {
         }
       })
       .then(() => {
+        alert("Order updated successfully");
         setName("");
-        setEmail("");
         setAddress("");
         setPhone("");
         setOrderDate("");
         setOrderDescription("");
         setSelectedOptions([]);
         setErrors({});
+        navigate("/user/myorders")
       })
       .catch((error) => {
         // Handle error
         console.error(error);
       });
-    alert("Order updated successfully");
   };
 
   const toggleDropdown = () => {
@@ -175,15 +168,7 @@ const EditOrder = () => {
   ];
   const [filteredCities, setFilteredCities] = useState(citiesInIndia);
 
-  const handleEmailChange = (event) => {
-    const { value } = event.target;
-    setEmail(value);
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      email: "",
-    }));
-  };
-
+ 
   return (
     <>
       <div className={classes["container"]}>
@@ -256,18 +241,6 @@ const EditOrder = () => {
             />
             {errors.phone && (
               <span className={classes["error"]}>{errors.phone}</span>
-            )}
-          </div>
-          <div className="form1">
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={handleEmailChange}
-              placeholder="Enter your email"
-            />
-            {errors.email && (
-              <span className={classes["error"]}>{errors.email}</span>
             )}
           </div>
 
