@@ -1,0 +1,222 @@
+.content-holder{
+  background-image: url(../../../assets/bgDesign.png);
+  background-blend-mode: lighten;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height : 100vh;
+}
+.content{
+  display: block;
+  height: 100vh;
+  width: 100%;
+  max-width: 1920px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  overflow: hidden;
+  font-family: 'Poppins', sans-serif;
+}
+.mobile-logo{
+  display: none;
+  font-family: 'Satisfy', cursive;
+  width: 100%;
+  font-weight: 800;
+  position: absolute;
+}
+#mobile-corner-box{
+  display: none;
+}
+.mobile-logo img{
+  height: 5vh;
+}
+.logo{
+  font-family: 'Satisfy', cursive;
+  font-size: clamp(50px,4vw,70px);
+  font-weight: 800;
+  position: absolute;
+  top: 35%;
+  left: 20%;
+}
+.logo img{
+  width: clamp(50px, 6vw, 100px)
+}
+.LoginContainer{
+  position: relative;
+  top: 50%;
+  left: 60%;
+  transform: translate(-50%, -50%);
+  height: 580px;
+  width: 580px;
+}
+#corner-box{
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+#loginBox{
+  height: 100%;
+}
+.LoginForm{
+  position: absolute;
+  top: 45%;
+  left: 59%;
+  transform: translate(-50%,-50%);
+  width: 70%; 
+}
+
+.LoginForm .inputs, .loginButton{
+  padding: 10px;
+  width: 100%;
+  height: 55px;
+  font-weight: 600;
+  font-size: medium;
+  border: none;
+  border-radius: 8px;
+}
+.LoginForm .inputs{
+  margin: 20px 0 0 0;
+}
+.Signup{
+  display: flex;
+  width: 100%;
+  font-size: clamp(14px, 1vw, 18px);
+  font-weight: 500;
+  justify-content: flex-end;
+}
+.Signup a{
+  text-decoration: none;
+  color:black;
+}
+
+.LoginForm p{
+  text-align: center;
+  font-size: 45px;
+  font-weight: 700;
+  margin-bottom: 5%;
+}
+.LoginForm .loginButton{
+  color: white;
+  font-weight: 600;
+  font-size: clamp(15px, 20px, 25px);
+  background-color: #4B9ADC;
+  margin: 20px 0 20px 0;
+  border-radius: 8px;
+}
+
+#ribbon1{
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  z-index: -1;
+}
+#ribbon2{
+  position: absolute;
+  bottom: .5%;
+  left: -76%;
+}
+.loader{
+  position: relative;
+  left: 50%;
+  height : 30px;
+  width: 30px;
+  border: 5px solid white;
+  border-top: 5px solid #4B9ADC;
+  border-radius: 50%;
+  animation: spin 2s infinite;
+}
+
+@media (max-width : 1100px){
+  .LoginContainer{
+      top: 50%;
+      left: 43%;
+      height:  520px;
+      width: 520px;
+  }
+  .LoginForm .inputs, .loginButton{
+      height: 50px;
+  }
+  .LoginForm p{
+      font-size: 35px;
+      margin-bottom: 20px;
+  }
+  .logo{
+    display: none;
+  }
+  .mobile-logo{
+      font-size: 5vh;
+      display: block;
+      position: absolute;
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+  }
+  #corner-box{
+      display: none;
+  }
+  #ribbon1{
+      height:135%;
+      position: absolute;
+      bottom: 0%;
+      left: 48%;
+      z-index: -1;
+  }
+  #ribbon2{
+      width: 110%;
+      position: absolute;
+      bottom: .5%;
+      left: -74%;
+  }
+}
+@media (max-width : 590px){
+
+  .mobile-logo{
+      text-align: left;
+      left: 5%;
+      transform: translateX(0);
+      font-size: clamp(25px,9vw, 50px);
+      top: 5%;
+  }
+  .LoginContainer{
+      top: 20%;
+      left: 50%;
+      transform: translate(-50%);
+      height: 550px;
+      width: 100%;
+  }
+  .LoginForm .inputs, .loginButton{
+      height: 55px;
+  }
+  .LoginForm{
+      background-color: #d7eeffda;
+      top: 0;
+      left: 50%;
+      width: 95%;
+      padding: 15px;
+      transform: translate(-50%);
+  }
+  #corner-box{
+      display: none;
+  }
+  #mobile-corner-box{
+      display: block;
+      position: absolute;
+      bottom: 0;
+      height: 40vh;
+  }
+  .LoginForm p{
+  font-size: clamp(20px,8vw, 35px);
+  text-align: left;
+  margin-bottom: 5%;
+  }
+  #loginBox{
+      display: none;
+  }
+  #ribbon1{
+      display: none;
+  }
+  #ribbon2{
+      display: none;
+  }
+
+}
