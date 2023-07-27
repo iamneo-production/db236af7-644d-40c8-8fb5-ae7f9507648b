@@ -28,11 +28,13 @@ public class OrderController {
         return ResponseEntity.ok(orderService.viewOrder(id));
     }
 
-    @DeleteMapping("/admin/deleteOrder/{orderId}")
+    @DeleteMapping({"/admin/deleteOrder/{orderId}","/user/deleteOrder/{orderId}"})
     public ResponseEntity<String> deleteOrder(@PathVariable int orderId) {
         orderService.deleteOrder(orderId);
         return ResponseEntity.ok("order deleted");
     }
+
+
     @PostMapping("/user/addOrder")
     public ResponseEntity<String> addOrder(Principal p, @RequestBody Order data)
     {

@@ -8,40 +8,61 @@ import axios from "axios";
 
 const MyOrders = () => {
   const [orderDetails, setOrderDetails] = useState([]);
+  const [checker,setChecker]=useState(true);
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     axios
       .get("/user/orderHistory")
       .then((response) => {
         setOrderDetails(response.data);
+        
+            if(orderDetails.length===0){setChecker(false);}
       })
       .catch((error) => {
         console.log(error);
       });
     return () => {};
-  }, []);
+  }, [refresh]);
+
   const navigate = useNavigate();
 
+  const showConfirmationPopup = (orderId) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this order?");
+    if (confirmDelete) {
+      // If the user clicked "OK," proceed with deletion
+      DeleteData(orderId);
+    }
+  };
+
   const DeleteData = (index) => {
+    setRefresh(true);
     axios
-      .delete(`/admin/deleteOrder/${index}`)
+      .delete(`/user/deleteOrder/${index}`)
       .then((r) => {
+        setRefresh(false);
         console.log(r);
       })
       .catch((e) => {
+        setRefresh(false)
         console.log(e);
       });
   };
 
-  const EditData = () => {
-    navigate("/user/editorder",{
-      state:orderDetails,
+  const EditData = (orderId) => {
+    const selectedOrder = orderDetails.find((item) => item.orderId === orderId);
+    navigate("/user/editorder", {
+      state: selectedOrder,
     });
   };
 
   return (
     <>
+    {refresh && <div className="routes-loader"></div>}
       <Header />
+
+      {checker ? <div className="No-orders"><h3>No Orders Available !</h3></div> :
+       
       <div className="container-sm text-center">
         <table className="table table-hover table-scripted table">
           <thead className="table-info">
@@ -61,23 +82,23 @@ const MyOrders = () => {
             </tr>
           </thead>
           <tbody>
-            {orderDetails.map((items, index) => {
+            {orderDetails.map((item) => {
               return (
-                <tr>
-                  <td>{items.gift.giftName}</td>
-                  <td>{items.orderPrice}</td>
-                  <td>{items.gift.giftQuantity}</td>
+                <tr key={item.orderId}>
+                  <td>{item.gift.giftName}</td>
+                  <td>{item.orderPrice}</td>
+                  <td>{item.gift.giftQuantity}</td>
                   <td>
                     <div className="d-flex ">
                       <button
                         className=" btn btn-outline"
-                        onClick={() => EditData()}
+                        onClick={() => EditData(item.orderId)}
                       >
                         <img src={EditIcon} alt="edit-icon"></img>
                       </button>
                       <button
                         className=" btn btn-outline"
-                        onClick={() => DeleteData(items.orderId)}
+                        onClick={() => showConfirmationPopup(item.orderId)}
                       >
                         <img src={DeleteIcon} alt="delete-icon"></img>{" "}
                       </button>
@@ -88,11 +109,8 @@ const MyOrders = () => {
             })}
           </tbody>
         </table>
-      </div>
+      </div>}
 
-      <div className="buttons-container">
-        <button className="button-arounder">Pay</button>
-      </div>
     </>
   );
 };

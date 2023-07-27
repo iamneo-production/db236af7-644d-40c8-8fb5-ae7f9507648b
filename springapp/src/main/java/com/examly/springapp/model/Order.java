@@ -15,19 +15,24 @@ import java.util.*;
 @Table(name = "orders_table")
 public class Order {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int orderId;
-	private String orderEmail;
-	private Integer giftId;
-	private String orderDescription;
-	private Double orderPrice;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
-	private Date orderDate;
-	private String orderAddress;
-	private String orderPhone;
-	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name = "selected_themes", joinColumns = @JoinColumn(name = "orderId"))
-	private Set<Integer> themes;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int orderId;
+    private String orderEmail;
+    
+
+    private Integer giftId;
+    private String orderDescription;
+    private Double orderPrice;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    private Date orderDate;
+    private String orderAddress;
+    private String orderPhone;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(
+            name = "selected_themes",
+            joinColumns = @JoinColumn(name = "orderId")
+    )
+    private Set<Integer> themes;
 
 }
