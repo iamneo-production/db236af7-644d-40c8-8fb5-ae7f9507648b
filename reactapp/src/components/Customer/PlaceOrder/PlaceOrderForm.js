@@ -7,7 +7,7 @@ const PlaceOrderForm = (props) => {
       className={classes["order-container"]}
       onSubmit={props.placeOrderHandler}
     >
-      <div className="form1">
+      <div className={classes["form1"]}>
         <input
           type="text"
           id="customer-name"
@@ -89,9 +89,7 @@ const PlaceOrderForm = (props) => {
           value={`Gift: ${props.giftName} ${
             props.orderFormDetails.themes.length > 0
               ? `+ selected ${props.orderFormDetails.themes.length} ${
-                  props.orderFormDetails.themes.length > 1
-                    ? "themes"
-                    : "theme"
+                  props.orderFormDetails.themes.length > 1 ? "themes" : "theme"
                 }`
               : ""
           }`}

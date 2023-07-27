@@ -37,10 +37,10 @@ const AdminViewOrdersTable = (props) => {
           <StyledTableCell width="10%" align="left">
             Order ID
           </StyledTableCell>
-          <StyledTableCell align="right">User ID</StyledTableCell>
+          <StyledTableCell align="right">User Email</StyledTableCell>
           <StyledTableCell align="right">Gift Name</StyledTableCell>
           <StyledTableCell align="right">Price</StyledTableCell>
-          <StyledTableCell align="right">Quantity</StyledTableCell>
+          <StyledTableCell align="right">Delivery Address</StyledTableCell>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -56,7 +56,7 @@ const AdminViewOrdersTable = (props) => {
               {orderItem.gift.giftName}
             </StyledTableCell>
             <StyledTableCell align="right">
-              {orderItem.orderPrice}
+              ₹{orderItem.orderPrice}
             </StyledTableCell>
             <StyledTableCell align="right">
               {orderItem.orderAddress}

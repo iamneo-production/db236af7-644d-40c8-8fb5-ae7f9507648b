@@ -13,12 +13,21 @@ export default function MainArea() {
   const [giftFromDb, setGiftFromDb] = useState([]);
 
   useEffect(() => {
-    axios.get("/user/gift").then((res) => {
-      setGiftFromDb(res.data);
-    });
-  }, [giftFromDb]);
+    axios
+      .get("/user/gift")
+      .then((res) => {
+        setGiftFromDb(res.data);
+        console.log(giftFromDb);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    return () => {
+      setGiftFromDb([]);
+    };
+  }, []);
 
-  const selectGiftHandler = (event, giftItem) => {
+  const selectGiftHandler = (giftItem) => {
     navigate("/user/placeorder", {
       state: giftItem,
     });
@@ -34,7 +43,7 @@ export default function MainArea() {
         justifyContent: "center",
       }}
     >
-      {giftItems.map((giftItem) => {
+      {giftFromDb.map((giftItem) => {
         return (
           <Grid item sx={{ margin: "15px" }} key={giftItem.giftId}>
             <Card sx={{ width: 345 }} elevation={4}>
@@ -44,7 +53,7 @@ export default function MainArea() {
                   height="200"
                   image={giftItem.giftImageUrl}
                   alt={giftItem.giftName}
-                  onClick={(event) => selectGiftHandler(event, giftItem)}
+                  onClick={() => selectGiftHandler(giftItem)}
                 />
                 <CardContent>
                   <Grid container>
