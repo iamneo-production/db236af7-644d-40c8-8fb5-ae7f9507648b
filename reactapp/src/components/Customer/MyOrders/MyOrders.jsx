@@ -16,13 +16,14 @@ const MyOrders = () => {
       .then((response) => {
         setOrderDetails(response.data);
         
-            if(orderDetails.length()==0){setChecker(false);}
+            if(orderDetails.length()===0){setChecker(false);}
       })
       .catch((error) => {
         console.log(error);
       });
     return () => {};
   }, [orderDetails]);
+
   const navigate = useNavigate();
 
   const DeleteData = (index) => {
@@ -37,9 +38,9 @@ const MyOrders = () => {
   };
 
   const EditData = (orderId) => {
-    const selectedOrder=orderDetails.find((item) => item.orderId === orderId);
-    navigate("/user/editorder",{
-      state:selectedOrder,
+    const selectedOrder = orderDetails.find((item) => item.orderId === orderId);
+    navigate("/user/editorder", {
+      state: selectedOrder,
     });
   };
 
@@ -78,7 +79,7 @@ const MyOrders = () => {
                     <div className="d-flex ">
                       <button
                         className=" btn btn-outline"
-                        onClick={() => EditData(items.orderId)}
+                        onClick={() => EditData(item.orderId)}
                       >
                         <img src={EditIcon} alt="edit-icon"></img>
                       </button>
