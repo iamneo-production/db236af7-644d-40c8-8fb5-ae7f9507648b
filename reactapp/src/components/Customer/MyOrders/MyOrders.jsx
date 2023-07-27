@@ -9,6 +9,7 @@ import axios from "axios";
 const MyOrders = () => {
   const [orderDetails, setOrderDetails] = useState([]);
   const [checker,setChecker]=useState(true);
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     axios
@@ -16,23 +17,34 @@ const MyOrders = () => {
       .then((response) => {
         setOrderDetails(response.data);
         
-            if(orderDetails.length()===0){setChecker(false);}
+            if(orderDetails.length===0){setChecker(false);}
       })
       .catch((error) => {
         console.log(error);
       });
     return () => {};
-  }, [orderDetails]);
+  }, [refresh]);
 
   const navigate = useNavigate();
 
+  const showConfirmationPopup = (orderId) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this order?");
+    if (confirmDelete) {
+      // If the user clicked "OK," proceed with deletion
+      DeleteData(orderId);
+    }
+  };
+
   const DeleteData = (index) => {
+    setRefresh(true);
     axios
       .delete(`/user/deleteOrder/${index}`)
       .then((r) => {
+        setRefresh(false);
         console.log(r);
       })
       .catch((e) => {
+        setRefresh(false)
         console.log(e);
       });
   };
@@ -46,6 +58,7 @@ const MyOrders = () => {
 
   return (
     <>
+    {refresh && <div className="routes-loader"></div>}
       <Header />
 
       {checker ? <div className="No-orders"><h3>No Orders Available !</h3></div> :
@@ -85,7 +98,7 @@ const MyOrders = () => {
                       </button>
                       <button
                         className=" btn btn-outline"
-                        onClick={() => DeleteData(item.orderId)}
+                        onClick={() => showConfirmationPopup(item.orderId)}
                       >
                         <img src={DeleteIcon} alt="delete-icon"></img>{" "}
                       </button>
