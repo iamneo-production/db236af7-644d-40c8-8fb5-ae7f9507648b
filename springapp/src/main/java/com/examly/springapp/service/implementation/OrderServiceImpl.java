@@ -103,7 +103,7 @@ public class OrderServiceImpl implements IOrderService {
 
         Optional<Order> optOrder = orderRepo.findById(orderId);
         if(optOrder.isEmpty())
-            return null;
+            return orderResponses;
 
         Order order = optOrder.get();
         orderResponses.add(setOrderResponse(order, getGiftDetails(order.getGiftId()), getThemesDetails(order.getThemes())));
