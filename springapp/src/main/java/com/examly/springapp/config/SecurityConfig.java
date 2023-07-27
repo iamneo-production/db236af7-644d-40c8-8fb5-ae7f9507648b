@@ -56,7 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/admin/addGift","/admin/addTheme",
                         "/admin/editTheme/{themeId}","/admin/editGift",
                         "/admin/deleteGift/{giftId}", "/admin/deleteTheme/{themeId}","/admin/deleteOrder/{orderId}"
-                ).hasAuthority("admin")
+                ).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling()
