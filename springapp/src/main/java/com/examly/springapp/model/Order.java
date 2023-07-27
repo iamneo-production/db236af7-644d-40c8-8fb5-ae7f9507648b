@@ -19,6 +19,8 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int orderId;
     private String orderEmail;
+    
+
     private Integer giftId;
     private String orderDescription;
     private Double orderPrice;

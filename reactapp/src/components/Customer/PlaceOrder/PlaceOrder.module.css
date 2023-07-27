@@ -24,6 +24,14 @@ h2 {
   margin-bottom: 15px;
 }
 
+.form1 input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
 .form1 input[type="text"],
 .form1 input[type="email"],
 .form1 textarea {
@@ -52,7 +60,7 @@ h2 {
 }
 
 .dropdown-toggle {
-  padding: 10px 20px;
+  padding: 10px 32px;
   background-color: #007bff;
   color: #fff;
   border: none;
