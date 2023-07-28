@@ -1,172 +1,31 @@
-import React, { useState, useRef,useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import "./PlaceOrder.css";
+import axios from "axios";
+import PlaceOrderForm from "./PlaceOrderForm";
 
 const PlaceOrder = (props) => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [address, setAddress] = useState("");
-  const [phone, setPhone] = useState("");
-  const [orderDate, setOrderDate] = useState("");
-  const [orderPrice, setOrderPrice] = useState("");
-  const [giftModel, setGiftModel] = useState("");
-  const [orderDescription, setOrderDescription] = useState("");
-  const [termsChecked, setTermsChecked] = useState(false);
-  const [selectedOptions, setSelectedOptions] = useState([]);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [themeDropdownOpen, setThemeDropdownOpen] = useState(false);
-  const [errors, setErrors] = useState({
-    name: "",
-    email: "",
-    address: "",
-    orderDate: "",
-    orderPrice: "",
-    termsChecked: "",
-    phone: "",
-  });
-
-  const dropdownRef = useRef(null);
   const navigate = useNavigate();
-
   const location = useLocation();
   const giftDetails = location.state;
 
+  const [selectedThemeOptions, setSelectedThemeOptions] = useState([]);
+  const [isAddressDropdownOpen, setIsAddressDropdownOpen] = useState(false);
+  const [isThemeDropdownOpen, setIsThemeDropdownOpen] = useState(false);
+  const [errors, setErrors] = useState({});
+
+  // Fetch Themes from DB
+  const [themesFromDb, setThemesFromDb] = useState([]);
   useEffect(() => {
-    const currentDate = new Date().toLocaleDateString('en-IN', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
-    });
-    setOrderDate(currentDate);
-  }, []);
+    axios
+      .get("/user/themes")
 
-  const validateFields = () => {
-    const error = {};
-
-    if (name.trim() === "") {
-      error.name = "Name is required.";
-    }
-    if (email.trim() === "") {
-      error.email = "Email is required.";
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      error.email = "Email is invalid.";
-    }
-    if (address.trim() === "") {
-      error.address = "Address is required.";
-    }
-    if (orderDate.trim() === "") {
-      error.orderDate = "Order date is required.";
-    }
-    if (phone.trim === " ") {
-      error.phone = "Invalid Mobile Number";
-    } else if (!/^\d{10}$/.test(phone)) {
-      error.phone = "Phone number is invalid.";
-    }
-    return error;
-  };
-
-  const handlePlaceOrder = (event) => {
-    event.preventDefault();
-    const validationerrors = validateFields();
-
-    if (Object.keys(validationerrors).length > 0) {
-      setErrors(validationerrors);
-      return;
-    }
-
-    const orderData = {
-      name,
-      email,
-      address,
-      phone,
-      orderDate,
-      orderPrice,
-      giftModel,
-      orderDescription,
-      termsChecked,
-      selectedOptions,
-    };
-    setName("");
-    setEmail("");
-    setAddress("");
-    setPhone("");
-    setOrderDate("");
-    setOrderPrice("");
-    setGiftModel("");
-    setOrderDescription("");
-    setTermsChecked(false);
-    setSelectedOptions([]);
-    setErrors({});
-
-    fetch(
-      "http://localhost:8081/user/addOrder",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(orderData),
-      }
-    )
       .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to submit the order."); // Handle non-successful response
-        }
-        return response.json("Order added"); // Parse the response body as JSON
-      })
-      .then((data) => {
-        // Handle successful response from the backend
-        console.log(data);
-        setName("");
-        setEmail("");
-        setAddress("");
-        setPhone("");
-        setOrderDate("");
-        setOrderPrice("");
-        setGiftModel("");
-        setOrderDescription("");
-        setTermsChecked(false);
-        setSelectedOptions([]);
-        setErrors({});
-        navigate("/view-themes");
+        setThemesFromDb(response.data);
       })
       .catch((error) => {
-        // Handle error
         console.error(error);
       });
-    alert("Order placed successfully");
-    navigate("/view-themes");
-  };
-
-  const toggleDropdown = () => {
-    setThemeDropdownOpen(false);
-    setDropdownOpen(!dropdownOpen);
-  };
-
-  const toggleThemeDropdown = () => {
-    setDropdownOpen(false);
-    setThemeDropdownOpen(!themeDropdownOpen);
-  };
-
-  const handleOptionChange = (event) => {
-    const { value, checked } = event.target;
-    if (checked) {
-      setSelectedOptions((prevOptions) => [...prevOptions, value]);
-    } else {
-      setSelectedOptions((prevOptions) =>
-        prevOptions.filter((option) => option !== value)
-      );
-    }
-    setThemeDropdownOpen(false);
-  };
-
-  const handleSearchChange = (event) => {
-    const { value } = event.target;
-    const filteredCitiesList = citiesInIndia.filter((city) =>
-      city.toLowerCase().startsWith(value.toLowerCase())
-    );
-    setFilteredCities(filteredCitiesList);
-  };
+  }, []);
 
   const citiesInIndia = [
     "Mumbai",
@@ -178,184 +37,167 @@ const PlaceOrder = (props) => {
   ];
   const [filteredCities, setFilteredCities] = useState(citiesInIndia);
 
-  const handleEmailChange = (event) => {
+  //Set CurrentDate
+  const [orderDate, setOrderDate] = useState(
+    new Date().toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    })
+  );
+  useEffect(() => {
+    const currentDate = new Date().toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+    setOrderDate(currentDate);
+  }, [orderDate]);
+
+  // Set Orders Form Initial State
+  const orderFormInitialState = {
+    customerName: "",
+    orderDescription: "",
+    giftId: giftDetails.giftId,
+    orderPrice: giftDetails.giftPrice,
+    orderDate,
+    orderAddress: "",
+    orderPhone: "",
+    themes: [],
+  };
+  const [orderFormDetails, setOrderFormDetails] = useState(
+    orderFormInitialState
+  );
+
+  // Close theme dropdown on clicking outside
+  const themeDropdownRef = useRef(null);
+  useEffect(() => {
+    const checkIfClickedOutside = (event) => {
+      if (
+        isThemeDropdownOpen &&
+        themeDropdownRef.current &&
+        !themeDropdownRef.current.contains(event.target)
+      ) {
+        setIsThemeDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", checkIfClickedOutside);
+    return () => {
+      document.removeEventListener("mousedown", checkIfClickedOutside);
+    };
+  }, [isThemeDropdownOpen]);
+
+  const orderFormDetailsChangeHandler = (event) => {
+    const { name, value } = event.target;
+    setOrderFormDetails((prevState) => {
+      return {
+        ...prevState,
+        [name]: value,
+      };
+    });
+  };
+
+  const validateFields = () => {
+    const error = {};
+
+    if (!/^\d{10}$/.test(orderFormDetails.orderPhone)) {
+      error.phone = "Phone number is invalid";
+    }
+    return error;
+  };
+
+  const toggleAddressDropdownHandler = () => {
+    setIsThemeDropdownOpen(false);
+    setIsAddressDropdownOpen(!isAddressDropdownOpen);
+  };
+
+  const toggleThemeDropdownHandler = (e) => {
+    setIsAddressDropdownOpen(false);
+    setIsThemeDropdownOpen(!isThemeDropdownOpen);
+  };
+
+  const addressSearchChangeHandler = (event) => {
     const { value } = event.target;
-    setEmail(value);
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      email: "",
-    }));
+    const filteredCitiesList = citiesInIndia.filter((city) =>
+      city.toLowerCase().startsWith(value.toLowerCase())
+    );
+    setFilteredCities(filteredCitiesList);
+  };
+
+  const themeSelectionChangeHandler = (event, theme) => {
+    let totalPrice;
+    let currentSelectedThemes = orderFormDetails.themes;
+
+    const { value, checked } = event.target;
+
+    if (checked) {
+      setSelectedThemeOptions((prevOptions) => [...prevOptions, value]);
+      totalPrice = orderFormDetails.orderPrice + theme.themePrice;
+      currentSelectedThemes.push(theme.themeId);
+    } else {
+      setSelectedThemeOptions((prevOptions) =>
+        prevOptions.filter((option) => option !== value)
+      );
+      totalPrice = orderFormDetails.orderPrice - theme.themePrice;
+      currentSelectedThemes = currentSelectedThemes.filter(
+        (themeItem) => themeItem !== theme.themeId
+      );
+    }
+
+    setOrderFormDetails((prevState) => {
+      return {
+        ...prevState,
+        orderPrice: totalPrice,
+        themes: currentSelectedThemes,
+      };
+    });
+  };
+
+  const placeOrderHandler = (event) => {
+    event.preventDefault();
+    const validationerrors = validateFields();
+
+    if (Object.keys(validationerrors).length > 0) {
+      setErrors(validationerrors);
+      return;
+    }
+
+    axios
+      .post("/user/addOrder", orderFormDetails)
+      .then(() => {
+        alert("Order placed successfully");
+        setOrderFormDetails(orderFormInitialState);
+        setSelectedThemeOptions([]);
+        setErrors({});
+        navigate("/user/myorders");
+      })
+      .catch((error) => {
+        alert("Unable to place your Order. Try again later");
+        console.error(error);
+      });
   };
 
   return (
-    <div className="container">
+    <div className=".order-container-holder">
       <h2>Place Order</h2>
-      <form className="order-container" onSubmit={handlePlaceOrder}>
-        <div className="form1">
-          <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Enter your name"
-          />
-          {errors.name && <span className="error">{errors.name}</span>}
-        </div>
-        <div className="form1">
-          <input
-            type='text'
-            id='orderDate'
-            value={orderDate}
-            readOnly
-          />
-          {errors.orderDate && (
-            <span className="error">{errors.orderDate}</span>
-          )}
-        </div>
-        <div className="form1">
-          <div className="address-input">
-            <input
-              type="text"
-              id="address"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              placeholder={`Enter your address 📍 `}
-              onClick={toggleDropdown}
-            />
-            {dropdownOpen && (
-              <ul className="city-dropdown" ref={dropdownRef}>
-                <li>
-                  <input
-                    type="text"
-                    placeholder="Search city"
-                    onChange={handleSearchChange}
-                  />
-                </li>
-                {filteredCities.map((city) => (
-                  <li key={city} onClick={() => setAddress(city)}>
-                    {city}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-          {errors.address && <span className="error">{errors.address}</span>}
-        </div>
-        <div className="form1">
-          <input
-            type="text"
-            id="phone"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            placeholder="Enter your phone number"
-          />
-          {errors.phone && <span className="error">{errors.phone}</span>}
-        </div>
-        <div className="form1">
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={handleEmailChange}
-            placeholder="Enter your email"
-          />
-          {errors.email && <span className="error">{errors.email}</span>}
-        </div>
-
-        <div className="form1">
-          <input
-            type="text"
-            id="giftModel"
-            value={`Gift Model: ${giftDetails.name}`}
-            readOnly // Keep readOnly attribute
-            placeholder="Enter gift model"
-            className="uneditable-input" // Apply CSS class for styling
-          />
-        </div>
-        <div className="form1">
-          <input
-            type="text"
-            id="orderPrice"
-            value={`Order Price: ₹${giftDetails.price}`}
-            readOnly //  readOnly
-            placeholder="Enter order price"
-            className="uneditable-input"
-          />
-          {errors.orderPrice && (
-            <span className="error">{errors.orderPrice}</span>
-          )}
-        </div>
-        <div className="form1">
-          <textarea
-            id="orderDescription"
-            value={orderDescription}
-            onChange={(e) => setOrderDescription(e.target.value)}
-            placeholder="Enter order description"
-          ></textarea>
-        </div>
-        <div className="form1">
-          <div className="dropdown" onClick={toggleThemeDropdown}>
-            <button className="dropdown-toggle" type="button">
-              Select Options
-            </button>
-            {themeDropdownOpen && (
-              <div className="dropdown-menu">
-                <div className="dropdown-content">
-                  <div className="dropdown-row">
-                    <div className="dropdown-column">
-                      <label>
-                        <input
-                          type="checkbox"
-                          value="Photo Design 200"
-                          checked={selectedOptions.includes("Photo Design 200")}
-                          onChange={handleOptionChange}
-                        />
-                        Photo Design 200
-                      </label>
-                    </div>
-                    <div className="dropdown-column">
-                      <label>
-                        <input
-                          type="checkbox"
-                          value="Pattern 100"
-                          checked={selectedOptions.includes("Pattern 100")}
-                          onChange={handleOptionChange}
-                        />
-                        Pattern 100
-                      </label>
-                    </div>
-                  </div>
-                  <div className="dropdown-row">
-                    <div className="dropdown-column">
-                      <label>
-                        <input
-                          type="checkbox"
-                          value="Face Pattern 50"
-                          checked={selectedOptions.includes("Face Pattern 50")}
-                          onChange={handleOptionChange}
-                        />
-                        Face Pattern 50
-                      </label>
-                    </div>
-                    <div className="dropdown-column">
-                      <label>
-                        <input
-                          type="checkbox"
-                          value="Frame Design 300"
-                          checked={selectedOptions.includes("Frame Design 300")}
-                          onChange={handleOptionChange}
-                        />
-                        Frame Design 300
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-        <button type="submit">Place Order</button>
-      </form>
+      <PlaceOrderForm
+        giftName={giftDetails.giftName}
+        orderDate={orderDate}
+        filteredCities={filteredCities}
+        toggleAddressDropdownHandler={toggleAddressDropdownHandler}
+        addressSearchChangeHandler={addressSearchChangeHandler}
+        isAddressDropdownOpen={isAddressDropdownOpen}
+        themesFromDb={themesFromDb}
+        isThemeDropdownOpen={isThemeDropdownOpen}
+        toggleThemeDropdownHandler={toggleThemeDropdownHandler}
+        selectedThemeOptions={selectedThemeOptions}
+        themeSelectionChangeHandler={themeSelectionChangeHandler}
+        themeDropdownRef={themeDropdownRef}
+        orderFormDetails={orderFormDetails}
+        orderFormDetailsChangeHandler={orderFormDetailsChangeHandler}
+        errors={errors}
+        placeOrderHandler={placeOrderHandler}
+      />
     </div>
   );
 };

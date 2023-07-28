@@ -1,24 +1,24 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import './Login.css';
-import axios from 'axios'
-import box from '../../../assets/box.png';
-import ribbon1 from '../../../assets/ribbon1.png';
-import ribbon2 from '../../../assets/ribbon2.png';
-import cornerBox from '../../../assets/corner-box.png'
-import mobileCornerBox from '../../../assets/mobile-corner-box.png'
-import logo from '../../../assets/giftlogo.svg'
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./Login.css";
+import axios from "axios";
+import box from "../../../assets/box.png";
+import ribbon1 from "../../../assets/ribbon1.png";
+import ribbon2 from "../../../assets/ribbon2.png";
+import cornerBox from "../../../assets/corner-box.png";
+import mobileCornerBox from "../../../assets/mobile-corner-box.png";
+import logo from "../../../assets/giftlogo.svg";
 
 const Login = () => {
   const initialState = {
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   };
   const [state, setState] = useState(initialState);
   const [errors, setErrors] = useState({
     email: false,
     password: false,
-    custom: { required: false, message: '' },
+    custom: { required: false, message: "" },
   });
   const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ const Login = () => {
   };
 
   const validatePassword = () => {
-    const isValid = state.password.trim() !== '';
+    const isValid = state.password.trim() !== "";
     setErrors((prevState) => ({
       ...prevState,
       password: !isValid,
@@ -49,60 +49,102 @@ const Login = () => {
 
   const handleLogin = () => {
     let hasError = true;
-    hasError = !validateEmail() && hasError
-    hasError = !validatePassword() && hasError
+    hasError = !validateEmail() && hasError;
+    hasError = !validatePassword() && hasError;
     if (hasError) {
       setLoader(true);
-      axios.post("/user/login", state)
-      .then((response) => {
-        localStorage.setItem("Auth", response.data.token)
-        navigate("/user/test");
-      }).catch((error)=>{
-        setLoader(false);
-        if(error.message === "Network Error")
-        {
-          setErrors(prevState => ({
-            ...prevState,
-            custom: { required: true, message: 'Unable to Login. Try again later' }
-          }))
-        }
-        else{
-          setErrors(prevState => ({
-            ...prevState,
-            custom: { required: true, message: 'Check your credentials or Register as new' }
-          }))
-        }
-      })
+      axios
+        .post("/user/login", state)
+        .then((response) => {
+          localStorage.setItem("Auth", response.data.token);
+          navigate("/user/home");
+        })
+        .catch((error) => {
+          setLoader(false);
+          if (error.message === "Network Error") {
+            setErrors((prevState) => ({
+              ...prevState,
+              custom: {
+                required: true,
+                message: "Unable to Login. Try again later",
+              },
+            }));
+          } else {
+            setErrors((prevState) => ({
+              ...prevState,
+              custom: {
+                required: true,
+                message: "Check your credentials or Register as new",
+              },
+            }));
+          }
+        });
     }
-  };  
+  };
   const handleSignUp = () => {
-    navigate("/signup")
-  }
+    navigate("/signup");
+  };
   return (
     <div className="content-holder">
-      <img id="corner-box" src={cornerBox}></img>
-        <div className="content">
-          <img id="mobile-corner-box" src={mobileCornerBox}></img>
-             <div className = "mobile-logo">Customized&nbsp;Gifts&nbsp;<img src={logo}></img></div>
-                <div className = "logo">Customized<br></br><img src={logo}></img>&nbsp;Gifts</div>
-                <div className="LoginContainer">
-                    <img id="ribbon1" src={ribbon1}/>
-                    <img id="loginBox" src={box}/>
-                    <div className = "LoginForm">
-                        <p>Login</p>
-                        <input className="inputs"  type="email" onChange={handleInputChange} name="email" value={state.email} placeholder="Email address"></input>
-                        {errors.email && <div className="error-message">Invalid Email address!</div>}
-                        <input className="inputs" type="password" onChange={handleInputChange} name="password" value = {state.password} placeholder="Password"></input>
-                        { errors.password && <div className="error-message"> Password Required! </div>}
-                        { errors.custom.required && <div className="error-message">{ errors.custom.message } </div>}
-                        <button className="loginButton" onClick={handleLogin}>{loader ? <div className="loader"></div> : "Sign In"}</button>
-                        <span style={{cursor:"pointer"}} className="Signup" onClick={handleSignUp}> 
-                            New? Register Here
-                        </span>
-                    </div>
-                    <img id="ribbon2" src={ribbon2}/> 
-              </div>
+      <img id="corner-box" src={cornerBox} alt="corner-box"></img>
+      <div className="content">
+        <img
+          id="mobile-corner-box"
+          src={mobileCornerBox}
+          alt="mobile-corner-box"
+        ></img>
+        <div className="mobile-logo">
+          Customized&nbsp;Gifts&nbsp;<img src={logo} alt="mobile-logo"></img>
         </div>
+        <div className="logo">
+          Customized<br></br>
+          <img src={logo} alt="logo"></img>&nbsp;Gifts
+        </div>
+        <div className="LoginContainer">
+          <img id="ribbon1" src={ribbon1} alt="ribbon1" />
+          <img id="loginBox" src={box} alt="loginBox" />
+
+          <div className="LoginForm">
+            <p>Login</p>
+            <input
+              className="inputs"
+              type="email"
+              onChange={handleInputChange}
+              name="email"
+              value={state.email}
+              placeholder="Email address"
+            ></input>
+            {errors.email && (
+              <div className="error-message">Invalid Email address!</div>
+            )}
+            <input
+              className="inputs"
+              type="password"
+              onChange={handleInputChange}
+              name="password"
+              value={state.password}
+              placeholder="Password"
+            ></input>
+            {errors.password && (
+              <div className="error-message"> Password Required! </div>
+            )}
+            {errors.custom.required && (
+              <div className="error-message">{errors.custom.message} </div>
+            )}
+            <button className="loginButton" onClick={handleLogin}>
+              {loader ? <div className="loader"></div> : "Sign In"}
+            </button>
+            <span
+              style={{ cursor: "pointer" }}
+              className="Signup"
+              onClick={handleSignUp}
+            >
+              New? Register Here
+            </span>
+          </div>
+          <img id="ribbon2" src={ribbon2} alt="ribbon2" />
+        </div>
+      </div>
     </div>
   );
 };

@@ -21,22 +21,29 @@ public class OrderController {
         return ResponseEntity.ok(orderService.orderHistory(p.getName()));
     }
     @GetMapping("/admin/order")
-    public ResponseEntity<List<OrderResponse>> viewAllOrders(@RequestParam(required = false) Integer id) {
-        if(id == null)
+    public ResponseEntity<List<OrderResponse>> viewAllOrders(@RequestParam(required=false) Integer id) {
+        if (id==null){
             return ResponseEntity.ok(orderService.viewAllOrders());
+        }
         return ResponseEntity.ok(orderService.viewOrder(id));
     }
 
-    @DeleteMapping("/admin/deleteOrder/{orderId}")
+    @DeleteMapping({"/admin/deleteOrder/{orderId}","/user/deleteOrder/{orderId}"})
     public ResponseEntity<String> deleteOrder(@PathVariable int orderId) {
         orderService.deleteOrder(orderId);
         return ResponseEntity.ok("order deleted");
     }
+
+
     @PostMapping("/user/addOrder")
     public ResponseEntity<String> addOrder(Principal p, @RequestBody Order data)
     {
         data.setOrderEmail(p.getName());
         return ResponseEntity.ok(orderService.addOrder(data));
     }
+    @PutMapping("/user/editOrder")
+    public ResponseEntity<String> editOrdere(Principal p,@RequestParam Integer orderId,@RequestBody Order data ){
+        data.setOrderEmail(p.getName());
+        return ResponseEntity.ok(orderService.editOrder(orderId,data));
+    }
 }
-

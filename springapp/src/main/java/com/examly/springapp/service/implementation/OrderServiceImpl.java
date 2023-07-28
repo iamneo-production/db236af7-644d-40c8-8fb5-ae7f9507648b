@@ -103,7 +103,7 @@ public class OrderServiceImpl implements IOrderService {
 
         Optional<Order> optOrder = orderRepo.findById(orderId);
         if(optOrder.isEmpty())
-            return null;
+            return orderResponses;
 
         Order order = optOrder.get();
         orderResponses.add(setOrderResponse(order, getGiftDetails(order.getGiftId()), getThemesDetails(order.getThemes())));
@@ -119,5 +119,24 @@ public class OrderServiceImpl implements IOrderService {
     public List<Order> findAllByOrderEmail(String email) {
 
         return orderRepo.findAllByOrderEmail(email);
+    }
+
+    @Override
+    public String editOrder(int orderId, Order data){
+        Optional<Order> optOrder=orderRepo.findById(orderId);
+        if(optOrder.isEmpty()){
+            return "Invalid orderId";
+        }
+        Order existOrder=optOrder.get();
+        existOrder.setGiftId(data.getGiftId());
+        existOrder.setOrderAddress(data.getOrderAddress());
+        existOrder.setOrderDate(data.getOrderDate());
+        existOrder.setOrderDescription(data.getOrderDescription());
+        existOrder.setOrderEmail(data.getOrderEmail());
+        existOrder.setOrderPhone(data.getOrderPhone());
+        existOrder.setOrderPrice(data.getOrderPrice());
+        existOrder.setThemes(data.getThemes());
+        orderRepo.save(existOrder);
+        return "Order edited";
     }
 }

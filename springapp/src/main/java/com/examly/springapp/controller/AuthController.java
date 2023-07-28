@@ -24,12 +24,16 @@ public class AuthController {
     @Autowired
     private JwtUtil jwtUtil;
     @PostMapping("/user/signup")
-    ResponseEntity<String> saveUser(@RequestBody UserModel user)
+    public ResponseEntity<String> saveUser(@RequestBody UserModel data)
     {
         Set<String> role = new HashSet<String>();
         role.add("user");
-        user.setUserRole(role);
-        return ResponseEntity.ok("User "+userService.saveUser(user)+" saved");
+        data.setUserRole(role);
+        String result = userService.saveUser(data);
+        if(result != null)
+            return ResponseEntity.ok(result);
+        else
+            return new ResponseEntity<String>(new String("Duplicate Entry"),HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/user/login")

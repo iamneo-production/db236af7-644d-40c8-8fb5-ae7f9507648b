@@ -5,7 +5,6 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { TextField } from "@mui/material";
-import { useState } from "react";
 
 const AdminThemesForm = (props) => {
   return (
@@ -50,9 +49,14 @@ const AdminThemesForm = (props) => {
             <CardActions sx={{ margin: "0% 40%" }}>
               {props.editing ? (
                 <>
-                  <Button type="submit" style={{ backgroundColor: "#03001C" }}>
-                    UPDATE
-                  </Button>
+                  {props.isFormTouched && (
+                    <Button
+                      type="submit"
+                      style={{ backgroundColor: "#03001C" }}
+                    >
+                      UPDATE
+                    </Button>
+                  )}
                   <Button
                     variant="contained"
                     sx={{ backgroundColor: "#03001C", padding: "13% 0px" }}

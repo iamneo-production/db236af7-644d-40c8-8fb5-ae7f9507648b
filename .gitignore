@@ -1,6 +1,3 @@
 node_modules/
 done
-puppeteer/
-.classpath
-.project
-.settings
+/.metadata

@@ -1,51 +1,24 @@
-import axios from "axios";
-import { v4 as uuidv4 } from "uuid";
 import { useState, useEffect } from "react";
-import classes from "./Adminthemes.module.css";
+import classes from "./AdminThemes.module.css";
 import AdminHeader from "../AdminHeader/AdminHeader";
-import AdminThemesList from "./AdminThemesList";
 import AdminThemesForm from "./AdminThemesForm";
+import axios from "axios";
+import AdminThemesList from "./AdminThemesList";
 
-const Adminthemes = () => {
-  const THEMES_DUMMY_LIST = [
-    {
-      id: uuidv4(),
-      name: "Lighting",
-      price: 70,
-      description: "Duis aute irure dolor in reprehenderit",
-    },
-    {
-      id: uuidv4(),
-      name: "Photo Design",
-      price: 100,
-      description: "Duis aute irure dolor in reprehenderit",
-    },
-    {
-      id: uuidv4(),
-      name: "Face Pattern",
-      price: 80,
-      description: "Duis aute irure dolor in reprehenderit",
-    },
-    {
-      id: uuidv4(),
-      name: "Frame Design",
-      price: 90,
-      description: "Duis aute irure dolor in reprehenderit",
-    },
-  ];
+const AdminThemes = () => {
+  const [themeFromDb, setThemeFromDb] = useState([]);
+  const [isFormTouched, setIsFormTouched] = useState(false);
+  const [refresh, setRefresh] = useState(false);
+  const [loader, setLoader] = useState(false);
 
-  //FETCH THEME DATA FROM DB
-  // const [themeFromDb, setThemeFromDb] = useState([]);
-  // useEffect(() => {
-  //   axios.get(CurrentUrl + "/admin/getTheme").then((res) => {
-  //     setThemeFromDb(res.data);
-  //   });
-  // }, [CurrentUrl]);
-
-  const [themesList, setThemesList] = useState(THEMES_DUMMY_LIST);
+  useEffect(() => {
+    axios.get("/admin/theme").then((res) => {
+      setThemeFromDb(res.data);
+    });
+    return () => {};
+  }, [refresh]);
 
   const [editing, setEditing] = useState(false);
-  const [isFormTouched, setIsFormTouched] = useState(false);
 
   const [themeId, setThemeId] = useState();
   const [enteredThemeName, setEnteredThemeName] = useState("");
@@ -69,17 +42,27 @@ const Adminthemes = () => {
 
   const addThemeHandler = (newTheme) => {
     console.log("ADDING", newTheme);
-    setThemesList((prevState) => {
-      return [...prevState, newTheme];
-    });
-
-    //SEND ADD REQ
-    // axios.post(CurrentUrl + "/admin/addTheme", formdata);
+    setLoader(true);
+    axios
+      .post("/admin/addTheme", newTheme)
+      .then(() => {
+        setRefresh(!refresh);
+        setLoader(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        alert("Unable to add Theme. Try again later");
+        setLoader(false);
+      });
     setIsFormTouched(false);
+    setEnteredThemeName("");
+    setEnteredThemePrice("");
+    setEnteredThemeDesc("");
   };
 
   const updateThemeHandler = () => {
     if (isFormTouched) {
+      setLoader(true);
       console.log(
         "UPDATING",
         themeId,
@@ -88,37 +71,56 @@ const Adminthemes = () => {
         enteredThemeDesc
       );
       const updatedThemeItem = {
-        name: enteredThemeName,
-        price: enteredThemePrice,
-        description: enteredThemeDesc,
+        themeName: enteredThemeName,
+        themePrice: enteredThemePrice,
+        themeDetails: enteredThemeDesc,
       };
-      //SEND UPDATE REQ
-      setIsFormTouched(false);
-    } else return;
-    // axios.put(CurrentUrl + `/admin/editTheme/${themeId}`, updatedThemeItem);
+      axios
+        .put(`/admin/editTheme?themeId=${themeId}`, updatedThemeItem)
+        .then(() => {
+          setRefresh(!refresh);
+          setLoader(false);
+        })
+        .catch(() => {
+          alert("Error! while updating");
+          setLoader(false);
+        });
+    }
+    setIsFormTouched(false);
   };
 
   const deleteThemeHandler = (themeItem) => {
-    setThemesList((prevState) => {
-      return prevState.filter((theme) => theme.id !== themeItem.id);
-    });
-
-    console.log("DELETING", themeItem.id);
-    // axios.delete(CurrentUrl + `/admin/deleteTheme/${themeItem.id}`);
+    alert('Are you sure you want to delete this theme?');
+    setLoader(true);
+    axios
+      .delete(`/admin/deleteTheme/${themeItem.themeId}`)
+      .then(() => {
+        setRefresh(!refresh);
+        console.log("DELETING", themeItem.themeId);
+        setLoader(false);
+      })
+      .catch(() => {
+        setLoader(false);
+      });
+    setEnteredThemeName("");
+    setEnteredThemePrice("");
+    setEnteredThemeDesc("");
+    setEditing(false);
   };
 
   //Clicked Edit Icon from List
   const onEditTheme = (themeItem) => {
     console.log("EDITING", themeItem);
-    setThemeId(themeItem.id);
-    setEnteredThemeName(themeItem.name);
-    setEnteredThemePrice(themeItem.price);
-    setEnteredThemeDesc(themeItem.description);
+    setThemeId(themeItem.themeId);
+    setEnteredThemeName(themeItem.themeName);
+    setEnteredThemePrice(themeItem.themePrice);
+    setEnteredThemeDesc(themeItem.themeDetails);
     setEditing(true);
   };
 
   const cancelEditHandler = () => {
     setEditing(false);
+    setIsFormTouched(false);
     setEnteredThemeName("");
     setEnteredThemePrice("");
     setEnteredThemeDesc("");
@@ -129,10 +131,9 @@ const Adminthemes = () => {
     console.log("FORM SUBMITTED", event);
 
     const submittedThemeItem = {
-      id: uuidv4(),
-      name: event.target[0].value,
-      price: event.target[1].value,
-      description: event.target[2].value,
+      themeName: event.target[0].value,
+      themePrice: event.target[1].value,
+      themeDetails: event.target[2].value,
     };
 
     if (editing) {
@@ -145,11 +146,11 @@ const Adminthemes = () => {
   return (
     <>
       <AdminHeader activeSection="Themes" />
-
+      {loader && <div className="routes-loader"></div>}
       <div className={classes["themes-container"]}>
         <div className={classes["themes-list-container"]}>
           <AdminThemesList
-            themesList={themesList}
+            themesList={themeFromDb}
             onEditTheme={onEditTheme}
             onDeleteTheme={deleteThemeHandler}
           />
@@ -157,6 +158,7 @@ const Adminthemes = () => {
         <div className={classes["themes-form-container"]}>
           <AdminThemesForm
             editing={editing}
+            isFormTouched={isFormTouched}
             cancelEditing={cancelEditHandler}
             enteredThemeName={enteredThemeName}
             enteredThemePrice={enteredThemePrice}
@@ -172,4 +174,4 @@ const Adminthemes = () => {
   );
 };
 
-export default Adminthemes;
+export default AdminThemes;

@@ -1,18 +1,15 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./Signup.css";
 import axios from "axios";
 const SignupPage = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
-  const [mobileNumber, setMobileNumber] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loader, setLoader] = useState(false);
   const [errors, setErrors] = useState({
     username: "",
     email: "",
-    mobileNumber: "",
     password: "",
     confirmPassword: "",
   });
@@ -24,10 +21,6 @@ const SignupPage = () => {
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
-  };
-
-  const handleMobileNumberChange = (event) => {
-    setMobileNumber(event.target.value);
   };
 
   const handlePasswordChange = (event) => {
@@ -43,7 +36,6 @@ const SignupPage = () => {
     const newErrors = {
       username: "",
       email: "",
-      mobileNumber: "",
       password: "",
       confirmPassword: "",
     };
@@ -55,14 +47,6 @@ const SignupPage = () => {
 
     if (email.trim() === "") {
       newErrors.email = "Email is required";
-      valid = false;
-    }
-
-    if (mobileNumber.trim() === "") {
-      newErrors.mobileNumber = "Mobile Number is required";
-      valid = false;
-    } else if (!/^\d{10}$/.test(mobileNumber.trim())) {
-      newErrors.mobileNumber = "Invalid Mobile Number.";
       valid = false;
     }
 
@@ -99,17 +83,17 @@ const SignupPage = () => {
     setLoader(true);
     if (validateForm()) {
       axios
-        .post("/user/signup", {
+        .post("/admin/signup", {
           username: username,
           email: email,
-          mobileNumber: mobileNumber,
           password: password,
         })
         .then((response) => {
-          navigate("/");
+            
           setLoader(false);
           console.log(response.data);
-          alert(`Welcome ${response.data}! Login to continue`);
+          alert(`admin Added`);
+          navigate('/');
         })
         .catch((error) => {
           console.log(error.response);
@@ -148,19 +132,7 @@ const SignupPage = () => {
           )}
         </div>
 
-        <div className="form-group">
-          <input
-            type="tel"
-            id="mobileNumber"
-            placeholder="Enter Mobilenumber"
-            value={mobileNumber}
-            onChange={handleMobileNumberChange}
-          />
-          {errors.mobileNumber && (
-            <p className="error-message">{errors.mobileNumber}</p>
-          )}
-        </div>
-
+       
         <div className="form-group">
           <input
             type="password"

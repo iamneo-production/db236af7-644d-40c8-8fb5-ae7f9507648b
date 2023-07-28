@@ -1,54 +1,72 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import classes from "./MyOrders.css";
-import EditOrder from "../EditOrder/EditOrder";
+import "./MyOrders.css";
 import Header from "../HomePage/Header";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "../../../assets/android-edit.svg";
+import DeleteIcon from "../../../assets/android-delete.png";
 import axios from "axios";
 
 const MyOrders = () => {
   const [orderDetails, setOrderDetails] = useState([]);
-  const data = [
-    { name: "Photos", price: 19, quantity: 100 },
-    { name: "Frbdfdgts", price: 319, quantity: 100 },
-    { name: "Caards", price: 25, quantity: 100 },
-    { name: "Laptops Stickers", price: 25, quantity: 100 },
-  ];
+  const [checker,setChecker]=useState(true);
+  const [refresh, setRefresh] = useState(false);
+
   useEffect(() => {
     axios
       .get("/user/orderHistory")
       .then((response) => {
         setOrderDetails(response.data);
+        
+            if(orderDetails.length===0){setChecker(false);}
       })
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+    return () => {};
+  }, [refresh]);
+
   const navigate = useNavigate();
 
+  const showConfirmationPopup = (orderId) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this order?");
+    if (confirmDelete) {
+      // If the user clicked "OK," proceed with deletion
+      DeleteData(orderId);
+    }
+  };
+
   const DeleteData = (index) => {
+    setRefresh(true);
     axios
-      .delete(`/admin/deleteGift/${index}`)
+      .delete(`/user/deleteOrder/${index}`)
       .then((r) => {
+        setRefresh(false);
         console.log(r);
       })
       .catch((e) => {
+        setRefresh(false)
         console.log(e);
       });
   };
 
-  const EditData = () => {
-    navigate("user/editorder");
+  const EditData = (orderId) => {
+    const selectedOrder = orderDetails.find((item) => item.orderId === orderId);
+    navigate("/user/editorder", {
+      state: selectedOrder,
+    });
   };
 
   return (
     <>
+    {refresh && <div className="routes-loader"></div>}
       <Header />
+
+      {checker ? <div className="No-orders"><h3>No Orders Available !</h3></div> :
+       
       <div className="container-sm text-center">
-        <table class="table table-hover table-scripted table">
-          <thead class="table-info">
-            <tr class="order-containers">
+        <table className="table table-hover table-scripted table">
+          <thead className="table-info">
+            <tr className="order-containers">
               <th scope="col">
                 <h3>GiftName</h3>
               </th>
@@ -64,25 +82,25 @@ const MyOrders = () => {
             </tr>
           </thead>
           <tbody>
-            {orderDetails.map((items, index) => {
+            {orderDetails.map((item) => {
               return (
-                <tr>
-                  <td>{items.name}</td>
-                  <td>{items.price}</td>
-                  <td>{items.quantity}</td>
+                <tr key={item.orderId}>
+                  <td>{item.gift.giftName}</td>
+                  <td>{item.orderPrice}</td>
+                  <td>{item.gift.giftQuantity}</td>
                   <td>
                     <div className="d-flex ">
                       <button
                         className=" btn btn-outline"
-                        onClick={() => EditData()}
+                        onClick={() => EditData(item.orderId)}
                       >
-                        <EditIcon />
+                        <img src={EditIcon} alt="edit-icon"></img>
                       </button>
                       <button
                         className=" btn btn-outline"
-                        onClick={() => DeleteData(items.index)}
+                        onClick={() => showConfirmationPopup(item.orderId)}
                       >
-                        <DeleteIcon />{" "}
+                        <img src={DeleteIcon} alt="delete-icon"></img>{" "}
                       </button>
                     </div>
                   </td>
@@ -91,11 +109,8 @@ const MyOrders = () => {
             })}
           </tbody>
         </table>
-      </div>
+      </div>}
 
-      <div className="buttons-container">
-        <button className="button-arounder">Pay</button>
-      </div>
     </>
   );
 };

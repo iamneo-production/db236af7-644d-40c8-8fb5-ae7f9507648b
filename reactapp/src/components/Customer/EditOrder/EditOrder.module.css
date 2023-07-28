@@ -1,10 +1,10 @@
-.container {
+.order-container-holder {
   max-width: 500px;
-  margin: 0 auto;
+  margin: 26px auto;
   padding: 20px;
-  background-color: #f4f4f4;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #1499ab24;
+  border-radius: 40px;
+  box-shadow: 0 2px 5px 7px rgba(0, 0, 0, 0.1);
 }
 
 h2 {
@@ -15,13 +15,14 @@ h2 {
 .order-container {
   display: flex;
   flex-direction: column;
-  background-color: #f2f2f2;
+  background-color: #f2f2f217;
   padding: 10px;
   border-radius: 5px;
 }
 
 .form1 {
   margin-bottom: 15px;
+  margin-right: 18px;
 }
 
 .form1 input[type="text"],
@@ -102,6 +103,63 @@ button[type="submit"]:hover {
   background-color: #218838;
 }
 
+.update {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  border: none;
+  font-size: inherit;
+  border-radius: 2em;
+  padding: 0.75em 1em;
+  background: blue;
+  color: white;
+  display: inline-flex;
+  margin-left: 554px;
+  margin-right: auto;
+  align-items: center;
+  cursor: wait;
+}
+
+.spinner {
+  --size: 1.25em;
+  --offset-r: calc(var(--size) * -1);
+  --offset-l: 0;
+  --opacity: 0;
+  position: relative;
+  display: inline-flex;
+  height: var(--size);
+  width: var(--size);
+  margin-top: calc(var(--size) * -0.5);
+  margin-right: var(--offset-r);
+  margin-bottom: calc(var(--size) * -0.5);
+  margin-left: var(--offset-l);
+  box-sizing: border-box;
+  border: 0.125em solid rgba(255, 255, 255, 0.333);
+  border-top-color: white;
+  border-radius: 50%;
+  opacity: var(--opacity);
+  transition: 0.25s;
+}
+
+button:active .spinner, button:focus .spinner, button:hover .spinner {
+  --width: 1em;
+  --offset-r: 0.333em;
+  --offset-l: -0.333em;
+  --opacity: 1;
+  -webkit-animation: 0.666s load infinite;
+          animation: 0.666s load infinite;
+}
+@-webkit-keyframes load {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes load {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .form1 input[type="date"] {
   width: 100%;
   padding: 10px;
@@ -121,7 +179,8 @@ button[type="submit"]:hover {
 }
 
 .uneditable-input {
-  background-color: #f8f8f8aa;
-  color: black;
+  background-color: #f8f8f8aa; 
+  color: #777777; 
   cursor: not-allowed;
 }
+
