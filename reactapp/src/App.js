@@ -23,6 +23,7 @@ import HomePage from "./components/Customer/HomePage/HomePage";
 import AdminThemes from "./components/Admin/AdminThemes/AdminThemes";
 import AdminGifts from "./components/Admin/AdminGifts/AdminGifts";
 import AdminViewOrders from "./components/Admin/AdminOrders/AdminViewOrders";
+import AdminSignUp from "./components/Admin/AdminSignup/AdminSignup"
 
 // TESTING COMPONENTS
 import Test from "./components/Test";
@@ -30,7 +31,7 @@ import AdminTest from "./components/Admin/AdminTest";
 
 function App() {
   axios.defaults.baseURL =
-  "https://8080-ddaaedffdcbbfdebbecaddbaaecadafbad.project.examly.io";
+  "https://8080-dadecaeedcbbfdebbecaddbaaecadafbad.project.examly.io";
   const token = localStorage.getItem("Auth");
 
   if (token) axios.defaults.headers.common["Authorization"] = token;
@@ -52,6 +53,7 @@ function App() {
         </Route>
 
         <Route element={<AdminRoutes />} path="admin">
+          <Route element={<AdminSignUp/>} path="signup"/>
           <Route element={<AdminTest />} path="gift" />
           <Route element={<AdminThemes />} path="themes" />
           <Route element={<AdminGifts />} path="gifts" />
