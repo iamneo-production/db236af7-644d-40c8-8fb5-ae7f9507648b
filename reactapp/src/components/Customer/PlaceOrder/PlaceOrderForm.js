@@ -87,9 +87,9 @@ const PlaceOrderForm = (props) => {
           className={classes["uneditable-input"]}
           readOnly
           value={`Gift: ${props.giftName} ${
-            props.orderFormDetails.orderThemes.length > 0
-              ? `+ selected ${props.orderFormDetails.orderThemes.length} ${
-                  props.orderFormDetails.orderThemes.length > 1
+            props.orderFormDetails.themes.length > 0
+              ? `+ selected ${props.orderFormDetails.themes.length} ${
+                  props.orderFormDetails.themes.length > 1
                     ? "themes"
                     : "theme"
                 }`
